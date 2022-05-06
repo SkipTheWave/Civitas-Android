@@ -1,5 +1,8 @@
 package pt.unl.fct.loginapp.data;
 
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import pt.unl.fct.loginapp.data.model.LoginData;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -32,6 +35,7 @@ public class LoginDataSource {
             Call<LoggedInUser> loginService = service.doLogin(new LoginData(username,password)) ;
             Response<LoggedInUser> loginResponse = loginService.execute();
             if( loginResponse.isSuccessful() ) {
+                //Log.d("User", loginResponse.body().getUserId());
                 LoggedInUser user = loginResponse.body();
                 return new Result.Success<>(user);
             } else {

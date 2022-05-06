@@ -1,5 +1,7 @@
 package pt.unl.fct.loginapp.data;
 
+import android.content.SharedPreferences;
+
 import java.util.concurrent.Executor;
 
 import pt.unl.fct.loginapp.data.model.LoggedInUser;

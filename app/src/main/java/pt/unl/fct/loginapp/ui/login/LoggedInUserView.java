@@ -1,17 +1,19 @@
 package pt.unl.fct.loginapp.ui.login;
 
+import pt.unl.fct.loginapp.data.model.LoggedInUser;
+
 /**
  * Class exposing authenticated user details to the UI.
  */
 class LoggedInUserView {
-    private String displayName;
+    private LoggedInUser user;
     //... other data fields that may be accessible to the UI
 
     LoggedInUserView(String displayName) {
-        this.displayName = displayName;
+        this.user = user;
     }
 
-    String getDisplayName() {
-        return displayName;
+    LoggedInUser getUser() {
+        return user;
     }
 }

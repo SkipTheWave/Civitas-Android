@@ -4,7 +4,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,7 +21,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import pt.unl.fct.loginapp.R;
+import pt.unl.fct.loginapp.data.TokenStore;
 import pt.unl.fct.loginapp.databinding.ActivityLoginBinding;
 import pt.unl.fct.loginapp.ui.home.HomeActivity;
 
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+    private Gson gson;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    TokenStore.setToken(getApplicationContext(), gson.toJson(loginResult.getSuccess().getUser()) );
 //                    Uri gmmIntent = Uri.parse("geo:0,0?q="+"Nova School of Science and Technology, Quinta da Torre, Portugal");
 //                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntent);
 //                    mapIntent.setPackage("com.google.android.apps.maps");
@@ -133,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+        String welcome = getString(R.string.welcome_user) + model.getUser().getUserId();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }

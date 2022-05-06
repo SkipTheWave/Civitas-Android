@@ -31,14 +31,13 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
         loginRepository.login(username, password, new LoginRepositoryCallback<LoggedInUser>() {
             @Override
             public void onComplete(Result<LoggedInUser> result) {
                 if (result instanceof Result.Success) {
                     LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-                    System.out.println(data);
                     loginResult.postValue(new LoginResult(new LoggedInUserView(data.getUserId())));
+                    //TODO debug display data
                 } else {
                     loginResult.postValue(new LoginResult(R.string.login_failed));
                 }
@@ -71,6 +70,6 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        return password != null && password.trim().length() >= 8;
     }
 }
