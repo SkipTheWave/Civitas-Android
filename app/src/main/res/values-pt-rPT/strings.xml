@@ -15,4 +15,8 @@
     <string name="hello_first_fragment">Bem-vindo</string>
     <string name="hello_second_fragment">Mudei o botão e sinto-me épico por causa disso</string>
     <string name="back">Voltar atrás</string>
+    <string name="prompt_confirm_password">Confirmar senha</string>
+    <string name="prompt_name">Nome</string>
+    <string name="action_register">Registar</string>
+    <string name="prompt_profile_visibility">Visibilidade de perfil</string>
 </resources>

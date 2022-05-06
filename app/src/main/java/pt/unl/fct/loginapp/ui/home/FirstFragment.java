@@ -34,10 +34,10 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView welcomeText = view.findViewById(R.id.textview_welcome);
-        LoggedInUser userInfo = gson.fromJson( TokenStore.getToken(getActivity()), LoggedInUser.class);
-        String welcomeString = String.format(getString(R.string.welcome_user), userInfo.getUserId());
-        welcomeText.setText(welcomeString);
+//        TextView welcomeText = view.findViewById(R.id.textview_welcome);
+//        LoggedInUser userInfo = gson.fromJson( TokenStore.getToken(getActivity()), LoggedInUser.class);
+ //       String welcomeString = String.format(getString(R.string.welcome_user), userInfo.getUserId());
+//        welcomeText.setText(welcomeString);
 
         binding.buttonSessionInfo.setOnClickListener(new View.OnClickListener() {
             @Override

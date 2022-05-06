@@ -1,15 +1,7 @@
-package pt.unl.fct.loginapp.ui.login;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+package pt.unl.fct.loginapp.ui.register;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -21,6 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.gson.Gson;
 
 import pt.unl.fct.loginapp.R;
@@ -28,9 +26,9 @@ import pt.unl.fct.loginapp.data.TokenStore;
 import pt.unl.fct.loginapp.databinding.ActivityLoginBinding;
 import pt.unl.fct.loginapp.ui.home.HomeActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    private RegisterViewModel registerViewModel;
     private ActivityLoginBinding binding;
     private Gson gson;
 
@@ -41,50 +39,50 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        registerViewModel = new ViewModelProvider(this, new RegisterViewModelFactory())
+                .get(RegisterViewModel.class);
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        registerViewModel.getLoginFormState().observe(this, new Observer<RegisterFormState>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
+            public void onChanged(@Nullable RegisterFormState registerFormState) {
+                if (registerFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                loginButton.setEnabled(registerFormState.isDataValid());
+                if (registerFormState.getUsernameError() != null) {
+                    usernameEditText.setError(getString(registerFormState.getUsernameError()));
                 }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                if (registerFormState.getPasswordError() != null) {
+                    passwordEditText.setError(getString(registerFormState.getPasswordError()));
                 }
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        registerViewModel.getLoginResult().observe(this, new Observer<RegisterResult>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
+            public void onChanged(@Nullable RegisterResult registerResult) {
+                if (registerResult == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
+                if (registerResult.getError() != null) {
+                    showLoginFailed(registerResult.getError());
                 }
-                if (loginResult.getSuccess() != null) {
-                    //updateUiWithUser(loginResult.getSuccess());
-                    //TokenStore.setToken(getApplicationContext(), gson.toJson(loginResult.getSuccess().getUser()) );
+                if (registerResult.getSuccess() != null) {
+                    updateUiWithUser(registerResult.getSuccess());
+                    TokenStore.setToken(getApplicationContext(), gson.toJson(registerResult.getSuccess().getUser()) );
 //                    Uri gmmIntent = Uri.parse("geo:0,0?q="+"Nova School of Science and Technology, Quinta da Torre, Portugal");
 //                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntent);
 //                    mapIntent.setPackage("com.google.android.apps.maps");
 //                    if( mapIntent.resolveActivity(getPackageManager()) != null ) {
 //                        startActivity(mapIntent);
 //                    }
-                    Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                    Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
                     //homeIntent.putExtra()
                     startActivity(homeIntent);
 
@@ -107,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
+                registerViewModel.loginDataChanged(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
@@ -119,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     loadingProgressBar.setVisibility(View.VISIBLE);
-                    loginViewModel.login(usernameEditText.getText().toString(),
+                    registerViewModel.login(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
@@ -130,14 +128,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+                registerViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome_user)/* + model.getUser().getUserId()*/;
+        String welcome = getString(R.string.welcome_user) + model.getUser().getUserId();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }

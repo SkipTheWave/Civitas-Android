@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="profile_visibility">
+        <item>@string/profile_visibility_undefined</item>
+        <item>@string/profile_visibility_public</item>
+        <item>@string/profile_visibility_private</item>
+    </array>
+</resources>

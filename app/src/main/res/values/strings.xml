@@ -20,4 +20,12 @@
     <string name="view_profile">View session info</string>
     <string name="shared_preferences_name" translatable="false">pt.unl.fct.loginapp.sharedPreferences</string>
     <string name="shared_preferences_token" translatable="false">pt.unl.fct.loginapp.authToken</string>
+    <string name="prompt_confirm_password">Confirm password</string>
+    <string name="prompt_name">Name</string>
+    <string name="action_register">Register</string>
+    <string name="prompt_email" translatable="false">E-mail</string>
+    <string name="profile_visibility_undefined" translatable="false">Indefinido</string>
+    <string name="profile_visibility_public" translatable="false">Público</string>
+    <string name="profile_visibility_private" translatable="false">Privado</string>
+    <string name="prompt_profile_visibility">Profile visibility</string>
 </resources>
