@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
 import pt.unl.fct.civitas.MainApplication;
-import pt.unl.fct.civitas.data.LoginDataSource;
+import pt.unl.fct.civitas.data.DataSource;
 import pt.unl.fct.civitas.data.LoginRepository;
 
 /**
@@ -19,7 +19,7 @@ public class LoginViewModelFactory implements ViewModelProvider.Factory {
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            return (T) new LoginViewModel(LoginRepository.getInstance(new LoginDataSource(), MainApplication.getExecutorService()));
+            return (T) new LoginViewModel(LoginRepository.getInstance(new DataSource(), MainApplication.getExecutorService()));
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

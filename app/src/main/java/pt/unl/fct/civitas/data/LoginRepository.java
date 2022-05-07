@@ -12,7 +12,7 @@ public class LoginRepository {
 
     private static volatile LoginRepository instance;
 
-    private LoginDataSource dataSource;
+    private DataSource dataSource;
     private Executor executor;
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -20,12 +20,12 @@ public class LoginRepository {
     private LoggedInUser user = null;
 
     // private constructor : singleton access
-    private LoginRepository(LoginDataSource dataSource, Executor executor) {
+    private LoginRepository(DataSource dataSource, Executor executor) {
         this.dataSource = dataSource;
         this.executor = executor;
     }
 
-    public static LoginRepository getInstance(LoginDataSource dataSource, Executor executor) {
+    public static LoginRepository getInstance(DataSource dataSource, Executor executor) {
         if (instance == null) {
             instance = new LoginRepository(dataSource,executor);
         }

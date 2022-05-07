@@ -11,6 +11,6 @@ public interface RestAPI {
     @POST("rest/login/v1")
     Call<LoggedInUser> doLogin(@Body LoginData credentials) ;
 
-    @POST("rest/register")
+    @POST("rest/register/v1")
     Call<String> registerUser(@Body RegisterData data);
 }
