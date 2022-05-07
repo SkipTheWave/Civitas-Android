@@ -43,7 +43,6 @@ public class LoginViewModel extends ViewModel {
                 }
             }
         });
-
     }
 
     public void loginDataChanged(String username, String password) {

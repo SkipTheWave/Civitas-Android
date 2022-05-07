@@ -10,6 +10,8 @@ public class LoggedInUser {
     private Long creationDate;
     private Long expirationDate;
 
+    public LoggedInUser() { }
+
     public LoggedInUser(String userId, String tokenId, Long creationDate, Long expirationDate) {
         this.userId = userId;
         this.tokenId = tokenId;

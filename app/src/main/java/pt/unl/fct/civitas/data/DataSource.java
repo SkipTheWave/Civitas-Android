@@ -1,5 +1,9 @@
 package pt.unl.fct.civitas.data;
 
+import android.util.Log;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import retrofit2.Call;
@@ -22,6 +26,7 @@ public class DataSource {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://civitas-348815.appspot.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(new OkHttpClient())
                 .build();
         this.service = retrofit.create(RestAPI.class);
     }
@@ -57,7 +62,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + registerResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("Error registering", e));
         }
     }
 }
