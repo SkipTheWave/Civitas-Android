@@ -21,8 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 
-import pt.unl.fct.loginapp.R;
-import pt.unl.fct.loginapp.data.TokenStore;
 import pt.unl.fct.loginapp.databinding.ActivityLoginBinding;
 import pt.unl.fct.loginapp.ui.home.HomeActivity;
 
@@ -63,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        registerViewModel.getLoginResult().observe(this, new Observer<RegisterResult>() {
+        registerViewModel.getRegisterResult().observe(this, new Observer<RegisterResult>() {
             @Override
             public void onChanged(@Nullable RegisterResult registerResult) {
                 if (registerResult == null) {
@@ -74,18 +72,9 @@ public class RegisterActivity extends AppCompatActivity {
                     showLoginFailed(registerResult.getError());
                 }
                 if (registerResult.getSuccess() != null) {
-                    updateUiWithUser(registerResult.getSuccess());
-                    TokenStore.setToken(getApplicationContext(), gson.toJson(registerResult.getSuccess().getUser()) );
-//                    Uri gmmIntent = Uri.parse("geo:0,0?q="+"Nova School of Science and Technology, Quinta da Torre, Portugal");
-//                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntent);
-//                    mapIntent.setPackage("com.google.android.apps.maps");
-//                    if( mapIntent.resolveActivity(getPackageManager()) != null ) {
-//                        startActivity(mapIntent);
-//                    }
                     Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
                     //homeIntent.putExtra()
                     startActivity(homeIntent);
-
                     //Complete and destroy login activity once successful
                     finish();
                 }
@@ -132,12 +121,6 @@ public class RegisterActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
-    }
-
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome_user) + model.getUser().getUserId();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

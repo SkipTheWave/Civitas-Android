@@ -24,8 +24,9 @@
     <string name="prompt_name">Name</string>
     <string name="action_register">Register</string>
     <string name="prompt_email" translatable="false">E-mail</string>
-    <string name="profile_visibility_undefined" translatable="false">Indefinido</string>
-    <string name="profile_visibility_public" translatable="false">Público</string>
-    <string name="profile_visibility_private" translatable="false">Privado</string>
+    <string name="profile_visibility_undefined" translatable="false">UNDEFINED</string>
+    <string name="profile_visibility_public" translatable="false">PUBLIC</string>
+    <string name="profile_visibility_private" translatable="false">PRIVATE</string>
     <string name="prompt_profile_visibility">Profile visibility</string>
+    <string name="register_failed">Register failed</string>
 </resources>

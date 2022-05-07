@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
  */
 class RegisterResult {
     @Nullable
-    private LoggedInUserView success;
+    private String success;
     @Nullable
     private Integer error;
 
@@ -15,12 +15,12 @@ class RegisterResult {
         this.error = error;
     }
 
-    RegisterResult(@Nullable LoggedInUserView success) {
+    RegisterResult(@Nullable String success) {
         this.success = success;
     }
 
     @Nullable
-    LoggedInUserView getSuccess() {
+    String getSuccess() {
         return success;
     }
 

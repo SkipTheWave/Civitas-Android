@@ -15,7 +15,7 @@ import pt.unl.fct.loginapp.data.model.LoggedInUser;
 public class RegisterViewModel extends ViewModel {
 
     private MutableLiveData<RegisterFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<RegisterResult> loginResult = new MutableLiveData<>();
+    private MutableLiveData<RegisterResult> registerResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
     RegisterViewModel(LoginRepository loginRepository) {
@@ -26,8 +26,8 @@ public class RegisterViewModel extends ViewModel {
         return loginFormState;
     }
 
-    LiveData<RegisterResult> getLoginResult() {
-        return loginResult;
+    LiveData<RegisterResult> getRegisterResult() {
+        return registerResult;
     }
 
     public void login(String username, String password) {
@@ -36,10 +36,10 @@ public class RegisterViewModel extends ViewModel {
             public void onComplete(Result<LoggedInUser> result) {
                 if (result instanceof Result.Success) {
                     LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-                    loginResult.postValue(new RegisterResult(new LoggedInUserView(data.getUserId())));
+                    registerResult.postValue(new RegisterResult(data.getUserId()));
                     //TODO debug display data
                 } else {
-                    loginResult.postValue(new RegisterResult(R.string.login_failed));
+                    registerResult.postValue(new RegisterResult(R.string.register_failed));
                 }
             }
         });
