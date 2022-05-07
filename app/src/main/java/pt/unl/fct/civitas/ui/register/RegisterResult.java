@@ -2,12 +2,14 @@ package pt.unl.fct.civitas.ui.register;
 
 import androidx.annotation.Nullable;
 
+import pt.unl.fct.civitas.R;
+
 /**
  * Authentication result : success (user details) or error message.
  */
 class RegisterResult {
     @Nullable
-    private String success;
+    private RegisterSuccessView success;
     @Nullable
     private Integer error;
 
@@ -15,12 +17,12 @@ class RegisterResult {
         this.error = error;
     }
 
-    RegisterResult(@Nullable String success) {
+    RegisterResult(@Nullable RegisterSuccessView success) {
         this.success = success;
     }
 
     @Nullable
-    String getSuccess() {
+    RegisterSuccessView getSuccess() {
         return success;
     }
 

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import retrofit2.Call;
@@ -51,13 +52,13 @@ public class DataSource {
         // TODO: revoke authentication
     }
 
-    public Result<String> register(String username, String password, String confirmPassword, String email, String name, String profile) {
+    public Result<Void> register(String username, String password, String confirmPassword, String email, String name, String profile) {
         try {
-            Call<String> registerService = service.registerUser(new RegisterData(username, password, confirmPassword, email, name, profile)) ;
-            Response<String> registerResponse = registerService.execute();
+            Call<Void> registerService = service.registerUser(new RegisterData(username, password, confirmPassword, email, name, profile)) ;
+            Response<Void> registerResponse = registerService.execute();
             if( registerResponse.isSuccessful() ) {
-                String responseText = registerResponse.body();
-                return new Result.Success<>(responseText);
+                //String responseText = registerResponse.body();
+                return new Result.Success<>(R.string.register_success);
             } else {
                 return new Result.Error(new Exception("Server result code: " + registerResponse.code() ));
             }

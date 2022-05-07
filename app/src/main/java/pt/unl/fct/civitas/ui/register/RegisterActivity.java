@@ -85,11 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if (registerResult.getSuccess() != null) {
                     // if register succeeds, show a toast saying it, then move back to login activity
-                    // TODO we're not using the response message from the backend, but neither is the browser client
-                    Toast.makeText(getApplicationContext(), R.string.register_success, Toast.LENGTH_LONG);
-                    Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    //homeIntent.putExtra()
-                    startActivity(loginIntent);
+                    showRegisterSuccess(registerResult.getSuccess());
                     //Complete and destroy login activity once successful
                     finish();
                 }
@@ -145,6 +141,13 @@ public class RegisterActivity extends AppCompatActivity {
                         profileOption.getSelectedItem().toString());
             }
         });
+    }
+
+    private void showRegisterSuccess(RegisterSuccessView success) {
+        Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        // TODO we're not using the response message from the backend, but neither is the browser client
+        Toast.makeText(getApplicationContext(), success.getSuccessMessage(), Toast.LENGTH_LONG).show();
+        startActivity(loginIntent);
     }
 
     private void showRegisterFailed(@StringRes Integer errorString) {

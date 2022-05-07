@@ -31,12 +31,12 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void register(String username, String password, String confirmPassword, String email, String name, String profile) {
-        registerRepository.register(username, password, confirmPassword, email, name, profile, new RepositoryCallback<String>() {
+        registerRepository.register(username, password, confirmPassword, email, name, profile, new RepositoryCallback<Void>() {
             @Override
-            public void onComplete(Result<String> result) {
+            public void onComplete(Result<Void> result) {
                 if (result instanceof Result.Success) {
-                    String data = ((Result.Success<String>) result).getData();
-                    registerResult.postValue(new RegisterResult(data));
+                    //String data = ((Result.Success<String>) result).getData();
+                    registerResult.postValue(new RegisterResult(new RegisterSuccessView(R.string.register_success)));
                 } else {
                     registerResult.postValue(new RegisterResult(R.string.register_failed));
                 }
