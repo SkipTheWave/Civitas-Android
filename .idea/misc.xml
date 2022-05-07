@@ -3,16 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout-w936dp/activity_login.xml" value="0.12578125" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/activity_home.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/activity_login.xml" value="0.13766566908935443" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/fragment_first.xml" value="0.2" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/fragment_second.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Skip/AndroidStudioProjects/LoginApp/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1721311475409836" />
-        <entry key="..\:/Users/Skip/AndroidStudioProjects/LoginApp/app/src/main/res/layout/activity_home.xml" value="0.16770833333333332" />
-        <entry key="..\:/Users/Skip/AndroidStudioProjects/LoginApp/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Skip/AndroidStudioProjects/LoginApp/app/src/main/res/layout/fragment_first.xml" value="0.16770833333333332" />
-        <entry key="..\:/Users/Skip/AndroidStudioProjects/LoginApp/app/src/main/res/layout/fragment_second.xml" value="0.1265625" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1721311475409836" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout/activity_home.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout/fragment_first.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout/fragment_second.xml" value="0.1265625" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.20682730923694778" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2572463768115942" />
       </map>

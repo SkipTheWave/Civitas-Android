@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "pt.unl.fct.loginapp"
+        applicationId "pt.unl.fct.civitas"
         minSdk 21
         targetSdk 32
         versionCode 1
