@@ -5,27 +5,27 @@ package pt.unl.fct.civitas.data.model;
  */
 public class LoggedInUser {
 
-    private String userId;
+    private String username;
     private String tokenId;
-    private Long creationDate;
-    private Long expirationDate;
+    private Long creationData;
+    private Long expirationData;
 
     public LoggedInUser() { }
 
-    public LoggedInUser(String userId, String tokenId, Long creationDate, Long expirationDate) {
-        this.userId = userId;
+    public LoggedInUser(String username, String tokenId, Long creationData, Long expirationData) {
+        this.username = username;
         this.tokenId = tokenId;
-        this.creationDate = creationDate;
-        this.expirationDate = expirationDate;
+        this.creationData = creationData;
+        this.expirationData = expirationData;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
     public String getTokenId() { return tokenId; }
 
-    public Long getCreationDate() { return creationDate; }
+    public Long getCreationDate() { return creationData; }
 
-    public Long getExpirationDate() { return expirationDate; }
+    public Long getExpirationDate() { return expirationData; }
 }

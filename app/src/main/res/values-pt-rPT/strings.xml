@@ -11,8 +11,8 @@
     <string name="first_fragment_label">Primeiro fragmento</string>
     <string name="second_fragment_label">Segundo Fragmento</string>
     <string name="view_profile">Ver info de sessão</string>
-    <string name="hello_first_fragment">Bem-vindo</string>
-    <string name="hello_second_fragment">Mudei o botão e sinto-me épico por causa disso</string>
+    <string name="welcome">Bem-vindo</string>
+    <string name="work_in_progress">Em construção...</string>
     <string name="back">Voltar atrás</string>
     <string name="prompt_confirm_password">Confirmar senha</string>
     <string name="prompt_name">Nome</string>
@@ -27,4 +27,6 @@
     <string name="prompt_nif">NIF (opcional)</string>
     <string name="invalid_email">Endereço email inválido</string>
     <string name="invalid_name">Nome inválido</string>
+    <string name="sign_out">Sair da Conta</string>
+    <string name="sign_out_success">Saída com sucesso</string>
 </resources>

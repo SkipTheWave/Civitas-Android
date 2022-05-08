@@ -14,8 +14,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="back">Back</string>
 
-    <string name="hello_first_fragment">Welcome</string>
-    <string name="hello_second_fragment">I changed the button and I feel epic because of it</string>
+    <string name="welcome">Welcome</string>
+    <string name="work_in_progress">Work in progress...</string>
     <string name="view_profile">View session info</string>
     <string name="shared_preferences_name" translatable="false">pt.unl.fct.civitas.sharedPreferences</string>
     <string name="shared_preferences_token" translatable="false">pt.unl.fct.civitas.authToken</string>
@@ -36,4 +36,6 @@
     <string name="prompt_nif">NIF (optional)</string>
     <string name="invalid_email">Not a valid email address</string>
     <string name="invalid_name">Not a valid name</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="sign_out_success">Successfully signed out</string>
 </resources>

@@ -1,5 +1,6 @@
 package pt.unl.fct.civitas.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,15 @@ public class FirstFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            }
+        });
+
+        binding.buttonSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Activity home = getActivity();
+                if (home instanceof HomeActivity)
+                    ((HomeActivity) home).signOut();
             }
         });
     }

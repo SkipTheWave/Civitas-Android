@@ -36,9 +36,16 @@ public class LoginRepository {
         return user != null;
     }
 
-    public void logout() {
-        user = null;
-        dataSource.logout();
+    public void logout(LoginRepositoryCallback<Void> callback) {
+        // handle login in a separate thread
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<Void> result = dataSource.logout(user.getUsername());
+                user = null;
+                callback.onComplete(result);
+            }
+        });
     }
 
     private void setLoggedInUser(LoggedInUser user) {

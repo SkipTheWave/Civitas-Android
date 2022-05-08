@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.RegisterData;
+import pt.unl.fct.civitas.data.model.UsernameData;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -34,7 +35,6 @@ public class DataSource {
 
     public Result<LoggedInUser> login(String username, String password) {
         try {
-            // TODO: handle loggedInUser authentication
             Call<LoggedInUser> loginService = service.doLogin(new LoginData(username,password)) ;
             Response<LoggedInUser> loginResponse = loginService.execute();
             if( loginResponse.isSuccessful() ) {
@@ -48,8 +48,20 @@ public class DataSource {
         }
     }
 
-    public void logout() {
-        // TODO: revoke authentication
+    public Result<Void> logout(String username) {
+        // TODO: revoke authentication and remove token when we have it (not yet)
+        try {
+            Call<Void> logoutService = service.doLogout(new UsernameData(username)) ;
+            Response<Void> logoutResponse = logoutService.execute();
+            if( logoutResponse.isSuccessful() ) {
+                return new Result.Success<>(R.string.sign_out_success);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + logoutResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
+        }
+
     }
 
     public Result<Void> register(String username, String password, String confirmPassword, String email,

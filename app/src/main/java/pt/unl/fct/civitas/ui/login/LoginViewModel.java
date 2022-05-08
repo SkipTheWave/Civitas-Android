@@ -36,7 +36,7 @@ public class LoginViewModel extends ViewModel {
             public void onComplete(Result<LoggedInUser> result) {
                 if (result instanceof Result.Success) {
                     LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-                    loginResult.postValue(new LoginResult(new LoggedInUserView(data.getUserId())));
+                    loginResult.postValue(new LoginResult(new LoggedInUserView(data.getUsername())));
                     //TODO debug display data
                 } else {
                     loginResult.postValue(new LoginResult(R.string.login_failed));
@@ -55,7 +55,6 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    // A placeholder username validation check
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
