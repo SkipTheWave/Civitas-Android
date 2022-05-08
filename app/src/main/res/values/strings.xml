@@ -31,4 +31,7 @@
     <string name="action_register_long">Don\'t have an account? Create one here</string>
     <string name="register_success">User successfully registered. Welcome to our community!</string>
     <string name="error_different_passwords">The passwords don\'t match</string>
+    <string name="prompt_telephone">Telephone (optional)</string>
+    <string name="prompt_mobilePhone">Mobile phone (optional)</string>
+    <string name="prompt_nif">NIF (optional)</string>
 </resources>

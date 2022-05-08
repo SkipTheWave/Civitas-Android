@@ -22,4 +22,7 @@
     <string name="action_register_long">Ainda não tem conta? Crie uma aqui</string>
     <string name="register_success">Conta criada com sucesso. Bem vindo à nossa comunidade!</string>
     <string name="error_different_passwords">As senhas não são iguais</string>
+    <string name="prompt_telephone">Telefone (opcional)</string>
+    <string name="prompt_mobilePhone">Telemóvel (opcional)</string>
+    <string name="prompt_nif">NIF (opcional)</string>
 </resources>

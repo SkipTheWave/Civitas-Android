@@ -79,13 +79,13 @@
         android:id="@+id/profile_dropdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:entries="@array/profile_visibility"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toEndOf="@id/profile_visibility"
-        app:layout_constraintTop_toBottomOf="@id/email" />
+        app:layout_constraintTop_toBottomOf="@id/nif" />
 
     <Button
         android:id="@+id/register"
@@ -124,5 +124,47 @@
         android:minHeight="48dp"
         app:layout_constraintTop_toBottomOf="@+id/confirm_password"
         tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/telephone"
+        android:layout_width="381dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/prompt_telephone"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@id/email"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <EditText
+        android:id="@+id/mobilePhone"
+        android:layout_width="381dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/prompt_mobilePhone"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@id/telephone"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/telephone"
+        app:layout_constraintTop_toBottomOf="@id/telephone" />
+
+    <EditText
+        android:id="@+id/nif"
+        android:layout_width="381dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/prompt_nif"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@id/mobilePhone"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/mobilePhone"
+        app:layout_constraintTop_toBottomOf="@id/mobilePhone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

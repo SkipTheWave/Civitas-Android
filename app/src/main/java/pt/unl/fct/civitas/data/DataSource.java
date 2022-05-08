@@ -52,9 +52,11 @@ public class DataSource {
         // TODO: revoke authentication
     }
 
-    public Result<Void> register(String username, String password, String confirmPassword, String email, String name, String profile) {
+    public Result<Void> register(String username, String password, String confirmPassword, String email,
+                                 String name, String profile, String telephone, String mobilePhone, String nif) {
         try {
-            Call<Void> registerService = service.registerUser(new RegisterData(username, password, confirmPassword, email, name, profile)) ;
+            Call<Void> registerService = service.registerUser(new RegisterData(username, password,
+                    confirmPassword, email, name, profile, telephone, mobilePhone, nif)) ;
             Response<Void> registerResponse = registerService.execute();
             if( registerResponse.isSuccessful() ) {
                 //String responseText = registerResponse.body();

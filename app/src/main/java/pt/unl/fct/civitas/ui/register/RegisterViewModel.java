@@ -14,6 +14,8 @@ import pt.unl.fct.civitas.data.model.LoggedInUser;
 
 public class RegisterViewModel extends ViewModel {
 
+    public static final String UNDEFINED = "UNDEFINED";
+
     private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
     private MutableLiveData<RegisterResult> registerResult = new MutableLiveData<>();
     private RegisterRepository registerRepository;
@@ -30,8 +32,10 @@ public class RegisterViewModel extends ViewModel {
         return registerResult;
     }
 
-    public void register(String username, String password, String confirmPassword, String email, String name, String profile) {
-        registerRepository.register(username, password, confirmPassword, email, name, profile, new RepositoryCallback<Void>() {
+    public void register(String username, String password, String confirmPassword, String email, String name,
+                         String profile, String telephone, String mobilePhone, String nif) {
+        registerRepository.register(username, password, confirmPassword, email, name, profile,
+                checkUndefined(telephone), checkUndefined(mobilePhone), checkUndefined(nif), new RepositoryCallback<Void>() {
             @Override
             public void onComplete(Result<Void> result) {
                 if (result instanceof Result.Success) {
@@ -57,6 +61,14 @@ public class RegisterViewModel extends ViewModel {
         } else if (!isNameValid(name)) {
             registerFormState.setValue(new RegisterFormState(true));
         }
+    }
+
+    private String checkUndefined(String data) {
+        if (data == null)
+            data = UNDEFINED;
+        if (data.trim().isEmpty())
+            data = UNDEFINED;
+        return data;
     }
 
     // A placeholder username validation check

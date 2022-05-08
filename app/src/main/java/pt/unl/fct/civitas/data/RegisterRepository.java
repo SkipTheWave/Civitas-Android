@@ -29,12 +29,13 @@ public class RegisterRepository {
     }
 
     public void register(String username, String password, String confirmPassword, String email, String name,
-                         String profile, RepositoryCallback<Void> callback) {
+                         String profile, String telephone, String mobilePhone, String nif, RepositoryCallback<Void> callback) {
         // handle login in a separate thread
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Result<Void> result = dataSource.register(username, password, confirmPassword, email, name, profile);
+                Result<Void> result = dataSource.register(username, password, confirmPassword, email,
+                        name, profile, telephone, mobilePhone, nif);
                 callback.onComplete(result);
             }
         });
