@@ -34,4 +34,6 @@
     <string name="prompt_telephone">Telephone (optional)</string>
     <string name="prompt_mobilePhone">Mobile phone (optional)</string>
     <string name="prompt_nif">NIF (optional)</string>
+    <string name="invalid_email">Not a valid email address</string>
+    <string name="invalid_name">Not a valid name</string>
 </resources>

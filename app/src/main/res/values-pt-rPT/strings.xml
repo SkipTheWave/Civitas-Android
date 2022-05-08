@@ -25,4 +25,6 @@
     <string name="prompt_telephone">Telefone (opcional)</string>
     <string name="prompt_mobilePhone">Telemóvel (opcional)</string>
     <string name="prompt_nif">NIF (opcional)</string>
+    <string name="invalid_email">Endereço email inválido</string>
+    <string name="invalid_name">Nome inválido</string>
 </resources>
