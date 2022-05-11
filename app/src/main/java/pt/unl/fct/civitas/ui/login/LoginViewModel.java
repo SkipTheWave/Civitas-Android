@@ -36,8 +36,8 @@ public class LoginViewModel extends ViewModel {
             public void onComplete(Result<LoggedInUser> result) {
                 if (result instanceof Result.Success) {
                     LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-                    loginResult.postValue(new LoginResult(new LoggedInUserView(data.getUsername())));
-                    //TODO debug display data
+                    LoginResult auxResult = new LoginResult(new LoggedInUserView(data));
+                    loginResult.postValue(auxResult);
                 } else {
                     loginResult.postValue(new LoginResult(R.string.login_failed));
                 }

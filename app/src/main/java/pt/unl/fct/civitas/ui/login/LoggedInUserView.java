@@ -9,7 +9,7 @@ class LoggedInUserView {
     private LoggedInUser user;
     //... other data fields that may be accessible to the UI
 
-    LoggedInUserView(String displayName) {
+    LoggedInUserView(LoggedInUser user) {
         this.user = user;
     }
 
