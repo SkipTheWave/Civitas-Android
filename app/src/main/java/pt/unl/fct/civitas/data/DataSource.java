@@ -6,8 +6,11 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.LoginData;
+import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import pt.unl.fct.civitas.data.model.UsernameData;
+import pt.unl.fct.civitas.ui.home.HomeActivity;
+import pt.unl.fct.civitas.ui.login.LoginActivity;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -49,7 +52,6 @@ public class DataSource {
     }
 
     public Result<Void> logout(String username) {
-        // TODO: revoke authentication and remove token when we have it (not yet)
         try {
             Call<Void> logoutService = service.doLogout(new UsernameData(username)) ;
             Response<Void> logoutResponse = logoutService.execute();
@@ -78,6 +80,21 @@ public class DataSource {
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("Error registering", e));
+        }
+    }
+
+    public Result<ProfileData> getProfile(LoggedInUser user) {
+        try {
+            Call<ProfileData> profileService = service.getProfile(user) ;
+            Response<ProfileData> profileResponse = profileService.execute();
+            if( profileResponse.isSuccessful() ) {
+                ProfileData data = profileResponse.body();
+                return new Result.Success<>(data);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
         }
     }
 }

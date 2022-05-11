@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(registerIntent);
 
                 //Destroy login activity
-                finish();
+                //finish();
             }
         });
     }

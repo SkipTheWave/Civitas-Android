@@ -12,15 +12,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.databinding.FragmentSecondBinding;
 
-public class SecondFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
     private FragmentSecondBinding binding;
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -30,11 +28,13 @@ public class SecondFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                NavHostFragment.findNavController(ProfileFragment.this)
+                        .navigate(R.id.action_ProfileFragment_to_FirstFragment);
             }
         });
     }

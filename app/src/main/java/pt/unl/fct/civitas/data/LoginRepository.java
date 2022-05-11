@@ -3,6 +3,7 @@ package pt.unl.fct.civitas.data;
 import java.util.concurrent.Executor;
 
 import pt.unl.fct.civitas.data.model.LoggedInUser;
+import pt.unl.fct.civitas.data.model.ProfileData;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -63,6 +64,16 @@ public class LoginRepository {
                 if (result instanceof Result.Success) {
                     setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
                 }
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void getProfile(LoginRepositoryCallback<ProfileData> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<ProfileData> result = dataSource.getProfile(user);
                 callback.onComplete(result);
             }
         });

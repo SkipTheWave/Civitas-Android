@@ -10,7 +10,7 @@
     <string name="title_activity_home">Página inicial</string>
     <string name="first_fragment_label">Primeiro fragmento</string>
     <string name="second_fragment_label">Segundo Fragmento</string>
-    <string name="view_profile">Ver info de sessão</string>
+    <string name="view_profile">Ver perfil</string>
     <string name="welcome">Bem-vindo</string>
     <string name="work_in_progress">Em construção...</string>
     <string name="back">Voltar atrás</string>

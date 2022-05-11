@@ -18,7 +18,7 @@ import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.databinding.FragmentFirstBinding;
 
-public class FirstFragment extends Fragment {
+public class HomeFirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private Gson gson = new Gson();
@@ -44,8 +44,8 @@ public class FirstFragment extends Fragment {
         binding.buttonSessionInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                NavHostFragment.findNavController(HomeFirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_ProfileFragment);
             }
         });
 
@@ -57,6 +57,7 @@ public class FirstFragment extends Fragment {
                     ((HomeActivity) home).signOut();
             }
         });
+
     }
 
     @Override

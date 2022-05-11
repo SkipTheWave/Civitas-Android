@@ -23,6 +23,7 @@ import pt.unl.fct.civitas.data.DataSource;
 import pt.unl.fct.civitas.data.LoginRepository;
 import pt.unl.fct.civitas.data.LoginRepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
+import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.databinding.ActivityHomeBinding;
 
@@ -73,28 +74,15 @@ public class HomeActivity extends AppCompatActivity {
                 loginResult.postValue(null);
             }
         });
-        // TODO need to verify if logout was successful?
+        // TODO how to check if logout really was successful? might be better
+        //if( result instanceof Result.Success ) {
+            TokenStore.setToken(this, null);
             Intent logoutIntent = new Intent(HomeActivity.this, LoginActivity.class);
             Toast.makeText(getApplicationContext(), R.string.sign_out_success, Toast.LENGTH_LONG).show();
             startActivity(logoutIntent);
 
-            //Complete and destroy logout activity once successful
+            //Complete and destroy home activity once successful
             finish();
+        //}
     }
-
-//    loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-//        @Override
-//        public void onChanged(@Nullable LoginResult loginResult) {
-//            if (loginResult == null) {
-//                return;
-//            }
-//            Intent logoutIntent = new Intent(HomeActivity.this, LoginActivity.class);
-//            Toast.makeText(getApplicationContext(), R.string.sign_out_success, Toast.LENGTH_LONG).show();
-//            startActivity(logoutIntent);
-//
-//            //Complete and destroy login activity once successful
-//            finish();
-//            }
-//        }
-//    });
 }

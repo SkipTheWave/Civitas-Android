@@ -16,7 +16,7 @@
 
     <string name="welcome">Welcome</string>
     <string name="work_in_progress">Work in progress...</string>
-    <string name="view_profile">View session info</string>
+    <string name="view_profile">View profile</string>
     <string name="shared_preferences_name" translatable="false">pt.unl.fct.civitas.sharedPreferences</string>
     <string name="shared_preferences_token" translatable="false">pt.unl.fct.civitas.authToken</string>
     <string name="prompt_confirm_password">Confirm password</string>
