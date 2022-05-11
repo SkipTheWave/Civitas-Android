@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
                     emailEditText.setError(getString(registerFormState.getEmailError()));
                 }
                 if (registerFormState.getNameError() != null) {
-                    usernameEditText.setError(getString(registerFormState.getNameError()));
+                    nameEditText.setError(getString(registerFormState.getNameError()));
                 }
             }
         });
@@ -119,21 +119,21 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText.addTextChangedListener(afterTextChangedListener);
         nameEditText.addTextChangedListener(afterTextChangedListener);
         // TODO will be put on the last editText, when we expand this
-        nameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loadingProgressBar.setVisibility(View.VISIBLE);
-                    registerViewModel.register(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(),
-                            emailEditText.getText().toString(), nameEditText.getText().toString(),
-                            profileOption.getSelectedItem().toString(), telephoneEditText.getText().toString(),
-                            mobilePhoneEditText.getText().toString(), nifEditText.getText().toString());
-                }
-                return false;
-            }
-        });
+//        nameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                    loadingProgressBar.setVisibility(View.VISIBLE);
+//                    registerViewModel.register(usernameEditText.getText().toString(),
+//                            passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(),
+//                            emailEditText.getText().toString(), nameEditText.getText().toString(),
+//                            profileOption.getSelectedItem().toString(), telephoneEditText.getText().toString(),
+//                            mobilePhoneEditText.getText().toString(), nifEditText.getText().toString());
+//                }
+//                return false;
+//            }
+//        });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
