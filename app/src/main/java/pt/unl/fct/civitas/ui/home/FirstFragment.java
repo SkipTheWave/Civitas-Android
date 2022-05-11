@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.gson.Gson;
 
 import pt.unl.fct.civitas.R;
+import pt.unl.fct.civitas.data.TokenStore;
+import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
@@ -34,7 +37,7 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 //        TextView welcomeText = view.findViewById(R.id.textview_welcome);
 //        LoggedInUser userInfo = gson.fromJson( TokenStore.getToken(getActivity()), LoggedInUser.class);
- //       String welcomeString = String.format(getString(R.string.welcome_user), userInfo.getUserId());
+//        String welcomeString = String.format(getString(R.string.welcome_user), userInfo.getUsername());
 //        welcomeText.setText(welcomeString);
 
         binding.buttonSessionInfo.setOnClickListener(new View.OnClickListener() {

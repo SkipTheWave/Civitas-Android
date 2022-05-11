@@ -36,6 +36,6 @@
     <string name="prompt_nif">NIF (optional)</string>
     <string name="invalid_email">Not a valid email address</string>
     <string name="invalid_name">Not a valid name</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="sign_out">Sign out</string>
     <string name="sign_out_success">Successfully signed out</string>
 </resources>

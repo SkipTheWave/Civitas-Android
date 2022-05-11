@@ -57,9 +57,11 @@ public class RegisterViewModel extends ViewModel {
         } else if (!passwordsMatch(password, confirmPassword)) {
             registerFormState.setValue(new RegisterFormState(null, null, R.string.error_different_passwords, null, null));
         } else if (!isNameValid(name)) {
-            registerFormState.setValue(new RegisterFormState(null, R.string.invalid_name, null, null, null));
+            registerFormState.setValue(new RegisterFormState(null, null, null, null, R.string.invalid_name));
         } else if (!isEmailValid(email)) {
             registerFormState.setValue(new RegisterFormState(null, null, null, R.string.invalid_email, null));
+        } else {
+            registerFormState.setValue(new RegisterFormState(true));
         }
     }
 
