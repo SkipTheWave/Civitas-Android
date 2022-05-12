@@ -10,8 +10,8 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_home">Home Page</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="home_fragment_label">Your home</string>
+    <string name="profile_fragment_label">Your profile</string>
     <string name="back">Back</string>
 
     <string name="welcome">Welcome</string>

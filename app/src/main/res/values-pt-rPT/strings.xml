@@ -8,8 +8,8 @@
     <string name="invalid_password">Senha tem de ter pelo menos 8 caracteres</string>
     <string name="login_failed">Falhou a tentativa de acesso</string>
     <string name="title_activity_home">Página inicial</string>
-    <string name="first_fragment_label">Primeiro fragmento</string>
-    <string name="second_fragment_label">Segundo Fragmento</string>
+    <string name="home_fragment_label">A sua página inicial</string>
+    <string name="profile_fragment_label">O seu perfil</string>
     <string name="view_profile">Ver perfil</string>
     <string name="welcome">Bem-vindo</string>
     <string name="work_in_progress">Em construção...</string>
