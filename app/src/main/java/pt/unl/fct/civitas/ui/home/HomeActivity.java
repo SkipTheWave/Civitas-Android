@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,18 +34,26 @@ import pt.unl.fct.civitas.databinding.ActivityHomeBinding;
 
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
+import pt.unl.fct.civitas.ui.login.LoginViewModel;
+import pt.unl.fct.civitas.ui.login.LoginViewModelFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
+    private Gson gson;
     private ActivityHomeBinding binding;
-    private LoginRepository repository;
+    //private LoginRepository repository;
+    private HomeViewModel viewModel;
+    private ProfileFragment profileFragment;
+
     private MutableLiveData<Void> loginResult = new MutableLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = LoginRepository.getInstance(new DataSource(), MainApplication.getExecutorService());
+        //repository = LoginRepository.getInstance(new DataSource(), MainApplication.getExecutorService());
+        viewModel = new ViewModelProvider(this, new HomeViewModelFactory())
+                .get(HomeViewModel.class);
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -51,11 +64,38 @@ public class HomeActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+        profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentById(R.id.ProfileFragment);
+
+        profileFragment.setUsernameDisplay(
+                gson.fromJson( TokenStore.getToken(this), LoggedInUser.class).getUsername());
+
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "I'm a snackbar oo ga ga", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        viewModel.getProfileResult().observe(this, new Observer<ProfileResult>() {
+            @Override
+            public void onChanged(@Nullable ProfileResult profileResult) {
+                if( profileResult == null ) {
+                    // TODO how to check if logout really was successful? might be better
+                    //if( result instanceof Result.Success ) {
+                    TokenStore.setToken(getApplicationContext(), null);
+                    Intent logoutIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                    Toast.makeText(getApplicationContext(), R.string.sign_out_success, Toast.LENGTH_LONG).show();
+                    startActivity(logoutIntent);
+
+                    //Complete and destroy home activity once successful
+                    finish();
+                } else if( profileResult.getError() != null ) {
+                    // TODO show profile failure
+                } else if( profileResult.getSuccess() != null ) {
+                    // TODO show profile data
+                    profileFragment.setNameEditText(profileResult.getSuccess().name);
+                }
             }
         });
     }
@@ -67,22 +107,34 @@ public class HomeActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void signOut() {
-        repository.logout(new LoginRepositoryCallback<Void>() {
-            @Override
-            public void onComplete(Result<Void> result) {
-                loginResult.postValue(null);
-            }
-        });
-        // TODO how to check if logout really was successful? might be better
-        //if( result instanceof Result.Success ) {
-            TokenStore.setToken(this, null);
-            Intent logoutIntent = new Intent(HomeActivity.this, LoginActivity.class);
-            Toast.makeText(getApplicationContext(), R.string.sign_out_success, Toast.LENGTH_LONG).show();
-            startActivity(logoutIntent);
 
-            //Complete and destroy home activity once successful
-            finish();
-        //}
+
+//    viewModel.getProfileResult().observe(this, new Observer<ProfileResult>() {
+//        @Override
+//        public void onChanged(@Nullable ProfileResult profileResult) {
+//            if (loginResult == null) {
+//                return;
+//            }
+//            if (loginResult.getError() != null) {
+//                showLoginFailed(loginResult.getError());
+//            }
+//            if (loginResult.getSuccess() != null) {
+//                updateUiWithUser(loginResult.getSuccess());
+//                TokenStore.setToken(getApplicationContext(), gson.toJson(loginResult.getSuccess().getUser()) );
+////                    Uri gmmIntent = Uri.parse("geo:0,0?q="+"Nova School of Science and Technology, Quinta da Torre, Portugal");
+////                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntent);
+////                    mapIntent.setPackage("com.google.android.apps.maps");
+////                    if( mapIntent.resolveActivity(getPackageManager()) != null ) {
+////                        startActivity(mapIntent);
+////                    }
+//
+//                //Complete and destroy login activity once successful
+//                finish();
+//            }
+//        }
+//    });
+
+    public void signOut() {
+        viewModel.logout();
     }
 }

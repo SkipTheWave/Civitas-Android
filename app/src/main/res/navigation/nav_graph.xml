@@ -9,7 +9,7 @@
         android:id="@+id/HomeFragment"
         android:name="pt.unl.fct.civitas.ui.home.HomeFirstFragment"
         android:label="@string/home_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_FirstFragment_to_ProfileFragment"
@@ -19,7 +19,7 @@
         android:id="@+id/ProfileFragment"
         android:name="pt.unl.fct.civitas.ui.home.ProfileFragment"
         android:label="@string/profile_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_profile">
 
         <action
             android:id="@+id/action_ProfileFragment_to_FirstFragment"

@@ -14,6 +14,7 @@ import pt.unl.fct.civitas.data.model.ProfileData;
 
 public class HomeViewModel extends ViewModel {
 
+    private MutableLiveData<Void> loginResult = new MutableLiveData<>();
     private MutableLiveData<ProfileResult> profileResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
@@ -36,6 +37,15 @@ public class HomeViewModel extends ViewModel {
                 } else {
                     profileResult.postValue(new ProfileResult(R.string.login_failed));
                 }
+            }
+        });
+    }
+
+    public void logout() {
+        loginRepository.logout(new LoginRepositoryCallback<Void>() {
+            @Override
+            public void onComplete(Result<Void> result) {
+                profileResult.postValue(null);
             }
         });
     }
