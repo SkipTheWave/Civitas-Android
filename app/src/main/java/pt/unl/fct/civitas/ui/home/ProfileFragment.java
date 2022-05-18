@@ -39,8 +39,8 @@ public class ProfileFragment extends Fragment {
     private EditText telephoneEditText;
     private EditText mobilePhoneEditText;
     private EditText nifEditText;
-    final Spinner profileOption = binding.profileProfileDropdown;
-    final Button submitButton = binding.profileSubmitButton;
+    private Spinner profileOption;
+    private Button submitButton;
     // TODO final ProgressBar loadingProgressBar = binding.loading;
 
     @Override
@@ -52,6 +52,11 @@ public class ProfileFragment extends Fragment {
         usernameTextView = binding.profileUsername;
         nameEditText = binding.profileNameField;
         emailEditText = binding.profileEmailField;
+        telephoneEditText = binding.profileTelephoneField;
+        mobilePhoneEditText = binding.profileMobilePhoneField;
+        nifEditText = binding.profileNifField;
+        profileOption = binding.profileProfileDropdown;
+        submitButton = binding.profileSubmitButton;
 
         return binding.getRoot();
     }

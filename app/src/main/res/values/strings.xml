@@ -43,4 +43,6 @@
     <string name="prompt_mobilePhone_short">Mobile phone</string>
     <string name="prompt_nif_short" translatable="false">NIF</string>
     <string name="apply_changes">Apply changes</string>
+    <string name="profile">Profile</string>
+    <string name="terrains">Terrains</string>
 </resources>

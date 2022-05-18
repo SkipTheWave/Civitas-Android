@@ -3,6 +3,7 @@ package pt.unl.fct.civitas.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
@@ -40,6 +41,7 @@ import pt.unl.fct.civitas.ui.login.LoginViewModelFactory;
 public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
+    private BottomNavigationView navBar;
     private Gson gson = new Gson();
     private ActivityHomeBinding binding;
     //private LoginRepository repository;
@@ -59,6 +61,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+        navBar = findViewById(R.id.bottom_navigation_view);
+
+
+        //navBar.setSelectedItemId(R.id.);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
