@@ -40,7 +40,7 @@ import pt.unl.fct.civitas.ui.login.LoginViewModelFactory;
 public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private Gson gson;
+    private Gson gson = new Gson();
     private ActivityHomeBinding binding;
     //private LoginRepository repository;
     private HomeViewModel viewModel;
@@ -66,9 +66,6 @@ public class HomeActivity extends AppCompatActivity {
 
         profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentById(R.id.ProfileFragment);
 
-        profileFragment.setUsernameDisplay(
-                gson.fromJson( TokenStore.getToken(this), LoggedInUser.class).getUsername());
-
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,11 +87,6 @@ public class HomeActivity extends AppCompatActivity {
 
                     //Complete and destroy home activity once successful
                     finish();
-                } else if( profileResult.getError() != null ) {
-                    // TODO show profile failure
-                } else if( profileResult.getSuccess() != null ) {
-                    // TODO show profile data
-                    profileFragment.setNameEditText(profileResult.getSuccess().name);
                 }
             }
         });

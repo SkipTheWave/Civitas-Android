@@ -20,7 +20,6 @@ public interface RestAPI {
     @POST("rest/login/logout")
     Call<Void> doLogout(@Body UsernameData data);
 
-    //not entirely sure if this will be the endpoint TODO
     @POST("rest/login/profile")
-    Call<ProfileData> getProfile(@Body LoggedInUser user);
+    Call<ProfileData> getProfile(@Body UsernameData data);
 }

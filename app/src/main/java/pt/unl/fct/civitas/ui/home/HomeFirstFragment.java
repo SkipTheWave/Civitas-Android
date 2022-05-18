@@ -16,20 +16,18 @@ import com.google.gson.Gson;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
-import pt.unl.fct.civitas.databinding.FragmentFirstBinding;
+import pt.unl.fct.civitas.databinding.FragmentHomeBinding;
 
 public class HomeFirstFragment extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentHomeBinding binding;
     private Gson gson = new Gson();
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

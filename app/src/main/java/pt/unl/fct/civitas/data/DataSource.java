@@ -85,7 +85,7 @@ public class DataSource {
 
     public Result<ProfileData> getProfile(LoggedInUser user) {
         try {
-            Call<ProfileData> profileService = service.getProfile(user) ;
+            Call<ProfileData> profileService = service.getProfile(new UsernameData(user.getUsername())) ;
             Response<ProfileData> profileResponse = profileService.execute();
             if( profileResponse.isSuccessful() ) {
                 ProfileData data = profileResponse.body();

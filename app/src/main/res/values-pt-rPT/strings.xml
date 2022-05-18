@@ -29,4 +29,8 @@
     <string name="invalid_name">Nome inválido</string>
     <string name="sign_out">Terminar sessão</string>
     <string name="sign_out_success">Saída com sucesso</string>
+    <string name="error_show_profile">Tentativa de obter perfil falhada</string>
+    <string name="prompt_telephone_short">Telefone</string>
+    <string name="prompt_mobilePhone_short">Telemóvel</string>
+    <string name="apply_changes">Guardar alterações</string>
 </resources>
