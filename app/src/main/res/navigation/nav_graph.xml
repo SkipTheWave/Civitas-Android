@@ -25,4 +25,9 @@
             android:id="@+id/action_ProfileFragment_to_FirstFragment"
             app:destination="@id/HomeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/TerrainFragment"
+        android:name="pt.unl.fct.civitas.ui.home.TerrainFragment"
+        android:label="fragment_terrain"
+        tools:layout="@layout/fragment_terrain" />
 </navigation>

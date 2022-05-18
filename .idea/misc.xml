@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2675" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/drawable/ic_person.xml" value="0.2675" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/drawable/ic_terrain_background.xml" value="0.2675" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
@@ -15,6 +16,7 @@
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/fragment_home.xml" value="0.22530996152201796" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/fragment_profile.xml" value="0.22530996152201796" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/fragment_second.xml" value="0.4" />
+        <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/layout/fragment_terrain.xml" value="0.22530996152201796" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas-Android/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22445489525438223" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1721311475409836" />
         <entry key="..\:/Users/Skip/AndroidStudioProjects/Civitas/Android/app/src/main/res/layout/activity_home.xml" value="0.16770833333333332" />

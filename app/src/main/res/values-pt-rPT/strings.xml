@@ -32,6 +32,8 @@
     <string name="error_show_profile">Tentativa de obter perfil falhada</string>
     <string name="prompt_telephone_short">Telefone</string>
     <string name="prompt_mobilePhone_short">Telemóvel</string>
-    <string name="apply_changes">Guardar alterações</string>
+    <string name="apply_changes">Guardar alterações (WIP)</string>
     <string name="profile">Perfil</string>
+    <string name="terrains">Terrenos</string>
+    <string name="home">Início</string>
 </resources>

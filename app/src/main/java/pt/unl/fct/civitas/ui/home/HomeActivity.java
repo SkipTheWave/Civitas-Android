@@ -61,14 +61,12 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        navBar = findViewById(R.id.bottom_navigation_view);
-
-
-        //navBar.setSelectedItemId(R.id.);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        navBar = findViewById(R.id.bottom_navigation_view);
+        NavigationUI.setupWithNavController(navBar, navController);
 
         profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentById(R.id.ProfileFragment);
 
