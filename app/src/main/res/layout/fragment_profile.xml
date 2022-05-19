@@ -1,190 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
+    android:fillViewport="true"
     tools:context=".ui.home.ProfileFragment">
 
-    <Button
-        android:id="@+id/profile_back_button"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:padding="@dimen/activity_horizontal_margin">
 
-    <Button
-        android:id="@+id/profile_submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/apply_changes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/profile_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_profile_visibility"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/profile_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/prompt_username"
-        android:textSize="@dimen/medium_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_avatar" />
+        <Button
+            android:id="@+id/profile_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/apply_changes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_profile_dropdown"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <ImageView
-        android:id="@+id/profile_avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        tools:src="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/profile_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/prompt_username"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_avatar" />
 
-    <EditText
-        android:id="@+id/profile_name_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:autofillHints="name"
-        android:hint="@string/prompt_name"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_username" />
+        <ImageView
+            android:id="@+id/profile_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.05"
+            tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/profile_name_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_name"
-        app:layout_constraintBottom_toTopOf="@id/profile_name_field"
-        app:layout_constraintStart_toStartOf="@id/profile_name_field" />
+        <EditText
+            android:id="@+id/profile_name_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:autofillHints="name"
+            android:hint="@string/prompt_name"
+            android:inputType="textAutoComplete"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_username" />
 
-    <TextView
-        android:id="@+id/profile_email_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_email"
-        app:layout_constraintBottom_toTopOf="@id/profile_email_field"
-        app:layout_constraintStart_toStartOf="@id/profile_email_field" />
+        <TextView
+            android:id="@+id/profile_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_name"
+            app:layout_constraintBottom_toTopOf="@id/profile_name_field"
+            app:layout_constraintStart_toStartOf="@id/profile_name_field" />
 
-    <EditText
-        android:id="@+id/profile_email_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autofillHints="name"
-        android:hint="@string/prompt_email"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_name_field" />
+        <TextView
+            android:id="@+id/profile_email_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_email"
+            app:layout_constraintBottom_toTopOf="@id/profile_email_field"
+            app:layout_constraintStart_toStartOf="@id/profile_email_field" />
 
-    <EditText
-        android:id="@+id/profile_telephone_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autofillHints="name"
-        android:hint="@string/prompt_telephone"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_email_field" />
+        <EditText
+            android:id="@+id/profile_email_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/prompt_email"
+            android:inputType="textAutoComplete|textEmailAddress"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_name_field" />
 
-    <TextView
-        android:id="@+id/profile_telephone_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_telephone_short"
-        app:layout_constraintBottom_toTopOf="@id/profile_telephone_field"
-        app:layout_constraintStart_toStartOf="@id/profile_telephone_field" />
+        <EditText
+            android:id="@+id/profile_telephone_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/prompt_telephone"
+            android:inputType="textAutoComplete|phone"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_email_field" />
 
-    <EditText
-        android:id="@+id/profile_mobilePhone_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autofillHints="name"
-        android:hint="@string/prompt_mobilePhone"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_telephone_field" />
+        <TextView
+            android:id="@+id/profile_telephone_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_telephone_short"
+            app:layout_constraintBottom_toTopOf="@id/profile_telephone_field"
+            app:layout_constraintStart_toStartOf="@id/profile_telephone_field" />
 
-    <TextView
-        android:id="@+id/profile_mobilePhone_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_mobilePhone_short"
-        app:layout_constraintBottom_toTopOf="@id/profile_mobilePhone_field"
-        app:layout_constraintStart_toStartOf="@id/profile_mobilePhone_field" />
+        <EditText
+            android:id="@+id/profile_mobilePhone_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/prompt_mobilePhone"
+            android:inputType="textAutoComplete|phone"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_telephone_field" />
 
-    <TextView
-        android:id="@+id/profile_nif_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_nif_short"
-        app:layout_constraintBottom_toTopOf="@id/profile_nif_field"
-        app:layout_constraintStart_toStartOf="@id/profile_nif_field" />
+        <TextView
+            android:id="@+id/profile_mobilePhone_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_mobilePhone_short"
+            app:layout_constraintBottom_toTopOf="@id/profile_mobilePhone_field"
+            app:layout_constraintStart_toStartOf="@id/profile_mobilePhone_field" />
 
-    <EditText
-        android:id="@+id/profile_nif_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autofillHints="name"
-        android:hint="@string/prompt_nif"
-        android:inputType="textAutoComplete"
-        android:minHeight="48dp"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_mobilePhone_field" />
+        <TextView
+            android:id="@+id/profile_nif_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_nif_short"
+            app:layout_constraintBottom_toTopOf="@id/profile_nif_field"
+            app:layout_constraintStart_toStartOf="@id/profile_nif_field" />
 
-    <TextView
-        android:id="@+id/profile_profile_visibility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_profile_visibility"
-        app:layout_constraintBottom_toBottomOf="@id/profile_profile_dropdown"
-        app:layout_constraintStart_toStartOf="@id/profile_nif_field"
-        app:layout_constraintTop_toTopOf="@id/profile_profile_dropdown" />
+        <EditText
+            android:id="@+id/profile_nif_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/prompt_nif"
+            android:inputType="number|textAutoComplete"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_mobilePhone_field" />
 
-    <Spinner
-        android:id="@+id/profile_profile_dropdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:entries="@array/profile_visibility"
-        android:minHeight="48dp"
-        android:spinnerMode="dropdown"
-        app:layout_constraintStart_toEndOf="@id/profile_profile_visibility"
-        app:layout_constraintTop_toBottomOf="@id/profile_nif_field" />
+        <TextView
+            android:id="@+id/profile_profile_visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_profile_visibility"
+            app:layout_constraintBottom_toBottomOf="@id/profile_profile_dropdown"
+            app:layout_constraintStart_toStartOf="@id/profile_nif_field"
+            app:layout_constraintTop_toTopOf="@id/profile_profile_dropdown" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Spinner
+            android:id="@+id/profile_profile_dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:entries="@array/profile_visibility"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintStart_toEndOf="@id/profile_profile_visibility"
+            app:layout_constraintTop_toBottomOf="@id/profile_nif_field" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

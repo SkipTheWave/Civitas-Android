@@ -11,9 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -24,19 +21,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import pt.unl.fct.civitas.MainApplication;
-import pt.unl.fct.civitas.data.DataSource;
-import pt.unl.fct.civitas.data.LoginRepository;
-import pt.unl.fct.civitas.data.LoginRepositoryCallback;
-import pt.unl.fct.civitas.data.Result;
 import pt.unl.fct.civitas.data.TokenStore;
-import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.databinding.ActivityHomeBinding;
 
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
-import pt.unl.fct.civitas.ui.login.LoginViewModel;
-import pt.unl.fct.civitas.ui.login.LoginViewModelFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -65,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        navBar = findViewById(R.id.bottom_navigation_view);
+        navBar = findViewById(R.id.BottomNavigationView);
         NavigationUI.setupWithNavController(navBar, navController);
 
         profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentById(R.id.ProfileFragment);

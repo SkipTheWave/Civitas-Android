@@ -8,10 +8,11 @@
     tools:context=".ui.home.HomeActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_view"
+        android:id="@+id/BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        app:layout_anchor="include"
+        app:layout_anchorGravity="bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
