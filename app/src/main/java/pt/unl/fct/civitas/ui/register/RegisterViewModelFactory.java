@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import pt.unl.fct.civitas.MainApplication;
 import pt.unl.fct.civitas.data.DataSource;
-import pt.unl.fct.civitas.data.LoginRepository;
 import pt.unl.fct.civitas.data.RegisterRepository;
 
 /**

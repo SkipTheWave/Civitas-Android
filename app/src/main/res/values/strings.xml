@@ -38,7 +38,7 @@
     <string name="invalid_name">Not a valid name</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_out_success">Successfully signed out</string>
-    <string name="error_show_profile">Failed to get the user\'s profile</string>
+    <string name="error_show_profile">Error retrieving profile data</string>
     <string name="prompt_telephone_short">Telephone</string>
     <string name="prompt_mobilePhone_short">Mobile phone</string>
     <string name="prompt_nif_short" translatable="false">NIF</string>
@@ -47,4 +47,6 @@
     <string name="terrains">Terrains</string>
     <string name="home">Home</string>
     <string name="terrain_fragment_label">Your terrains</string>
+    <string name="error_show_terrains">Error retrieving terrain data</string>
+    <string name="zero_terrains">No terrains found for this user</string>
 </resources>

@@ -8,7 +8,9 @@ import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
+import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.UsernameData;
+import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.ui.home.HomeActivity;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
 import retrofit2.Call;
@@ -19,6 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
@@ -92,6 +96,26 @@ public class DataSource {
                 return new Result.Success<>(data);
             } else {
                 return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
+        }
+    }
+
+    public Result<List<TerrainData>> getTerrains(LoggedInUser user) {
+        try {
+            Call<List<List<VertexData>>> terrainService = service.getTerrains(new UsernameData(user.getUsername())) ;
+            Response<List<List<VertexData>>> terrainResponse = terrainService.execute();
+            if( terrainResponse.isSuccessful() ) {
+                List<List<VertexData>> data = terrainResponse.body();
+                List<TerrainData> terrains = new LinkedList<>();
+                for(List<VertexData> vertexGroup : data) {
+                    String terrainId = vertexGroup.get(0).terrainId;
+                    terrains.add(new TerrainData(terrainId, vertexGroup));
+                }
+                return new Result.Success<>(terrains);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));

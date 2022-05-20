@@ -1,17 +1,19 @@
 package pt.unl.fct.civitas.data;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
+import pt.unl.fct.civitas.data.model.TerrainData;
 
 /**
  * Class that requests authentication and user information from the remote data source and
  * maintains an in-memory cache of login status and user credentials information.
  */
-public class LoginRepository {
+public class RestRepository {
 
-    private static volatile LoginRepository instance;
+    private static volatile RestRepository instance;
 
     private DataSource dataSource;
     private Executor executor;
@@ -21,14 +23,14 @@ public class LoginRepository {
     private LoggedInUser user = null;
 
     // private constructor : singleton access
-    private LoginRepository(DataSource dataSource, Executor executor) {
+    private RestRepository(DataSource dataSource, Executor executor) {
         this.dataSource = dataSource;
         this.executor = executor;
     }
 
-    public static LoginRepository getInstance(DataSource dataSource, Executor executor) {
+    public static RestRepository getInstance(DataSource dataSource, Executor executor) {
         if (instance == null) {
-            instance = new LoginRepository(dataSource,executor);
+            instance = new RestRepository(dataSource,executor);
         }
         return instance;
     }
@@ -37,7 +39,7 @@ public class LoginRepository {
         return user != null;
     }
 
-    public void logout(LoginRepositoryCallback<Void> callback) {
+    public void logout(RestRepositoryCallback<Void> callback) {
         // handle login in a separate thread
         executor.execute(new Runnable() {
             @Override
@@ -55,7 +57,7 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public void login(String username, String password, LoginRepositoryCallback<LoggedInUser> callback) {
+    public void login(String username, String password, RestRepositoryCallback<LoggedInUser> callback) {
         // handle login in a separate thread
         executor.execute(new Runnable() {
             @Override
@@ -69,11 +71,21 @@ public class LoginRepository {
         });
     }
 
-    public void getProfile(LoginRepositoryCallback<ProfileData> callback) {
+    public void getProfile(RestRepositoryCallback<ProfileData> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 Result<ProfileData> result = dataSource.getProfile(user);
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void getTerrains(RestRepositoryCallback<List<TerrainData>> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<List<TerrainData>> result = dataSource.getTerrains(user);
                 callback.onComplete(result);
             }
         });

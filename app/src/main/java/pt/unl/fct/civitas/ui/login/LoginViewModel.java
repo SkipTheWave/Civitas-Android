@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import pt.unl.fct.civitas.data.LoginRepository;
-import pt.unl.fct.civitas.data.LoginRepositoryCallback;
+import pt.unl.fct.civitas.data.RestRepository;
+import pt.unl.fct.civitas.data.RestRepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.R;
@@ -16,10 +16,10 @@ public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
+    private RestRepository restRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginViewModel(RestRepository restRepository) {
+        this.restRepository = restRepository;
     }
 
     LiveData<LoginFormState> getLoginFormState() {
@@ -31,7 +31,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        loginRepository.login(username, password, new LoginRepositoryCallback<LoggedInUser>() {
+        restRepository.login(username, password, new RestRepositoryCallback<LoggedInUser>() {
             @Override
             public void onComplete(Result<LoggedInUser> result) {
                 if (result instanceof Result.Success) {

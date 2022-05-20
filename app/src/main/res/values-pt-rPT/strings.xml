@@ -29,7 +29,7 @@
     <string name="invalid_name">Nome inválido</string>
     <string name="sign_out">Terminar sessão</string>
     <string name="sign_out_success">Saída com sucesso</string>
-    <string name="error_show_profile">Tentativa de obter perfil falhada</string>
+    <string name="error_show_profile">Erro ao obter dados de perfil</string>
     <string name="prompt_telephone_short">Telefone</string>
     <string name="prompt_mobilePhone_short">Telemóvel</string>
     <string name="apply_changes">Guardar alterações (WIP)</string>
@@ -37,4 +37,6 @@
     <string name="terrains">Terrenos</string>
     <string name="home">Início</string>
     <string name="terrain_fragment_label">Os seus terrenos</string>
+    <string name="error_show_terrains">Ocorreu um erro a obter os dados sobre terrenos</string>
+    <string name="zero_terrains">Nenhum terreno encontrado para este utilizador</string>
 </resources>
