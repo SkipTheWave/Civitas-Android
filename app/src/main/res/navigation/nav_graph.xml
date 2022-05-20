@@ -28,6 +28,6 @@
     <fragment
         android:id="@+id/TerrainFragment"
         android:name="pt.unl.fct.civitas.ui.home.TerrainFragment"
-        android:label="fragment_terrain"
+        android:label="@string/terrain_fragment_label"
         tools:layout="@layout/fragment_terrain" />
 </navigation>

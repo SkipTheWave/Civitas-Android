@@ -25,6 +25,7 @@ import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.databinding.ActivityHomeBinding;
 
 import pt.unl.fct.civitas.R;
+import pt.unl.fct.civitas.databinding.ContentHomeBinding;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -58,14 +59,6 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navBar, navController);
 
         profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentById(R.id.ProfileFragment);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "I'm a snackbar oo ga ga", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         viewModel.getProfileResult().observe(this, new Observer<ProfileResult>() {
             @Override
