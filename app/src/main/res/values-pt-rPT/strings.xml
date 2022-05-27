@@ -39,4 +39,6 @@
     <string name="terrain_fragment_label">Os seus terrenos</string>
     <string name="error_show_terrains">Ocorreu um erro a obter os dados sobre terrenos</string>
     <string name="zero_terrains">Nenhum terreno encontrado para este utilizador</string>
+    <string name="invalid_nif">NIF inválido</string>
+    <string name="prompt_nif_short">NIF (não pode ser mudado)</string>
 </resources>

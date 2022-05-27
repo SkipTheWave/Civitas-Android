@@ -1,13 +1,12 @@
 package pt.unl.fct.civitas.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,13 +24,12 @@ import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
-import pt.unl.fct.civitas.ui.login.LoginActivity;
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private HomeViewModel viewModel;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     private TextView usernameTextView;
     private EditText nameEditText;
@@ -41,7 +39,7 @@ public class ProfileFragment extends Fragment {
     private EditText nifEditText;
     private Spinner profileOption;
     private Button submitButton;
-    // TODO final ProgressBar loadingProgressBar = binding.loading;
+    private ProgressBar loadingProgressBar;
 
     @Override
     public View onCreateView(
@@ -57,6 +55,7 @@ public class ProfileFragment extends Fragment {
         nifEditText = binding.profileNifField;
         profileOption = binding.profileProfileDropdown;
         submitButton = binding.profileSubmitButton;
+        loadingProgressBar = binding.profileLoading;
 
         return binding.getRoot();
     }
@@ -76,13 +75,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        loadingProgressBar.setVisibility(View.VISIBLE);
+
         viewModel.getProfileResult().observe(getViewLifecycleOwner(), new Observer<ProfileResult>() {
             @Override
             public void onChanged(@Nullable ProfileResult profileResult) {
                 if( profileResult.getError() != null ) {
                     showProfileFailure();
                 } else if( profileResult.getSuccess() != null ) {
-                    // TODO show profile data
+                    loadingProgressBar.setVisibility(View.GONE);
                     setNameEditText(profileResult.getSuccess().name);
                     setEmailEditText(profileResult.getSuccess().email);
                     setTelephoneEditText(profileResult.getSuccess().telephone);

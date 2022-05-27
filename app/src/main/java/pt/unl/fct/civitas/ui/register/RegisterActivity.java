@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.databinding.ActivityRegisterBinding;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
 
@@ -73,6 +69,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (registerFormState.getNameError() != null) {
                     nameEditText.setError(getString(registerFormState.getNameError()));
                 }
+                if (registerFormState.getNifError() != null) {
+                    nifEditText.setError(getString(registerFormState.getNifError()));
+                }
             }
         });
 
@@ -110,7 +109,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(),
-                        emailEditText.getText().toString(), nameEditText.getText().toString());
+                        emailEditText.getText().toString(), nameEditText.getText().toString(),
+                        nifEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
@@ -118,22 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
         emailEditText.addTextChangedListener(afterTextChangedListener);
         nameEditText.addTextChangedListener(afterTextChangedListener);
-        // TODO will be put on the last editText, when we expand this
-//        nameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    loadingProgressBar.setVisibility(View.VISIBLE);
-//                    registerViewModel.register(usernameEditText.getText().toString(),
-//                            passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(),
-//                            emailEditText.getText().toString(), nameEditText.getText().toString(),
-//                            profileOption.getSelectedItem().toString(), telephoneEditText.getText().toString(),
-//                            mobilePhoneEditText.getText().toString(), nifEditText.getText().toString());
-//                }
-//                return false;
-//            }
-//        });
+        nifEditText.addTextChangedListener(afterTextChangedListener);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override

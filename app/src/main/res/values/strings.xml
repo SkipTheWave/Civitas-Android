@@ -33,7 +33,7 @@
     <string name="error_different_passwords">The passwords don\'t match</string>
     <string name="prompt_telephone">Telephone (optional)</string>
     <string name="prompt_mobilePhone">Mobile phone (optional)</string>
-    <string name="prompt_nif">NIF (optional)</string>
+    <string name="prompt_nif">NIF</string>
     <string name="invalid_email">Not a valid email address</string>
     <string name="invalid_name">Not a valid name</string>
     <string name="sign_out">Sign out</string>
@@ -41,7 +41,7 @@
     <string name="error_show_profile">Error retrieving profile data</string>
     <string name="prompt_telephone_short">Telephone</string>
     <string name="prompt_mobilePhone_short">Mobile phone</string>
-    <string name="prompt_nif_short" translatable="false">NIF</string>
+    <string name="prompt_nif_short">NIF (can\'t be changed)</string>
     <string name="apply_changes">Apply changes (WIP)</string>
     <string name="profile">Profile</string>
     <string name="terrains">Terrains</string>
@@ -49,4 +49,5 @@
     <string name="terrain_fragment_label">Your terrains</string>
     <string name="error_show_terrains">Error retrieving terrain data</string>
     <string name="zero_terrains">No terrains found for this user</string>
+    <string name="invalid_nif">Not a valid NIF</string>
 </resources>

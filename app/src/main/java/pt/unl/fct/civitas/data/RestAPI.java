@@ -26,6 +26,9 @@ public interface RestAPI {
     @POST("rest/login/profile")
     Call<ProfileData> getProfile(@Body UsernameData data);
 
+    @POST("rest/login/update")
+    Call<String> editProfile(@Body ProfileData data);
+
     @POST("rest/terrain/getTerrain")
     Call<List<List<VertexData>>> getTerrains(@Body UsernameData data);
 }

@@ -83,6 +83,8 @@ public class TerrainFragment extends Fragment {
                         // moves camera to last terrain's last vertex (or default location if no terrains are found)
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
                         // if the search succeeds but returns no terrains
+                        // TODO these toasts aren't working apparently
+                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_LONG);
                         if( terrains.isEmpty() )
                             Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG);
                     }

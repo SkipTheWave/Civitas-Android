@@ -16,15 +16,18 @@ class RegisterFormState {
     private Integer emailError;
     @Nullable
     private Integer nameError;
+    @Nullable
+    private Integer nifError;
     private boolean isDataValid;
 
     RegisterFormState(@Nullable Integer usernameError, @Nullable Integer passwordError, @Nullable Integer diffPasswordError,
-                      @Nullable Integer emailError, @Nullable Integer nameError) {
+                      @Nullable Integer emailError, @Nullable Integer nameError, @Nullable Integer nifError) {
         this.usernameError = usernameError;
         this.passwordError = passwordError;
         this.diffPasswordError = diffPasswordError;
         this.emailError = emailError;
         this.nameError = nameError;
+        this.nifError = nifError;
         this.isDataValid = false;
     }
 
@@ -34,6 +37,7 @@ class RegisterFormState {
         this.diffPasswordError = null;
         this.emailError = null;
         this.nameError = null;
+        this.nifError = null;
         this.isDataValid = isDataValid;
     }
 
@@ -57,6 +61,9 @@ class RegisterFormState {
 
     @Nullable
     Integer getNameError() { return nameError; }
+
+    @Nullable
+    Integer getNifError() { return nifError; }
 
     boolean isDataValid() {
         return isDataValid;

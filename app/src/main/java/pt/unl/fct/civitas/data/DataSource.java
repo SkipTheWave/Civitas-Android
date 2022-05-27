@@ -102,6 +102,21 @@ public class DataSource {
         }
     }
 
+    public Result<String> editProfile(ProfileData data) {
+        try {
+            Call<String> profileService = service.editProfile(data) ;
+            Response<String> profileResponse = profileService.execute();
+            if( profileResponse.isSuccessful() ) {
+                String responseText = profileResponse.body();
+                return new Result.Success<>(responseText);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
+        }
+    }
+
     public Result<List<TerrainData>> getTerrains(LoggedInUser user) {
         try {
             Call<List<List<VertexData>>> terrainService = service.getTerrains(new UsernameData(user.getUsername())) ;
