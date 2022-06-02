@@ -2,6 +2,7 @@ package pt.unl.fct.civitas.ui.home;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,7 +26,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import pt.unl.fct.civitas.R;
@@ -38,6 +42,9 @@ public class TerrainFragment extends Fragment {
     //private ActivityMapsBinding binding;
     private CameraPosition cameraPosition;
     private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private static final int OUTLINE_COLOR = 0xffff7700;
+    private static final int FILL_COLOR = 0x44ff7700;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
     private static final int DEFAULT_ZOOM = 12;
@@ -74,12 +81,27 @@ public class TerrainFragment extends Fragment {
                     } else if( terrainResult.getSuccess() != null ) {
                         LatLng coords = DEFAULT_LOCATION;
                         List<TerrainData> terrains = terrainResult.getSuccess();
-                        // TODO show markers
-                        for(TerrainData terrain : terrains)
+
+                        for(TerrainData terrain : terrains) {
+                            List<LatLng> points = new LinkedList<>();
                             for(VertexData vertex : terrain.vertexList) {
-                                coords = new LatLng( Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude) );
-                                mMap.addMarker(new MarkerOptions().position(coords).title(terrain.terrainId));
+                                coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
+                                points.add(coords);
                             }
+                            Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                                    .addAll(points)
+                                    .strokeColor(OUTLINE_COLOR)
+                                    .fillColor(FILL_COLOR)
+                                    .clickable(true));
+                            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                                @Override
+                                public void onPolygonClick(@NonNull Polygon polygon) {
+                                    // TODO redirect to terrain info page, or something
+                                    Toast.makeText(getActivity(), "Voila! " + terrain.terrainId, Toast.LENGTH_SHORT);
+                                }
+                            });
+                        }
+
                         // moves camera to last terrain's last vertex (or default location if no terrains are found)
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
                         // if the search succeeds but returns no terrains
