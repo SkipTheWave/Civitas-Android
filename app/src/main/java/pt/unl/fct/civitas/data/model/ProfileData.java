@@ -32,7 +32,6 @@ public class ProfileData {
         this.role = role;
         this.state = state;
         this.profilePic = profilePic;
-
     }
 
 }

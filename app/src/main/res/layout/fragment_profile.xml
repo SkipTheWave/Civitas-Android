@@ -132,7 +132,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_email_field" />
+            app:layout_constraintTop_toBottomOf="@id/profile_mobilePhone_field" />
 
         <TextView
             android:id="@+id/profile_telephone_title"
@@ -155,7 +155,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_telephone_field" />
+            app:layout_constraintTop_toBottomOf="@id/profile_email_field" />
 
         <TextView
             android:id="@+id/profile_mobilePhone_title"
@@ -179,6 +179,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:autofillHints="name"
+            android:editable="false"
             android:hint="@string/prompt_nif"
             android:inputType="none"
             android:minHeight="48dp"
@@ -186,7 +187,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_mobilePhone_field" />
+            app:layout_constraintTop_toBottomOf="@id/profile_telephone_field" />
 
         <TextView
             android:id="@+id/profile_profile_visibility"

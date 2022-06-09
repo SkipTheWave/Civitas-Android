@@ -1,6 +1,10 @@
 package pt.unl.fct.civitas.ui.home;
 
+import static pt.unl.fct.civitas.ui.register.RegisterViewModel.checkUndefined;
+
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +27,9 @@ import com.google.gson.Gson;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
+import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
+import pt.unl.fct.civitas.ui.register.RegisterViewModel;
 
 public class ProfileFragment extends Fragment {
 
@@ -40,6 +46,7 @@ public class ProfileFragment extends Fragment {
     private Spinner profileOption;
     private Button submitButton;
     private ProgressBar loadingProgressBar;
+    private ProfileData profileData;
 
     @Override
     public View onCreateView(
@@ -67,11 +74,47 @@ public class ProfileFragment extends Fragment {
         setUsernameDisplay(
                 gson.fromJson( TokenStore.getToken(getActivity()), LoggedInUser.class).getUsername());
 
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.profileDataChanged(emailEditText.getText().toString(), nameEditText.getText().toString());
+            }
+        };
+        emailEditText.addTextChangedListener(afterTextChangedListener);
+        nameEditText.addTextChangedListener(afterTextChangedListener);
+
         binding.profileBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(ProfileFragment.this)
                         .navigate(R.id.action_ProfileFragment_to_FirstFragment);
+            }
+        });
+
+        binding.profileSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                /*
+                username, changedUser, email, name, profile,
+                       telephone, mobilePhone, nif, role, state, profilePic
+                 */
+                viewModel.editProfile(new ProfileData(profileData.username,
+                        profileData.username, emailEditText.getText().toString(),
+                        nameEditText.getText().toString(), profileOption.getSelectedItem().toString(),
+                        checkUndefined( telephoneEditText.getText().toString() ),
+                        checkUndefined( mobilePhoneEditText.getText().toString() ),
+                        profileData.nif, profileData.role, profileData.state, profileData.profilePic));
             }
         });
 
@@ -84,6 +127,7 @@ public class ProfileFragment extends Fragment {
                     showProfileFailure();
                 } else if( profileResult.getSuccess() != null ) {
                     loadingProgressBar.setVisibility(View.GONE);
+                    profileData = profileResult.getSuccess();
                     setNameEditText(profileResult.getSuccess().name);
                     setEmailEditText(profileResult.getSuccess().email);
                     setTelephoneEditText(profileResult.getSuccess().telephone);

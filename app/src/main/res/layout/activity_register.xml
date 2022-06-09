@@ -138,41 +138,41 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints="phone"
         android:ems="10"
         android:hint="@string/prompt_telephone"
         android:inputType="phone"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        android:autofillHints="phone"/>
+        app:layout_constraintTop_toBottomOf="@id/mobilePhone" />
 
     <EditText
         android:id="@+id/mobilePhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints="phone"
         android:ems="10"
         android:hint="@string/prompt_mobilePhone"
         android:inputType="phone"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/telephone"
-        android:autofillHints="phone"/>
+        app:layout_constraintTop_toBottomOf="@id/email" />
 
     <EditText
         android:id="@+id/nif"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints="nif"
         android:ems="10"
         android:hint="@string/prompt_nif"
         android:inputType="phone"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mobilePhone"
-        android:autofillHints="nif"/>
+        app:layout_constraintTop_toBottomOf="@id/telephone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

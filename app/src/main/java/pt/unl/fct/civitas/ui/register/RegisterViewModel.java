@@ -68,7 +68,7 @@ public class RegisterViewModel extends ViewModel {
         }
     }
 
-    private String checkUndefined(String data) {
+    public static String checkUndefined(String data) {
         if (data == null)
             data = UNDEFINED;
         if (data.trim().isEmpty())
@@ -88,7 +88,7 @@ public class RegisterViewModel extends ViewModel {
         }
     }
 
-    private boolean isEmailValid(String email) {
+    public static boolean isEmailValid(String email) {
         if (email == null) {
             return false;
         }
@@ -99,7 +99,7 @@ public class RegisterViewModel extends ViewModel {
         }
     }
 
-    private boolean isNameValid(String name) {
+    public static boolean isNameValid(String name) {
         if (name == null) {
             return false;
         } else {

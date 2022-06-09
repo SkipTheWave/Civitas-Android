@@ -32,7 +32,7 @@
     <string name="error_show_profile">Erro ao obter dados de perfil</string>
     <string name="prompt_telephone_short">Telefone</string>
     <string name="prompt_mobilePhone_short">Telemóvel</string>
-    <string name="apply_changes">Guardar alterações (WIP)</string>
+    <string name="apply_changes">Guardar alterações</string>
     <string name="profile">Perfil</string>
     <string name="terrains">Terrenos</string>
     <string name="home">Início</string>
@@ -41,4 +41,5 @@
     <string name="zero_terrains">Nenhum terreno encontrado para este utilizador</string>
     <string name="invalid_nif">NIF inválido</string>
     <string name="prompt_nif_short">NIF (não pode ser mudado)</string>
+    <string name="error_edit_profile">Ocorreu um erro ao mudar o seu perfil</string>
 </resources>

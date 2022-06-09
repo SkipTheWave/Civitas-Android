@@ -81,6 +81,16 @@ public class RestRepository {
         });
     }
 
+    public void editProfile(ProfileData data, RestRepositoryCallback<String> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<String> result = dataSource.editProfile(data);
+                callback.onComplete(result);
+            }
+        });
+    }
+
     public void getTerrains(RestRepositoryCallback<List<TerrainData>> callback) {
         executor.execute(new Runnable() {
             @Override
