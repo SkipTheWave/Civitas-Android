@@ -33,6 +33,6 @@ public interface RestAPI {
     @POST("rest/terrain/getTerrain")
     Call<List<List<VertexData>>> getTerrains(@Body UsernameData data);
 
-    @POST("rest/terrain/terrainCounter")                        // TODO
+    @POST("rest/terrain/terrainCounter")
     Call<TerrainInfo> getTerrainInfo(@Body UsernameData data);
 }

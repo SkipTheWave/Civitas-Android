@@ -8,10 +8,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -128,11 +130,12 @@ public class ProfileFragment extends Fragment {
                 } else if( profileResult.getSuccess() != null ) {
                     loadingProgressBar.setVisibility(View.GONE);
                     profileData = profileResult.getSuccess();
-                    setNameEditText(profileResult.getSuccess().name);
-                    setEmailEditText(profileResult.getSuccess().email);
-                    setTelephoneEditText(profileResult.getSuccess().telephone);
-                    setMobilePhoneEditText(profileResult.getSuccess().mobilePhone);
-                    setNifEditText(profileResult.getSuccess().nif);
+                    setNameEditText(profileData.name);
+                    setEmailEditText(profileData.email);
+                    setTelephoneEditText(profileData.telephone);
+                    setMobilePhoneEditText(profileData.mobilePhone);
+                    setNifEditText(profileData.nif);
+                    setProfileOption(profileData.profile);
                 }
             }
         });
@@ -156,9 +159,12 @@ public class ProfileFragment extends Fragment {
 
     public void setNifEditText(String text) { nifEditText.setText(text); }
 
-//    public void setProfileOption(String option) {
-//        ArrayAdapter adapter = profileOption.getAdapter();
-//    } TODO fix this
+    public void setProfileOption(String option) {
+        SpinnerAdapter adapter = profileOption.getAdapter();
+        for(int i=0; i < profileOption.getCount(); i++)
+            if( profileOption.getItemAtPosition(i).equals(option) )
+                profileOption.setSelection(i);
+    }
 
     public void showProfileFailure() {
         Toast.makeText(getActivity(), R.string.error_show_profile, Toast.LENGTH_LONG);

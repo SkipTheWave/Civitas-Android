@@ -31,6 +31,7 @@ public class HomeViewModel extends ViewModel {
     LiveData<ProfileResult> getProfileResult() {
         return profileResult;
     }
+
     LiveData<ShowTerrainResult> getShowTerrainResult() {return showTerrainResult; }
 
     public void getProfile() {

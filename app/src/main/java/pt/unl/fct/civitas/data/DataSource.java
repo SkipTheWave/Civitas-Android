@@ -136,4 +136,24 @@ public class DataSource {
             return new Result.Error(new IOException("Error logging in", e));
         }
     }
+
+    public Result<List<TerrainData>> getTerrainInfo(LoggedInUser user) {
+        try {
+            Call<List<List<VertexData>>> terrainService = service.getTerrains(new UsernameData(user.getUsername())) ;
+            Response<List<List<VertexData>>> terrainResponse = terrainService.execute();
+            if( terrainResponse.isSuccessful() ) {
+                List<List<VertexData>> data = terrainResponse.body();
+                List<TerrainData> terrains = new LinkedList<>();
+                for(List<VertexData> vertexGroup : data) {
+                    String terrainId = vertexGroup.get(0).terrainId;
+                    terrains.add(new TerrainData(terrainId, vertexGroup));
+                }
+                return new Result.Success<>(terrains);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
+        }
+    }
 }

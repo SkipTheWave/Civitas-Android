@@ -85,33 +85,6 @@ public class HomeActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-
-//    viewModel.getProfileResult().observe(this, new Observer<ProfileResult>() {
-//        @Override
-//        public void onChanged(@Nullable ProfileResult profileResult) {
-//            if (loginResult == null) {
-//                return;
-//            }
-//            if (loginResult.getError() != null) {
-//                showLoginFailed(loginResult.getError());
-//            }
-//            if (loginResult.getSuccess() != null) {
-//                updateUiWithUser(loginResult.getSuccess());
-//                TokenStore.setToken(getApplicationContext(), gson.toJson(loginResult.getSuccess().getUser()) );
-////                    Uri gmmIntent = Uri.parse("geo:0,0?q="+"Nova School of Science and Technology, Quinta da Torre, Portugal");
-////                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntent);
-////                    mapIntent.setPackage("com.google.android.apps.maps");
-////                    if( mapIntent.resolveActivity(getPackageManager()) != null ) {
-////                        startActivity(mapIntent);
-////                    }
-//
-//                //Complete and destroy login activity once successful
-//                finish();
-//            }
-//        }
-//    });
-
     public void signOut() {
         viewModel.logout();
     }
