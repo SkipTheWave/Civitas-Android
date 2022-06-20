@@ -107,10 +107,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                /*
-                username, changedUser, email, name, profile,
-                       telephone, mobilePhone, nif, role, state, profilePic
-                 */
                 viewModel.editProfile(new ProfileData(profileData.username,
                         profileData.username, emailEditText.getText().toString(),
                         nameEditText.getText().toString(), profileOption.getSelectedItem().toString(),

@@ -51,4 +51,8 @@
     <string name="zero_terrains">No terrains found for this user</string>
     <string name="invalid_nif">Not a valid NIF</string>
     <string name="error_edit_profile">Error changing profile data</string>
+    <string name="add_terrain">Add terrain</string>
+    <string name="edit_terrain">Edit terrain</string>
+    <string name="cancel">Cancel</string>
+    <string name="finish">Finish</string>
 </resources>
