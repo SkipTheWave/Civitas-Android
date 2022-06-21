@@ -76,33 +76,6 @@ public class TerrainFragment extends Fragment {
             mMap = googleMap;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
-            buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startTerrainOp();
-                    List<LatLng> points = new LinkedList<>();
-
-                    binding.buttonFinish.setOnClickListener(viewFinish -> {
-                        Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                                .addAll(points)
-                                .strokeColor(OUTLINE_COLOR)
-                                .fillColor(FILL_COLOR)
-                                .clickable(true));
-                        // TODO make addTerrain rest call, then add listener to polygon like the others
-                        cancelTerrainOp();
-                    });
-
-                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(@NonNull LatLng latLng) {
-                            points.add(latLng);
-                            if(points.size() == 3)
-                                binding.buttonFinish.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            });
-
             viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
                 @Override
                 public void onChanged(@Nullable ShowTerrainResult terrainResult) {
@@ -167,6 +140,34 @@ public class TerrainFragment extends Fragment {
         if (mapView != null) {
             mapView.getMapAsync(callback);
         }
+
+        binding.buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTerrainOp();
+                List<LatLng> points = new LinkedList<>();
+
+                binding.buttonFinish.setOnClickListener(viewFinish -> {
+                    Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                            .addAll(points)
+                            .strokeColor(OUTLINE_COLOR)
+                            .fillColor(FILL_COLOR)
+                            .clickable(true));
+                    // TODO make addTerrain rest call, then add listener to polygon like the others
+                    cancelTerrainOp();
+                });
+
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(@NonNull LatLng latLng) {
+                        points.add(latLng);
+                        if(points.size() == 3)
+                            binding.buttonFinish.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
         return v;
     }
 
@@ -196,6 +197,10 @@ public class TerrainFragment extends Fragment {
     private void showTerrainFailure(ShowTerrainResult result) {
         if(result.getError() != null)
             Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
+    }
+
+    private void onClickAddTerrain() {
+
     }
 
     private void startTerrainOp() {
