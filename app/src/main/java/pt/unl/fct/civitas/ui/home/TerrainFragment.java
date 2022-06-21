@@ -2,7 +2,6 @@ package pt.unl.fct.civitas.ui.home;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,16 +16,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
@@ -36,7 +34,6 @@ import java.util.List;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.VertexData;
-import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
 import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
 
 public class TerrainFragment extends Fragment {
@@ -156,18 +153,20 @@ public class TerrainFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentTerrainBinding.inflate(inflater, container, false);
-        return inflater.inflate(R.layout.fragment_terrain, container, false);
+        View v = inflater.inflate(R.layout.fragment_terrain, container, false);
+        MapView mapView = v.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        if (mapView != null) {
+            mapView.getMapAsync(callback);
+        }
+        return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }
+
     }
 
     /**
