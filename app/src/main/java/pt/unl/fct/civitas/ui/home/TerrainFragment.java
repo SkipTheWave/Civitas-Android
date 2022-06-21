@@ -2,12 +2,12 @@ package pt.unl.fct.civitas.ui.home;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,16 +17,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
@@ -36,7 +35,6 @@ import java.util.List;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.VertexData;
-import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
 import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
 
 public class TerrainFragment extends Fragment {
@@ -50,11 +48,12 @@ public class TerrainFragment extends Fragment {
     private static final int FILL_COLOR = 0x44ff7700;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
-    private static final int DEFAULT_ZOOM = 10;
+    private static final int DEFAULT_ZOOM = 12;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private boolean locationPermissionGranted;
     private FragmentTerrainBinding binding;
+    private Button buttonAddTerrain;
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
 
@@ -77,51 +76,7 @@ public class TerrainFragment extends Fragment {
             mMap = googleMap;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
-            viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
-                @Override
-                public void onChanged(@Nullable ShowTerrainResult terrainResult) {
-                    if( terrainResult.getError() != null ) {
-                        showTerrainFailure(terrainResult);
-                    } else if( terrainResult.getSuccess() != null ) {
-                        LatLng coords = DEFAULT_LOCATION;
-                        List<TerrainData> terrains = terrainResult.getSuccess();
-
-                        for(TerrainData terrain : terrains) {
-                            List<LatLng> points = new LinkedList<>();
-                            for(VertexData vertex : terrain.vertexList) {
-                                coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
-                                points.add(coords);
-                            }
-                            Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                                    .addAll(points)
-                                    .strokeColor(OUTLINE_COLOR)
-                                    .fillColor(FILL_COLOR)
-                                    .clickable(true));
-                            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                                @Override
-                                public void onPolygonClick(@NonNull Polygon polygon) {
-                                    // TODO redirect to terrain info page, or something
-                                    Toast.makeText(getActivity(), "Voila! " + terrain.terrainId, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-
-                        // moves camera to last terrain's last vertex (or default location if no terrains are found)
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
-
-                        // if the search succeeds but returns no terrains
-                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_LONG).show();
-                        if( terrains.isEmpty() )
-                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-
-            viewModel.showTerrains();
-
-            binding.buttonCancel.setOnClickListener(view -> cancelTerrainOp());
-
-            binding.buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
+            buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     startTerrainOp();
@@ -147,6 +102,53 @@ public class TerrainFragment extends Fragment {
                     });
                 }
             });
+
+            viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
+                @Override
+                public void onChanged(@Nullable ShowTerrainResult terrainResult) {
+                    if( terrainResult.getError() != null ) {
+                        showTerrainFailure(terrainResult);
+                    } else if( terrainResult.getSuccess() != null ) {
+                        LatLng coords = DEFAULT_LOCATION;
+                        List<TerrainData> terrains = terrainResult.getSuccess();
+
+                        for(TerrainData terrain : terrains) {
+                            List<LatLng> points = new LinkedList<>();
+                            for(VertexData vertex : terrain.vertexList) {
+                                coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
+                                points.add(coords);
+                            }
+                            Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                                    .addAll(points)
+                                    .strokeColor(OUTLINE_COLOR)
+                                    .fillColor(FILL_COLOR)
+                                    .clickable(true));
+                            polygon.setTag(terrain);
+                            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                                @Override
+                                public void onPolygonClick(@NonNull Polygon polygon) {
+                                    // TODO redirect to terrain info page, or something
+                                    if(polygon.getTag() != null)
+                                        Toast.makeText(getActivity(), "Voila! " +
+                                                ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        // moves camera to last terrain's last vertex (or default location if no terrains are found)
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
+
+                        // if the search succeeds but returns no terrains
+                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_LONG).show();
+                        if( terrains.isEmpty() )
+                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            viewModel.showTerrains();
+
+            binding.buttonCancel.setOnClickListener(view -> cancelTerrainOp());
         }
     };
 
@@ -156,18 +158,23 @@ public class TerrainFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentTerrainBinding.inflate(inflater, container, false);
-        return inflater.inflate(R.layout.fragment_terrain, container, false);
+        View v = inflater.inflate(R.layout.fragment_terrain, container, false);
+        buttonAddTerrain = binding.buttonAddTerrain;
+
+        MapView mapView = v.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        if (mapView != null) {
+            mapView.getMapAsync(callback);
+        }
+        return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }
+
     }
 
     /**
@@ -193,13 +200,13 @@ public class TerrainFragment extends Fragment {
 
     private void startTerrainOp() {
         binding.buttonEditTerrain.setVisibility(View.GONE);
-        binding.buttonAddTerrain.setVisibility(View.GONE);
+        buttonAddTerrain.setVisibility(View.GONE);
         binding.buttonCancel.setVisibility(View.VISIBLE);
     }
 
     private void cancelTerrainOp() {
         binding.buttonEditTerrain.setVisibility(View.VISIBLE);
-        binding.buttonAddTerrain.setVisibility(View.VISIBLE);
+        buttonAddTerrain.setVisibility(View.VISIBLE);
         binding.buttonCancel.setVisibility(View.GONE);
         binding.buttonFinish.setVisibility(View.GONE);
 
