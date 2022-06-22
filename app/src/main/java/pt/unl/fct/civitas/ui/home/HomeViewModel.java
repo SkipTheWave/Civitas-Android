@@ -91,7 +91,7 @@ public class HomeViewModel extends ViewModel {
                     ShowTerrainResult auxResult = new ShowTerrainResult(data);
                     showTerrainResult.postValue(auxResult);
                 } else {
-                    showTerrainResult.postValue(new ShowTerrainResult(R.string.error_show_terrains));
+                    showTerrainResult.postValue(new ShowTerrainResult( ((Result.Error)result).getError().getMessage() ));
                 }
             }
         });

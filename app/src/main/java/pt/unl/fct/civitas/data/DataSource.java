@@ -51,7 +51,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + loginResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("IO error moment", e));
         }
     }
 
@@ -65,7 +65,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + logoutResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("IO error moment", e));
         }
 
     }
@@ -98,7 +98,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("IO error moment", e));
         }
     }
 
@@ -113,7 +113,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("IO error moment", e));
         }
     }
 
@@ -133,7 +133,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("IOException moment", e));
         }
     }
 
@@ -153,7 +153,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("IO error moment", e));
         }
     }
 }

@@ -15,9 +15,9 @@ class ShowTerrainResult {
     @Nullable
     private List<TerrainData> success;
     @Nullable
-    private Integer error;
+    private String error;
 
-    ShowTerrainResult(@Nullable Integer error) {
+    ShowTerrainResult(@Nullable String error) {
         this.error = error;
     }
 
@@ -31,7 +31,7 @@ class ShowTerrainResult {
     }
 
     @Nullable
-    Integer getError() {
+    String getError() {
         return error;
     }
 }

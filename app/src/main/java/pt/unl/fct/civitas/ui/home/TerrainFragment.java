@@ -54,6 +54,9 @@ public class TerrainFragment extends Fragment {
     private boolean locationPermissionGranted;
     private FragmentTerrainBinding binding;
     private Button buttonAddTerrain;
+    private Button buttonEditTerrain;
+    private Button buttonCancel;
+    private Button buttonFinish;
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
 
@@ -121,7 +124,7 @@ public class TerrainFragment extends Fragment {
 
             viewModel.showTerrains();
 
-            binding.buttonCancel.setOnClickListener(view -> cancelTerrainOp());
+            buttonCancel.setOnClickListener(view -> cancelTerrainOp());
         }
     };
 
@@ -132,7 +135,7 @@ public class TerrainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentTerrainBinding.inflate(inflater, container, false);
         View v = inflater.inflate(R.layout.fragment_terrain, container, false);
-        buttonAddTerrain = binding.buttonAddTerrain;
+        buttonAddTerrain = buttonAddTerrain;
 
         MapView mapView = v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -141,13 +144,25 @@ public class TerrainFragment extends Fragment {
             mapView.getMapAsync(callback);
         }
 
-        binding.buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        buttonAddTerrain = (Button) view.findViewById(R.id.button_add_terrain);
+        buttonEditTerrain = (Button) view.findViewById(R.id.button_edit_terrain);
+        buttonCancel = (Button) view.findViewById(R.id.button_cancel);
+        buttonFinish = (Button) view.findViewById(R.id.button_finish);
+
+       buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startTerrainOp();
                 List<LatLng> points = new LinkedList<>();
 
-                binding.buttonFinish.setOnClickListener(viewFinish -> {
+                buttonFinish.setOnClickListener(viewFinish -> {
                     Polygon polygon = mMap.addPolygon(new PolygonOptions()
                             .addAll(points)
                             .strokeColor(OUTLINE_COLOR)
@@ -162,20 +177,11 @@ public class TerrainFragment extends Fragment {
                     public void onMapClick(@NonNull LatLng latLng) {
                         points.add(latLng);
                         if(points.size() == 3)
-                            binding.buttonFinish.setVisibility(View.VISIBLE);
+                            buttonFinish.setVisibility(View.VISIBLE);
                     }
                 });
             }
         });
-
-        return v;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-
     }
 
     /**
@@ -195,8 +201,8 @@ public class TerrainFragment extends Fragment {
     }
 
     private void showTerrainFailure(ShowTerrainResult result) {
-        if(result.getError() != null)
-            Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
+//        if(result.getError() != null)
+//            Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
     }
 
     private void onClickAddTerrain() {
@@ -204,16 +210,16 @@ public class TerrainFragment extends Fragment {
     }
 
     private void startTerrainOp() {
-        binding.buttonEditTerrain.setVisibility(View.GONE);
+        buttonEditTerrain.setVisibility(View.GONE);
         buttonAddTerrain.setVisibility(View.GONE);
-        binding.buttonCancel.setVisibility(View.VISIBLE);
+        buttonCancel.setVisibility(View.VISIBLE);
     }
 
     private void cancelTerrainOp() {
-        binding.buttonEditTerrain.setVisibility(View.VISIBLE);
+        buttonEditTerrain.setVisibility(View.VISIBLE);
         buttonAddTerrain.setVisibility(View.VISIBLE);
-        binding.buttonCancel.setVisibility(View.GONE);
-        binding.buttonFinish.setVisibility(View.GONE);
+        buttonCancel.setVisibility(View.GONE);
+        buttonFinish.setVisibility(View.GONE);
 
         mMap.setOnMapClickListener(null);
     }
