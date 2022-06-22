@@ -106,7 +106,9 @@ public class ProfileFragment extends Fragment {
         binding.profileSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
+                // TODO fix the Result Observer bug instead of using this workaround
+                Toast.makeText(getActivity(), R.string.profile, Toast.LENGTH_LONG);
+                //loadingProgressBar.setVisibility(View.VISIBLE);
                 viewModel.editProfile(new ProfileData(profileData.username,
                         profileData.username, emailEditText.getText().toString(),
                         nameEditText.getText().toString(), profileOption.getSelectedItem().toString(),
@@ -115,7 +117,6 @@ public class ProfileFragment extends Fragment {
                         profileData.nif, profileData.role, profileData.state, profileData.profilePic));
             }
         });
-
         loadingProgressBar.setVisibility(View.VISIBLE);
 
         viewModel.getProfileResult().observe(getViewLifecycleOwner(), new Observer<ProfileResult>() {

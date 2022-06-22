@@ -5,6 +5,7 @@ import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
+import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
@@ -126,6 +127,35 @@ public class DataSource {
             return new Result.Error(new IOException("IOException moment", e));
         }
     }
+
+    public Result<Void> registerVertex(VertexData data) {
+        try {
+            Call<Void> vertexService = service.registerVertex(data) ;
+            Response<Void> vertexResponse = vertexService.execute();
+            if( vertexResponse.isSuccessful() ) {
+                return new Result.Success<>(null);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + vertexResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("IOException moment", e));
+        }
+    }
+
+    public Result<String> registerTerrain(TerrainData data) {
+        try {
+            Call<String> terrainService = service.registerTerrain(data) ;
+            Response<String> terrainResponse = terrainService.execute();
+            if( terrainResponse.isSuccessful() ) {
+                return new Result.Success<>(terrainResponse.body());
+            } else {
+                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("IOException moment", e));
+        }
+    }
+
 
 //    public Result<List<TerrainInfo>> getTerrainInfo(LoggedInUser user) {
 //        try {

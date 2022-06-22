@@ -5,7 +5,9 @@ import java.util.concurrent.Executor;
 
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
+import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
+import pt.unl.fct.civitas.data.model.VertexData;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -94,6 +96,26 @@ public class RestRepository {
             @Override
             public void run() {
                 Result<List<TerrainInfo>> result = dataSource.getTerrains(user);
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void registerVertex(VertexData vertex, RestRepositoryCallback<Void> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<Void> result = dataSource.registerVertex(vertex);
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void registerTerrain(TerrainData data, RestRepositoryCallback<String> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<String> result = dataSource.registerTerrain(data);
                 callback.onComplete(result);
             }
         });

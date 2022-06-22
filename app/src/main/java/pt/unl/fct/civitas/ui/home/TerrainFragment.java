@@ -111,7 +111,7 @@ public class TerrainFragment extends Fragment {
                                 public void onPolygonClick(@NonNull Polygon polygon) {
                                     // TODO redirect to terrain info page, or something
                                     if(polygon.getTag() != null)
-                                        Toast.makeText(getActivity(), "Voila! " +
+                                        Toast.makeText(getActivity(), "Voila! This is " +
                                                 ((TerrainInfo) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
                                 }
                             });
