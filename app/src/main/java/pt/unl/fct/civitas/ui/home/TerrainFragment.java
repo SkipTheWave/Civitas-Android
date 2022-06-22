@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,17 +24,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import pt.unl.fct.civitas.R;
-import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
 
@@ -48,7 +52,7 @@ public class TerrainFragment extends Fragment {
     private static final int FILL_COLOR = 0x44ff7700;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
-    private static final int DEFAULT_ZOOM = 12;
+    private static final int DEFAULT_ZOOM = 13;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private boolean locationPermissionGranted;
@@ -57,6 +61,7 @@ public class TerrainFragment extends Fragment {
     private Button buttonEditTerrain;
     private Button buttonCancel;
     private Button buttonFinish;
+    private ProgressBar loading;
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
 
@@ -82,15 +87,16 @@ public class TerrainFragment extends Fragment {
             viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
                 @Override
                 public void onChanged(@Nullable ShowTerrainResult terrainResult) {
+                    loading.setVisibility(View.GONE);
                     if( terrainResult.getError() != null ) {
                         showTerrainFailure(terrainResult);
                     } else if( terrainResult.getSuccess() != null ) {
                         LatLng coords = DEFAULT_LOCATION;
-                        List<TerrainData> terrains = terrainResult.getSuccess();
+                        List<TerrainInfo> terrains = terrainResult.getSuccess();
 
-                        for(TerrainData terrain : terrains) {
+                        for(TerrainInfo terrain : terrains) {
                             List<LatLng> points = new LinkedList<>();
-                            for(VertexData vertex : terrain.vertexList) {
+                            for(VertexData vertex : terrain.vertices) {
                                 coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
                                 points.add(coords);
                             }
@@ -106,7 +112,7 @@ public class TerrainFragment extends Fragment {
                                     // TODO redirect to terrain info page, or something
                                     if(polygon.getTag() != null)
                                         Toast.makeText(getActivity(), "Voila! " +
-                                                ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
+                                                ((TerrainInfo) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -155,31 +161,14 @@ public class TerrainFragment extends Fragment {
         buttonEditTerrain = (Button) view.findViewById(R.id.button_edit_terrain);
         buttonCancel = (Button) view.findViewById(R.id.button_cancel);
         buttonFinish = (Button) view.findViewById(R.id.button_finish);
+        loading = (ProgressBar) view.findViewById(R.id.terrain_progress);
+
+        loading.setVisibility(View.VISIBLE);
 
        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTerrainOp();
-                List<LatLng> points = new LinkedList<>();
-
-                buttonFinish.setOnClickListener(viewFinish -> {
-                    Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                            .addAll(points)
-                            .strokeColor(OUTLINE_COLOR)
-                            .fillColor(FILL_COLOR)
-                            .clickable(true));
-                    // TODO make addTerrain rest call, then add listener to polygon like the others
-                    cancelTerrainOp();
-                });
-
-                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(@NonNull LatLng latLng) {
-                        points.add(latLng);
-                        if(points.size() == 3)
-                            buttonFinish.setVisibility(View.VISIBLE);
-                    }
-                });
+                addTerrain();
             }
         });
     }
@@ -201,8 +190,8 @@ public class TerrainFragment extends Fragment {
     }
 
     private void showTerrainFailure(ShowTerrainResult result) {
-//        if(result.getError() != null)
-//            Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
+        if(result.getError() != null)
+            Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
     }
 
     private void onClickAddTerrain() {
@@ -222,5 +211,38 @@ public class TerrainFragment extends Fragment {
         buttonFinish.setVisibility(View.GONE);
 
         mMap.setOnMapClickListener(null);
+    }
+
+    private void addTerrain() {
+        startTerrainOp();
+        List<LatLng> points = new LinkedList<>();
+        List<Marker> markers = new LinkedList<>();
+
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .color(OUTLINE_COLOR));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                points.add(latLng);
+                markers.add( mMap.addMarker(new MarkerOptions()
+                        .position(latLng)) );
+                line.setPoints(points);
+                if(points.size() == 3)
+                    buttonFinish.setVisibility(View.VISIBLE);
+            }
+        });
+
+        buttonFinish.setOnClickListener(viewFinish -> {
+            Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                    .addAll(points)
+                    .strokeColor(OUTLINE_COLOR)
+                    .fillColor(FILL_COLOR)
+                    .clickable(true));
+            for(Marker m : markers)
+                m.remove();
+            // TODO make addTerrain rest call, then add listener to polygon like the others, maybe let the user add new vertices
+            cancelTerrainOp();
+        });
     }
 }

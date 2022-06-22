@@ -31,7 +31,7 @@ public interface RestAPI {
     Call<String> editProfile(@Body ProfileData data);
 
     @POST("rest/terrain/getTerrain")
-    Call<List<List<VertexData>>> getTerrains(@Body UsernameData data);
+    Call<List<TerrainInfo>> getTerrains(@Body UsernameData data);
 
     @POST("rest/terrain/terrainCounter")
     Call<TerrainInfo> getTerrainInfo(@Body UsernameData data);

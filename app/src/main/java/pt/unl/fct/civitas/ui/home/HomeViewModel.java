@@ -14,7 +14,7 @@ import pt.unl.fct.civitas.data.RestRepository;
 import pt.unl.fct.civitas.data.RestRepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
 import pt.unl.fct.civitas.data.model.ProfileData;
-import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainInfo;
 
 public class HomeViewModel extends ViewModel {
 
@@ -83,11 +83,11 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void showTerrains() {
-        restRepository.getTerrains(new RestRepositoryCallback<List<TerrainData>>() {
+        restRepository.getTerrains(new RestRepositoryCallback<List<TerrainInfo>>() {
             @Override
-            public void onComplete(Result<List<TerrainData>> result) {
+            public void onComplete(Result<List<TerrainInfo>> result) {
                 if (result instanceof Result.Success) {
-                    List<TerrainData> data = ((Result.Success<List<TerrainData>>) result).getData();
+                    List<TerrainInfo> data = ((Result.Success<List<TerrainInfo>>) result).getData();
                     ShowTerrainResult auxResult = new ShowTerrainResult(data);
                     showTerrainResult.postValue(auxResult);
                 } else {

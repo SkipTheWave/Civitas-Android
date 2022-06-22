@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
-import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainInfo;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -40,7 +40,7 @@ public class RestRepository {
     }
 
     public void logout(RestRepositoryCallback<Void> callback) {
-        // handle login in a separate thread
+        // handle logout in a separate thread
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -53,8 +53,6 @@ public class RestRepository {
 
     private void setLoggedInUser(LoggedInUser user) {
         this.user = user;
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 
     public void login(String username, String password, RestRepositoryCallback<LoggedInUser> callback) {
@@ -91,11 +89,11 @@ public class RestRepository {
         });
     }
 
-    public void getTerrains(RestRepositoryCallback<List<TerrainData>> callback) {
+    public void getTerrains(RestRepositoryCallback<List<TerrainInfo>> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Result<List<TerrainData>> result = dataSource.getTerrains(user);
+                Result<List<TerrainInfo>> result = dataSource.getTerrains(user);
                 callback.onComplete(result);
             }
         });
