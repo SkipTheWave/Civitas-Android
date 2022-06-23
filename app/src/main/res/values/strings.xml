@@ -55,4 +55,25 @@
     <string name="edit_terrain">Edit terrain</string>
     <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
+    <string name="set_terrain_area">Set terrain area</string>
+    <string name="parish_amendoa" translatable="false">Amêndoa</string>
+    <string name="parish_cardigos" translatable="false">Cardigos</string>
+    <string name="parish_carvoeiro" translatable="false">Carvoeiro</string>
+    <string name="parish_envendos" translatable="false">Envendos</string>
+    <string name="parish_ortiga" translatable="false">Ortiga</string>
+    <string name="parish_macao_penhascoso_aboboreira" translatable="false">Mação, Penhascoso e Aboboreira</string>
+    <string name="terrain_data_insert_prompt">Please tell us about your terrain</string>
+    <string name="terrain_name_prompt">Name of this terrain</string>
+    <string name="parish">Parish</string>
+    <string name="article">Article</string>
+    <string name="description">Description</string>
+    <string name="current_usage">Current usage</string>
+    <string name="previous_usage">Previous usage</string>
+    <string name="owners">Owners</string>
+    <string name="section">Section</string>
+    <string name="terrain_coverage_type">Type of terrain coverage</string>
+    <string name="terrain_documentation">Terrain documentation</string>
+    <string name="upload_file">Upload file</string>
+    <string name="changes_success">Changes successful</string>
+    <string name="terrain_info_fragment_label">New terrain</string>
 </resources>

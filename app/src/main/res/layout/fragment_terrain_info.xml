@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.home.TerrainInfoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/terrain_data_title_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/terrain_data_insert_prompt"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/terrain_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/set_terrain_area"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_upload_file_button"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <EditText
+            android:id="@+id/terrain_name_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/terrain_name_prompt"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_data_title_prompt" />
+
+        <TextView
+            android:id="@+id/terrain_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_name"
+            app:layout_constraintBottom_toTopOf="@id/terrain_name_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_name_field" />
+
+        <TextView
+            android:id="@+id/terrain_parish_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/parish"
+            app:layout_constraintBottom_toBottomOf="@id/parish_dropdown"
+            app:layout_constraintStart_toStartOf="@id/terrain_owners_field"
+            app:layout_constraintTop_toTopOf="@id/parish_dropdown" />
+
+        <Spinner
+            android:id="@+id/parish_dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:entries="@array/parishes"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintStart_toEndOf="@id/terrain_parish_title"
+            app:layout_constraintTop_toBottomOf="@id/terrain_name_field" />
+
+        <TextView
+            android:id="@+id/terrain_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/article"
+            app:layout_constraintBottom_toTopOf="@id/terrain_article_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_article_field" />
+
+        <EditText
+            android:id="@+id/terrain_article_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="name"
+            android:hint="@string/article"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parish_dropdown" />
+
+        <EditText
+            android:id="@+id/terrain_description_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/description"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_section_field" />
+
+        <TextView
+            android:id="@+id/terrain_description_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            app:layout_constraintBottom_toTopOf="@id/terrain_description_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_description_field" />
+
+        <EditText
+            android:id="@+id/terrain_section_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/section"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_article_field" />
+
+        <TextView
+            android:id="@+id/terrain_section_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/section"
+            app:layout_constraintBottom_toTopOf="@id/terrain_section_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_section_field" />
+
+        <TextView
+            android:id="@+id/terrain_owners_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/owners"
+            app:layout_constraintBottom_toTopOf="@id/terrain_owners_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_owners_field" />
+
+        <EditText
+            android:id="@+id/terrain_owners_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/owners"
+            android:inputType="none"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_description_field" />
+
+        <EditText
+            android:id="@+id/terrain_type_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/terrain_coverage_type"
+            android:inputType="none"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_owners_field" />
+
+        <TextView
+            android:id="@+id/terrain_type_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terrain_coverage_type"
+            app:layout_constraintBottom_toTopOf="@id/terrain_type_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_type_field" />
+
+        <TextView
+            android:id="@+id/terrain_current_usage_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_usage"
+            app:layout_constraintBottom_toTopOf="@id/terrain_current_usage_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_current_usage_field" />
+
+        <EditText
+            android:id="@+id/terrain_current_usage_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/current_usage"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_type_field" />
+
+        <EditText
+            android:id="@+id/terrain_previous_usage_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:autofillHints="name"
+            android:hint="@string/previous_usage"
+            android:minHeight="48dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terrain_current_usage_field" />
+
+        <TextView
+            android:id="@+id/terrain_previous_usage_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/previous_usage"
+            app:layout_constraintBottom_toTopOf="@id/terrain_previous_usage_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_previous_usage_field" />
+
+        <TextView
+            android:id="@+id/terrain_documentation_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terrain_documentation"
+            app:layout_constraintBottom_toBottomOf="@id/terrain_upload_file_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/terrain_upload_file_button" />
+
+        <Button
+            android:id="@+id/terrain_upload_file_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/upload_file"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/terrain_documentation_prompt"
+            app:layout_constraintTop_toBottomOf="@id/terrain_previous_usage_field" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

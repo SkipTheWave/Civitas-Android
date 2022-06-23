@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_ProfileFragment"
             app:destination="@id/ProfileFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_TerrainFragment"
+            app:destination="@id/TerrainFragment" />
     </fragment>
     <fragment
         android:id="@+id/ProfileFragment"
@@ -29,5 +32,19 @@
         android:id="@+id/TerrainFragment"
         android:name="pt.unl.fct.civitas.ui.home.TerrainFragment"
         android:label="@string/terrain_fragment_label"
-        tools:layout="@layout/fragment_terrain" />
+        tools:layout="@layout/fragment_terrain" >
+        <action
+            android:id="@+id/action_TerrainFragment_to_terrainInfoFragment"
+            app:destination="@id/terrainInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/terrainInfoFragment"
+        android:name="pt.unl.fct.civitas.ui.home.TerrainInfoFragment"
+        android:label="@string/terrain_info_fragment_label"
+        tools:layout="@layout/fragment_terrain_info" >
+        <action
+            android:id="@+id/action_terrainInfoFragment_pop"
+            app:popUpTo="@id/terrainInfoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

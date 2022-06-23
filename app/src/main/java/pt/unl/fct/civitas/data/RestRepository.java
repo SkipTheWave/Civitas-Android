@@ -55,6 +55,7 @@ public class RestRepository {
         });
     }
 
+    public String getUsername() { return this.user.getUsername(); }
     private void setLoggedInUser(LoggedInUser user) {
         this.user = user;
     }

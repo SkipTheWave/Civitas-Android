@@ -5,4 +5,12 @@
         <item>@string/profile_visibility_public</item>
         <item>@string/profile_visibility_private</item>
     </array>
+    <array name="parishes">
+        <item>@string/parish_amendoa</item>
+        <item>@string/parish_cardigos</item>
+        <item>@string/parish_carvoeiro</item>
+        <item>@string/parish_envendos</item>
+        <item>@string/parish_macao_penhascoso_aboboreira</item>
+        <item>@string/parish_ortiga</item>
+    </array>
 </resources>

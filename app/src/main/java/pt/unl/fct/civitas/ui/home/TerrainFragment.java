@@ -16,8 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,6 +39,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import pt.unl.fct.civitas.R;
+import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
@@ -52,7 +55,7 @@ public class TerrainFragment extends Fragment {
     private static final int FILL_COLOR = 0x44ff7700;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
-    private static final int DEFAULT_ZOOM = 13;
+    private static final int DEFAULT_ZOOM = 14;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private boolean locationPermissionGranted;
@@ -141,7 +144,6 @@ public class TerrainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentTerrainBinding.inflate(inflater, container, false);
         View v = inflater.inflate(R.layout.fragment_terrain, container, false);
-        buttonAddTerrain = buttonAddTerrain;
 
         MapView mapView = v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -168,9 +170,15 @@ public class TerrainFragment extends Fragment {
        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTerrain();
+                NavHostFragment.findNavController(TerrainFragment.this)
+                        .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
             }
         });
+
+       if(viewModel.getCurrentTerrainData() != null) {
+           addTerrain(viewModel.getCurrentTerrainData());
+           viewModel.setCurrentTerrainData(null);
+       }
     }
 
     /**
@@ -194,10 +202,6 @@ public class TerrainFragment extends Fragment {
             Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
     }
 
-    private void onClickAddTerrain() {
-
-    }
-
     private void startTerrainOp() {
         buttonEditTerrain.setVisibility(View.GONE);
         buttonAddTerrain.setVisibility(View.GONE);
@@ -213,7 +217,7 @@ public class TerrainFragment extends Fragment {
         mMap.setOnMapClickListener(null);
     }
 
-    private void addTerrain() {
+    private void addTerrain(TerrainData terrainData) {
         startTerrainOp();
         List<LatLng> points = new LinkedList<>();
         List<Marker> markers = new LinkedList<>();
@@ -226,6 +230,8 @@ public class TerrainFragment extends Fragment {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
                 points.add(latLng);
+                vertices.add( new VertexData("?", String.valueOf(vertices.size()),
+                                String.valueOf(latLng.latitude), String.valueOf(latLng.longitude)) );
                 markers.add( mMap.addMarker(new MarkerOptions()
                         .position(latLng)) );
                 line.setPoints(points);
@@ -242,8 +248,7 @@ public class TerrainFragment extends Fragment {
                     .clickable(true));
             for(Marker m : markers)
                 m.remove();
-            // TODO make addTerrain rest call, then add listener to polygon like the others, maybe let the user add new vertices
-
+            viewModel.registerTerrain(terrainData, vertices);
             cancelTerrainOp();
         });
     }
