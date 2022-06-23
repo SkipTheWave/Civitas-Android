@@ -5,8 +5,10 @@ import static pt.unl.fct.civitas.ui.register.RegisterViewModel.isNameValid;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import pt.unl.fct.civitas.R;
@@ -14,12 +16,17 @@ import pt.unl.fct.civitas.data.RestRepository;
 import pt.unl.fct.civitas.data.RestRepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
 import pt.unl.fct.civitas.data.model.ProfileData;
+import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
+import pt.unl.fct.civitas.data.model.VertexData;
 
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<Void> loginResult = new MutableLiveData<>();
     private MutableLiveData<ShowTerrainResult> showTerrainResult = new MutableLiveData<>();
+    private MutableLiveData<RegisterTerrainResult> registerTerrainResult = new MutableLiveData<>();
+    private MutableLiveData<RegisterTerrainResult> registerTerrainEndResult = new MutableLiveData<>();
     private MutableLiveData<ProfileFormState> profileFormState = new MutableLiveData<>();
     private MutableLiveData<ProfileResult> profileResult = new MutableLiveData<>();
     private RestRepository restRepository;
@@ -31,8 +38,8 @@ public class HomeViewModel extends ViewModel {
     LiveData<ProfileResult> getProfileResult() {
         return profileResult;
     }
-
-    LiveData<ShowTerrainResult> getShowTerrainResult() {return showTerrainResult; }
+    LiveData<ShowTerrainResult> getShowTerrainResult() { return showTerrainResult; }
+    LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
 
     public void getProfile() {
         restRepository.getProfile(new RestRepositoryCallback<ProfileData>() {
@@ -92,6 +99,49 @@ public class HomeViewModel extends ViewModel {
                     showTerrainResult.postValue(auxResult);
                 } else {
                     showTerrainResult.postValue(new ShowTerrainResult( ((Result.Error)result).getError().getMessage() ));
+                }
+            }
+        });
+    }
+
+    public void registerVertices(List<VertexData> vertices) {
+        restRepository.registerVertex(vertices, new RestRepositoryCallback<Void>() {
+            @Override
+            public void onComplete(Result<Void> result) {
+                if (result instanceof Result.Success) {
+                    registerTerrainResult.postValue(new RegisterTerrainResult("Vertex registered", null));
+                } else {
+                    registerTerrainResult.postValue(new RegisterTerrainResult(null,
+                            ((Result.Error)result).getError().getMessage()) );
+                }
+            }
+        });
+    }
+
+    public void registerTerrain(TerrainData data, List<VertexData> vertices) {
+        restRepository.registerTerrain(data, new RestRepositoryCallback<TerrainIdData>() {
+            @Override
+            public void onComplete(Result<TerrainIdData> result) {
+                if (result instanceof Result.Success) {
+                    registerTerrainResult.postValue(new RegisterTerrainResult(
+                            ((Result.Success<TerrainIdData>) result).getData().terrainId, null));
+                } else {
+                    registerTerrainResult.postValue(new RegisterTerrainResult(null,
+                            ((Result.Error)result).getError().getMessage()) );
+                }
+            }
+        });
+
+        registerTerrainResult.observeForever(new Observer<RegisterTerrainResult>() {
+            @Override
+            public void onChanged(RegisterTerrainResult observedResult) {
+                if (observedResult.getSuccess() != null) {
+                    for(VertexData vertex : vertices) {
+                        vertex.terrainId = observedResult.getSuccess();
+                    }
+                    registerVertices(vertices);
+                    // TODO maybe find some way of counting all the successes to know if not a single vertex failed
+                    registerTerrainEndResult.setValue(new RegisterTerrainResult(observedResult.getSuccess(), null));
                 }
             }
         });

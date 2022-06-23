@@ -6,6 +6,7 @@ import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
@@ -142,12 +143,13 @@ public class DataSource {
         }
     }
 
-    public Result<String> registerTerrain(TerrainData data) {
+    public Result<TerrainIdData> registerTerrain(TerrainData data) {
         try {
-            Call<String> terrainService = service.registerTerrain(data) ;
-            Response<String> terrainResponse = terrainService.execute();
+            Call<TerrainIdData> terrainService = service.registerTerrain(data) ;
+            Response<TerrainIdData> terrainResponse = terrainService.execute();
             if( terrainResponse.isSuccessful() ) {
-                return new Result.Success<>(terrainResponse.body());
+                TerrainIdData terrain = terrainResponse.body();
+                return new Result.Success<>(terrain);
             } else {
                 return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
             }

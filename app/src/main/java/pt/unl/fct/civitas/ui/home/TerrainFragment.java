@@ -217,6 +217,7 @@ public class TerrainFragment extends Fragment {
         startTerrainOp();
         List<LatLng> points = new LinkedList<>();
         List<Marker> markers = new LinkedList<>();
+        List<VertexData> vertices = new LinkedList<>();
 
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .color(OUTLINE_COLOR));
@@ -242,6 +243,7 @@ public class TerrainFragment extends Fragment {
             for(Marker m : markers)
                 m.remove();
             // TODO make addTerrain rest call, then add listener to polygon like the others, maybe let the user add new vertices
+
             cancelTerrainOp();
         });
     }

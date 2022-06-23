@@ -1,11 +1,13 @@
 package pt.unl.fct.civitas.data;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
 
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 
@@ -101,21 +103,24 @@ public class RestRepository {
         });
     }
 
-    public void registerVertex(VertexData vertex, RestRepositoryCallback<Void> callback) {
+    public void registerVertex(List<VertexData> data, RestRepositoryCallback<Void> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Result<Void> result = dataSource.registerVertex(vertex);
+                Result<Void> result = new Result.Error(new IOException("Empty vertex list?"));
+                for(VertexData vertex : data) {
+                    result = dataSource.registerVertex(vertex);
+                }
                 callback.onComplete(result);
             }
         });
     }
 
-    public void registerTerrain(TerrainData data, RestRepositoryCallback<String> callback) {
+    public void registerTerrain(TerrainData data, RestRepositoryCallback<TerrainIdData> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Result<String> result = dataSource.registerTerrain(data);
+                Result<TerrainIdData> result = dataSource.registerTerrain(data);
                 callback.onComplete(result);
             }
         });

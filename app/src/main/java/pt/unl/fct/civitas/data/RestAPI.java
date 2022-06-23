@@ -7,6 +7,7 @@ import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import pt.unl.fct.civitas.data.model.TerrainData;
+import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
@@ -38,7 +39,7 @@ public interface RestAPI {
     Call<Void> registerVertex(@Body VertexData data);
 
     @POST("rest/terrain/register")
-    Call<String> registerTerrain(@Body TerrainData data);
+    Call<TerrainIdData> registerTerrain(@Body TerrainData data);
 
     @POST("rest/terrain/terrainCounter")
     Call<TerrainInfo> getTerrainInfo(@Body UsernameData data);
