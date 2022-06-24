@@ -2,6 +2,7 @@ package pt.unl.fct.civitas.ui.home;
 
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.checkUndefined;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -89,8 +90,8 @@ public class TerrainInfoFragment extends Fragment {
                         ownersEditText.getText().toString());
                 homeViewModel.setCurrentTerrainData(data);
 
-                NavHostFragment.findNavController(TerrainInfoFragment.this)
-                        .navigate(R.id.action_terrainInfoFragment_pop);
+               NavHostFragment.findNavController(TerrainInfoFragment.this)
+                       .navigate(R.id.action_terrainInfoFragment_to_TerrainFragment);
             }
         });
     }

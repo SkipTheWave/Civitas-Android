@@ -46,5 +46,8 @@
             android:id="@+id/action_terrainInfoFragment_pop"
             app:popUpTo="@id/terrainInfoFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_terrainInfoFragment_to_TerrainFragment"
+            app:destination="@id/TerrainFragment" />
     </fragment>
 </navigation>

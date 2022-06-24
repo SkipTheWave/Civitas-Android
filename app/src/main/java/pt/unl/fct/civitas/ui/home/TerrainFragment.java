@@ -44,10 +44,9 @@ import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
 
-public class TerrainFragment extends Fragment {
+public class TerrainFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    //private ActivityMapsBinding binding;
     private CameraPosition cameraPosition;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -58,8 +57,8 @@ public class TerrainFragment extends Fragment {
     private static final int DEFAULT_ZOOM = 14;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
+    private MapView mapView;
     private boolean locationPermissionGranted;
-    private FragmentTerrainBinding binding;
     private Button buttonAddTerrain;
     private Button buttonEditTerrain;
     private Button buttonCancel;
@@ -68,7 +67,17 @@ public class TerrainFragment extends Fragment {
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    // TODO REMOVE
+    private TerrainData debugTerrainData = new TerrainData("aya2", 0.0,
+                        "parish",
+                        "section",
+                        "article",
+                        "name",
+                        "description",
+                        "coverage",
+                        "currentUse",
+                        "previousUse",
+                        "owners");
 
         /**
          * Manipulates the map once available.
@@ -81,9 +90,6 @@ public class TerrainFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-//            LatLng sydney = new LatLng(-34, 151);
-//            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
             mMap = googleMap;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
@@ -125,8 +131,8 @@ public class TerrainFragment extends Fragment {
 
                         // if the search succeeds but returns no terrains
                         Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_LONG).show();
-                        if( terrains.isEmpty() )
-                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
+//                        if( terrains.isEmpty() )
+//                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -135,22 +141,17 @@ public class TerrainFragment extends Fragment {
 
             buttonCancel.setOnClickListener(view -> cancelTerrainOp());
         }
-    };
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentTerrainBinding.inflate(inflater, container, false);
         View v = inflater.inflate(R.layout.fragment_terrain, container, false);
 
-        MapView mapView = v.findViewById(R.id.mapView);
+        mapView = v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-        mapView.onResume();
-        if (mapView != null) {
-            mapView.getMapAsync(callback);
-        }
+        mapView.getMapAsync(this);
 
         return v;
     }
@@ -170,15 +171,59 @@ public class TerrainFragment extends Fragment {
        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(TerrainFragment.this)
-                        .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
+//                NavHostFragment.findNavController(TerrainFragment.this)
+//                        .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
+                addTerrain(debugTerrainData);
             }
         });
 
-       if(viewModel.getCurrentTerrainData() != null) {
-           addTerrain(viewModel.getCurrentTerrainData());
+       debugTerrainData = viewModel.getCurrentTerrainData();
+       if(debugTerrainData != null) {
+           addTerrain(debugTerrainData);
            viewModel.setCurrentTerrainData(null);
        }
+    }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
     /**
