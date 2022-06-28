@@ -124,19 +124,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void registerTerrain(TerrainData data, List<VertexData> vertices) {
-        restRepository.registerTerrain(data, new RestRepositoryCallback<TerrainIdData>() {
-            @Override
-            public void onComplete(Result<TerrainIdData> result) {
-                if (result instanceof Result.Success) {
-                    registerTerrainResult.postValue(new RegisterTerrainResult(
-                            ((Result.Success<TerrainIdData>) result).getData().terrainId, null));
-                } else {
-                    registerTerrainResult.postValue(new RegisterTerrainResult(null,
-                            ((Result.Error)result).getError().getMessage()) );
-                }
-            }
-        });
-
         registerTerrainResult.observeForever(new Observer<RegisterTerrainResult>() {
             @Override
             public void onChanged(RegisterTerrainResult observedResult) {
@@ -147,6 +134,18 @@ public class HomeViewModel extends ViewModel {
                     registerVertices(vertices);
                     // TODO maybe find some way of counting all the successes to know if not a single vertex failed
                     registerTerrainEndResult.setValue(new RegisterTerrainResult(observedResult.getSuccess(), null));
+                }
+            }
+        });
+        restRepository.registerTerrain(data, new RestRepositoryCallback<TerrainIdData>() {
+            @Override
+            public void onComplete(Result<TerrainIdData> result) {
+                if (result instanceof Result.Success) {
+                    registerTerrainResult.postValue(new RegisterTerrainResult(
+                            ((Result.Success<TerrainIdData>) result).getData().terrainId, null));
+                } else {
+                    registerTerrainResult.postValue(new RegisterTerrainResult(null,
+                            ((Result.Error)result).getError().getMessage()) );
                 }
             }
         });

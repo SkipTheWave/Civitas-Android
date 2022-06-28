@@ -139,7 +139,11 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
 
             viewModel.showTerrains();
 
-            buttonCancel.setOnClickListener(view -> cancelTerrainOp());
+            debugTerrainData = viewModel.getCurrentTerrainData();
+            if(debugTerrainData != null) {
+                addTerrain(debugTerrainData);
+                viewModel.setCurrentTerrainData(null);
+            }
         }
 
     @Nullable
@@ -171,17 +175,10 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                NavHostFragment.findNavController(TerrainFragment.this)
-//                        .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
-                addTerrain(debugTerrainData);
+                NavHostFragment.findNavController(TerrainFragment.this)
+                        .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
             }
         });
-
-       debugTerrainData = viewModel.getCurrentTerrainData();
-       if(debugTerrainData != null) {
-           addTerrain(debugTerrainData);
-           viewModel.setCurrentTerrainData(null);
-       }
     }
 
     @Override
@@ -254,7 +251,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void cancelTerrainOp() {
-        buttonEditTerrain.setVisibility(View.VISIBLE);
+        buttonEditTerrain.setVisibility(View.GONE);
         buttonAddTerrain.setVisibility(View.VISIBLE);
         buttonCancel.setVisibility(View.GONE);
         buttonFinish.setVisibility(View.GONE);
@@ -295,6 +292,13 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                 m.remove();
             viewModel.registerTerrain(terrainData, vertices);
             cancelTerrainOp();
+        });
+
+        buttonCancel.setOnClickListener(view -> {
+                cancelTerrainOp();
+            for(Marker m : markers)
+                m.remove();
+            line.remove();
         });
     }
 }

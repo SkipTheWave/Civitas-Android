@@ -80,14 +80,14 @@ public class TerrainInfoFragment extends Fragment {
             public void onClick(View view) {
                 TerrainData data = new TerrainData(homeViewModel.getUsername(), 0.0,
                         parishDropdown.getSelectedItem().toString(),
-                        sectionEditText.getText().toString(),
-                        articleEditText.getText().toString(),
-                        nameEditText.getText().toString(),
-                        descriptionEditText.getText().toString(),
-                        terrainCoverageEditText.getText().toString(),
-                        currentUsageEditText.getText().toString(),
-                        previousUsageEditText.getText().toString(),
-                        ownersEditText.getText().toString());
+                        checkUndefined( sectionEditText.getText().toString() ),
+                        checkUndefined( articleEditText.getText().toString() ),
+                        checkUndefined( nameEditText.getText().toString() ),
+                        checkUndefined( descriptionEditText.getText().toString() ),
+                        checkUndefined( terrainCoverageEditText.getText().toString() ),
+                        checkUndefined( currentUsageEditText.getText().toString() ),
+                        checkUndefined( previousUsageEditText.getText().toString() ),
+                        checkUndefined( ownersEditText.getText().toString()) );
                 homeViewModel.setCurrentTerrainData(data);
 
                NavHostFragment.findNavController(TerrainInfoFragment.this)
