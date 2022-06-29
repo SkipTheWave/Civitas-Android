@@ -39,7 +39,7 @@ public class LoginViewModel extends ViewModel {
                     LoginResult auxResult = new LoginResult(new LoggedInUserView(data));
                     loginResult.postValue(auxResult);
                 } else {
-                    loginResult.postValue(new LoginResult(R.string.login_failed));
+                    loginResult.postValue(new LoginResult( ((Result.Error)result).getError().getMessage() ));
                 }
             }
         });

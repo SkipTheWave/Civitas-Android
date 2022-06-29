@@ -16,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import pt.unl.fct.civitas.data.model.LoggedInUser;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -26,12 +27,14 @@ import java.util.List;
  */
 public class DataSource {
 
+    private static final String LOGIN_DELIMITER = "$$$";
     private final RestAPI service;
 
     public DataSource() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://civitas-348815.appspot.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .client(new OkHttpClient())
                 .build();
         this.service = retrofit.create(RestAPI.class);
@@ -39,13 +42,16 @@ public class DataSource {
 
     public Result<LoggedInUser> login(String username, String password) {
         try {
-            Call<LoggedInUser> loginService = service.doLogin(new LoginData(username,password)) ;
+            Call<LoggedInUser> loginService = service.doLogin(new LoginData(username, password));
             Response<LoggedInUser> loginResponse = loginService.execute();
             if( loginResponse.isSuccessful() ) {
-                LoggedInUser user = loginResponse.body();
-                return new Result.Success<>(user);
+//                String[] responseBody = loginResponse.body().split(LOGIN_DELIMITER);
+//                LoggedInUser user = new LoggedInUser(responseBody[0], responseBody[1]);
+//                System.out.println(responseBody[0] + "   " + responseBody[1]);
+
+                return new Result.Success<>(loginResponse.body());
             } else {
-                return new Result.Error(new Exception("Server result code: " + loginResponse.code() ));
+                return new Result.Error(new Exception("Server result code: " + loginResponse.code() + ".\n" + loginResponse.errorBody() ));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error moment", e));
@@ -143,13 +149,13 @@ public class DataSource {
         }
     }
 
-    public Result<TerrainIdData> registerTerrain(TerrainData data) {
+    public Result<String> registerTerrain(TerrainData data) {
         try {
-            Call<TerrainIdData> terrainService = service.registerTerrain(data) ;
-            Response<TerrainIdData> terrainResponse = terrainService.execute();
+            Call<String> terrainService = service.registerTerrain(data) ;
+            Response<String> terrainResponse = terrainService.execute();
             if( terrainResponse.isSuccessful() ) {
-                TerrainIdData terrain = terrainResponse.body();
-                return new Result.Success<>(terrain);
+                String terrainId = terrainResponse.body();
+                return new Result.Success<>(terrainId);
             } else {
                 return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
             }

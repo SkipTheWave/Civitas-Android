@@ -17,7 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface RestAPI {
-    @POST("rest/login/v1")
+    @POST("rest/login/v2")
     Call<LoggedInUser> doLogin(@Body LoginData credentials) ;
 
     @POST("rest/register/v1")
@@ -39,7 +39,7 @@ public interface RestAPI {
     Call<Void> registerVertex(@Body VertexData data);
 
     @POST("rest/terrain/register")
-    Call<TerrainIdData> registerTerrain(@Body TerrainData data);
+    Call<String> registerTerrain(@Body TerrainData data);
 
     @POST("rest/terrain/terrainCounter")
     Call<TerrainInfo> getTerrainInfo(@Body UsernameData data);

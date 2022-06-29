@@ -137,12 +137,12 @@ public class HomeViewModel extends ViewModel {
                 }
             }
         });
-        restRepository.registerTerrain(data, new RestRepositoryCallback<TerrainIdData>() {
+        restRepository.registerTerrain(data, new RestRepositoryCallback<String>() {
             @Override
-            public void onComplete(Result<TerrainIdData> result) {
+            public void onComplete(Result<String> result) {
                 if (result instanceof Result.Success) {
                     registerTerrainResult.postValue(new RegisterTerrainResult(
-                            ((Result.Success<TerrainIdData>) result).getData().terrainId, null));
+                            ((Result.Success<String>) result).getData(), null));
                 } else {
                     registerTerrainResult.postValue(new RegisterTerrainResult(null,
                             ((Result.Error)result).getError().getMessage()) );

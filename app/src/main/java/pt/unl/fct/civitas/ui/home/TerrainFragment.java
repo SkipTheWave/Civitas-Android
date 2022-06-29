@@ -68,16 +68,18 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
     private Location lastKnownLocation;
 
     // TODO REMOVE
-    private TerrainData debugTerrainData = new TerrainData("aya2", 0.0,
-                        "parish",
-                        "section",
-                        "article",
-                        "name",
-                        "description",
-                        "coverage",
-                        "currentUse",
-                        "previousUse",
-                        "owners");
+    private TerrainData debugTerrainData = new TerrainData("owner",
+            0.0,
+            "parish",
+            "section",
+            "article",
+            "name",
+            "description",
+            "coverage",
+            "current",
+            "last",
+            "owners",
+            "waiting");
 
         /**
          * Manipulates the map once available.
@@ -105,16 +107,18 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
 
                         for(TerrainInfo terrain : terrains) {
                             List<LatLng> points = new LinkedList<>();
-                            for(VertexData vertex : terrain.vertices) {
+                            for (VertexData vertex : terrain.vertices) {
                                 coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
                                 points.add(coords);
                             }
-                            Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                                    .addAll(points)
-                                    .strokeColor(OUTLINE_COLOR)
-                                    .fillColor(FILL_COLOR)
-                                    .clickable(true));
-                            polygon.setTag(terrain);
+                            if (!points.isEmpty()) {
+                                Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                                        .addAll(points)
+                                        .strokeColor(OUTLINE_COLOR)
+                                        .fillColor(FILL_COLOR)
+                                        .clickable(true));
+                                polygon.setTag(terrain);
+                        }
                             mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
                                 @Override
                                 public void onPolygonClick(@NonNull Polygon polygon) {

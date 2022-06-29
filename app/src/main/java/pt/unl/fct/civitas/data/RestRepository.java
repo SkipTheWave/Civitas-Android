@@ -117,11 +117,11 @@ public class RestRepository {
         });
     }
 
-    public void registerTerrain(TerrainData data, RestRepositoryCallback<TerrainIdData> callback) {
+    public void registerTerrain(TerrainData data, RestRepositoryCallback<String> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Result<TerrainIdData> result = dataSource.registerTerrain(data);
+                Result<String> result = dataSource.registerTerrain(data);
                 callback.onComplete(result);
             }
         });

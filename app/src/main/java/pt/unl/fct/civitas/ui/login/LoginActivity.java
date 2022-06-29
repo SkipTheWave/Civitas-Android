@@ -74,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
+                if (loginResult.getErrorMessage() != null) {
+                    Toast.makeText(getApplicationContext(), loginResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());

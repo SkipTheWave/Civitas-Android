@@ -32,6 +32,8 @@ import pt.unl.fct.civitas.databinding.FragmentTerrainInfoBinding;
 
 public class TerrainInfoFragment extends Fragment {
 
+    public static final String TERRAIN_PENDING_APPROVAL = "waiting";
+
     private HomeViewModel homeViewModel;
     private FragmentTerrainInfoBinding binding;
     private final Gson gson = new Gson();
@@ -87,7 +89,8 @@ public class TerrainInfoFragment extends Fragment {
                         checkUndefined( terrainCoverageEditText.getText().toString() ),
                         checkUndefined( currentUsageEditText.getText().toString() ),
                         checkUndefined( previousUsageEditText.getText().toString() ),
-                        checkUndefined( ownersEditText.getText().toString()) );
+                        checkUndefined( ownersEditText.getText().toString() ),
+                        TERRAIN_PENDING_APPROVAL);
                 homeViewModel.setCurrentTerrainData(data);
 
                NavHostFragment.findNavController(TerrainInfoFragment.this)
