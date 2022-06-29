@@ -29,7 +29,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<RegisterTerrainResult> registerTerrainEndResult = new MutableLiveData<>();
     private MutableLiveData<ProfileFormState> profileFormState = new MutableLiveData<>();
     private MutableLiveData<ProfileResult> profileResult = new MutableLiveData<>();
-    private TerrainData currentTerrainData;
+    private MutableLiveData<TerrainData> currentTerrainData = new MutableLiveData<>();
     private RestRepository restRepository;
 
     HomeViewModel(RestRepository restRepository) {
@@ -40,10 +40,15 @@ public class HomeViewModel extends ViewModel {
         return profileResult;
     }
     LiveData<ShowTerrainResult> getShowTerrainResult() { return showTerrainResult; }
-    LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
+    //LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
 
-    void setCurrentTerrainData(TerrainData data) { currentTerrainData = data; }
-    TerrainData getCurrentTerrainData() { return currentTerrainData; }
+    void setCurrentTerrainData(TerrainData data) { currentTerrainData.setValue(data); }
+    LiveData<TerrainData> getCurrentTerrainData() { return currentTerrainData; }
+    void addTerrainAux(TerrainData data) {
+        setCurrentTerrainData(data);
+        TerrainFragment.addTerrainMode = true;
+
+    }
     public String getUsername() { return restRepository.getUsername(); }
 
     public void getProfile() {

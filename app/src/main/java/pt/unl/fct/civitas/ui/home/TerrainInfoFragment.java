@@ -49,24 +49,19 @@ public class TerrainInfoFragment extends Fragment {
     private Spinner parishDropdown;
     private Button uploadButton;
     private Button submitButton;
-    private TerrainData terrainData;
-
-    public static TerrainInfoFragment newInstance() {
-        return new TerrainInfoFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentTerrainInfoBinding.inflate(inflater, container, false);
-        return inflater.inflate(R.layout.fragment_terrain_info, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        nameEditText = binding.terrainNameField;
+        nameEditText = view.findViewById(R.id.terrain_name_field);
         articleEditText = binding.terrainArticleField;
         sectionEditText = binding.terrainSectionField;
         descriptionEditText = binding.terrainDescriptionField;
@@ -91,7 +86,7 @@ public class TerrainInfoFragment extends Fragment {
                         checkUndefined( previousUsageEditText.getText().toString() ),
                         checkUndefined( ownersEditText.getText().toString() ),
                         TERRAIN_PENDING_APPROVAL);
-                homeViewModel.setCurrentTerrainData(data);
+                homeViewModel.addTerrainAux(data);
 
                NavHostFragment.findNavController(TerrainInfoFragment.this)
                        .navigate(R.id.action_terrainInfoFragment_to_TerrainFragment);

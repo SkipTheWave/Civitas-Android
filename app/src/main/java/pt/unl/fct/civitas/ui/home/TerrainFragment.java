@@ -1,5 +1,7 @@
 package pt.unl.fct.civitas.ui.home;
 
+import static com.google.maps.android.SphericalUtil.computeArea;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -66,6 +69,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
     private ProgressBar loading;
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
+    static boolean addTerrainMode;
 
     // TODO REMOVE
     private TerrainData debugTerrainData = new TerrainData("owner",
@@ -140,14 +144,18 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                     }
                 }
             });
-
             viewModel.showTerrains();
 
-            debugTerrainData = viewModel.getCurrentTerrainData();
-            if(debugTerrainData != null) {
-                addTerrain(debugTerrainData);
-                viewModel.setCurrentTerrainData(null);
+            if(addTerrainMode) {
+                addTerrain(viewModel.getCurrentTerrainData().getValue());
             }
+
+//            viewModel.getCurrentTerrainData().observe(getActivity(), new Observer<TerrainData>() {
+//                @Override
+//                public void onChanged(TerrainData terrainData) {
+//                    debugTerrainData = viewModel.getCurrentTerrainData().getValue();
+//                }
+//            });
         }
 
     @Nullable
@@ -179,6 +187,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addTerrainMode = true;
                 NavHostFragment.findNavController(TerrainFragment.this)
                         .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
             }
@@ -259,6 +268,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
         buttonAddTerrain.setVisibility(View.VISIBLE);
         buttonCancel.setVisibility(View.GONE);
         buttonFinish.setVisibility(View.GONE);
+        addTerrainMode = false;
 
         mMap.setOnMapClickListener(null);
     }
@@ -294,6 +304,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                     .clickable(true));
             for(Marker m : markers)
                 m.remove();
+            terrainData.area = computeArea(points) / 10000;
             viewModel.registerTerrain(terrainData, vertices);
             cancelTerrainOp();
         });

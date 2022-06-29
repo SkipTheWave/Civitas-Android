@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // TODO fix the Result Observer bug instead of using this workaround
-                Toast.makeText(getActivity(), R.string.sign_out_success, Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "Changes applied successfully(?)", Toast.LENGTH_LONG);
                 //loadingProgressBar.setVisibility(View.VISIBLE);
                 viewModel.editProfile(new ProfileData(profileData.username,
                         profileData.username, emailEditText.getText().toString(),
