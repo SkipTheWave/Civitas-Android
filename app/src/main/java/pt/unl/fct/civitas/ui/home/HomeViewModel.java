@@ -28,6 +28,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<RegisterTerrainResult> registerTerrainResult = new MutableLiveData<>();
     private MutableLiveData<RegisterTerrainResult> registerTerrainEndResult = new MutableLiveData<>();
     private MutableLiveData<ProfileFormState> profileFormState = new MutableLiveData<>();
+    private MutableLiveData<TerrainInfoFormState> terrainFormState = new MutableLiveData<>();
     private MutableLiveData<ProfileResult> profileResult = new MutableLiveData<>();
     private MutableLiveData<TerrainData> currentTerrainData = new MutableLiveData<>();
     private RestRepository restRepository;
@@ -87,6 +88,16 @@ public class HomeViewModel extends ViewModel {
             profileFormState.setValue(new ProfileFormState(null, R.string.invalid_email));
         } else {
             profileFormState.setValue(new ProfileFormState(true));
+        }
+    }
+
+    public void terrainDataChanged(String article, String section) {
+        if (!isNameValid(article)) {
+            terrainFormState.setValue(new TerrainInfoFormState(R.string.invalid_article, null));
+        } else if (!isEmailValid(section)) {
+            terrainFormState.setValue(new TerrainInfoFormState(null, R.string.invalid_section));
+        } else {
+            terrainFormState.setValue(new TerrainInfoFormState(true));
         }
     }
 

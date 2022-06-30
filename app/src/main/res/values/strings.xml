@@ -76,4 +76,6 @@
     <string name="upload_file">Upload file</string>
     <string name="changes_success">Changes successful</string>
     <string name="terrain_info_fragment_label">New terrain</string>
+    <string name="invalid_article">Invalid article</string>
+    <string name="invalid_section">Invalid section</string>
 </resources>

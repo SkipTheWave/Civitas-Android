@@ -38,6 +38,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -108,10 +110,14 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                     } else if( terrainResult.getSuccess() != null ) {
                         LatLng coords = DEFAULT_LOCATION;
                         List<TerrainInfo> terrains = terrainResult.getSuccess();
-
                         for(TerrainInfo terrain : terrains) {
                             List<LatLng> points = new LinkedList<>();
+                            Collections.sort(terrain.vertices);
                             for (VertexData vertex : terrain.vertices) {
+                                Marker marker = mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(
+                                                Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude))));
+
                                 coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
                                 points.add(coords);
                             }

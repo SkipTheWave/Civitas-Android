@@ -61,4 +61,6 @@
     <string name="upload_file">Carregar ficheiro</string>
     <string name="changes_success">Alteração com sucesso</string>
     <string name="terrain_info_fragment_label">Novo terreno</string>
+    <string name="invalid_article">Artigo inválido</string>
+    <string name="invalid_section">Secção inválida</string>
 </resources>

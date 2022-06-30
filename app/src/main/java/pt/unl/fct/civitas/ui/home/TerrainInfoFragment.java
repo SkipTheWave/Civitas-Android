@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +73,23 @@ public class TerrainInfoFragment extends Fragment {
         ownersEditText = binding.terrainOwnersField;
         parishDropdown = binding.parishDropdown;
         submitButton = (Button) view.findViewById(R.id.terrain_submit_button);
+
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                homeViewModel.terrainDataChanged(articleEditText.getText().toString(), sectionEditText.getText().toString());
+            }
+        };
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override

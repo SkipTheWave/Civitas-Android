@@ -2,7 +2,7 @@ package pt.unl.fct.civitas.data.model;
 
 
 
-public class VertexData {
+public class VertexData implements Comparable<VertexData> {
     public String terrainId;
     public String id;
     public String latitude;
@@ -19,4 +19,11 @@ public class VertexData {
 
     }
 
+    // if s1 > s2, it returns positive number
+    // if s1 < s2, it returns negative number
+    // if s1 == s2, it returns 0
+    @Override
+    public int compareTo(VertexData otherVertex) {
+        return this.id.compareTo(otherVertex.id);
+    }
 }
