@@ -120,12 +120,12 @@ public class DataSource {
         }
     }
 
-    public Result<List<TerrainInfo>> getTerrains(LoggedInUser user) {
+    public Result<List<TerrainData>> getTerrains(LoggedInUser user) {
         try {
-            Call<List<TerrainInfo>> terrainService = service.getTerrains(new UsernameData(user.getUsername())) ;
-            Response<List<TerrainInfo>> terrainResponse = terrainService.execute();
+            Call<List<TerrainData>> terrainService = service.getTerrains(new UsernameData(user.getUsername())) ;
+            Response<List<TerrainData>> terrainResponse = terrainService.execute();
             if( terrainResponse.isSuccessful() ) {
-                List<TerrainInfo> terrains = terrainResponse.body();
+                List<TerrainData> terrains = terrainResponse.body();
                 return new Result.Success<>(terrains);
             } else {
                 return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
@@ -164,14 +164,29 @@ public class DataSource {
         }
     }
 
+    public Result<List<TerrainData>> getAllTerrains() {
+        try {
+            Call<List<TerrainData>> terrainService = service.getAllTerrains();
+            Response<List<TerrainData>> terrainResponse = terrainService.execute();
+            if( terrainResponse.isSuccessful() ) {
+                List<TerrainData> terrains = terrainResponse.body();
+                return new Result.Success<>(terrains);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("IOException moment", e));
+        }
+    }
 
-//    public Result<List<TerrainInfo>> getTerrainInfo(LoggedInUser user) {
+
+//    public Result<List<TerrainData>> getTerrainInfo(LoggedInUser user) {
 //        try {
 //            Call<List<List<VertexData>>> terrainService = service.getTerrains(new UsernameData(user.getUsername())) ;
 //            Response<List<List<VertexData>>> terrainResponse = terrainService.execute();
 //            if( terrainResponse.isSuccessful() ) {
 //                List<List<VertexData>> data = terrainResponse.body();
-//                List<TerrainInfo> terrains = new LinkedList<>();
+//                List<TerrainData> terrains = new LinkedList<>();
 //                for(List<VertexData> vertexGroup : data) {
 //                    String terrainId = vertexGroup.get(0).terrainId;
 //                    terrains.add(new TerrainInfo(terrainId, vertexGroup));

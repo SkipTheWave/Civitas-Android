@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 
 /**
@@ -11,7 +12,7 @@ import pt.unl.fct.civitas.data.model.TerrainInfo;
  */
 class ShowTerrainResult {
     @Nullable
-    private List<TerrainInfo> success;
+    private List<TerrainData> success;
     @Nullable
     private String error;
 
@@ -19,12 +20,12 @@ class ShowTerrainResult {
         this.error = error;
     }
 
-    ShowTerrainResult(@Nullable List<TerrainInfo> success) {
+    ShowTerrainResult(@Nullable List<TerrainData> success) {
         this.success = success;
     }
 
     @Nullable
-    List<TerrainInfo> getSuccess() {
+    List<TerrainData> getSuccess() {
         return success;
     }
 

@@ -109,7 +109,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                         showTerrainFailure(terrainResult);
                     } else if( terrainResult.getSuccess() != null ) {
                         LatLng coords = DEFAULT_LOCATION;
-                        List<TerrainInfo> terrains = terrainResult.getSuccess();
+                        List<TerrainData> terrains = terrainResult.getSuccess();
                         for(TerrainInfo terrain : terrains) {
                             List<LatLng> points = new LinkedList<>();
                             Collections.sort(terrain.vertices);

@@ -40,17 +40,29 @@ public class HomeViewModel extends ViewModel {
     LiveData<ProfileResult> getProfileResult() {
         return profileResult;
     }
-    LiveData<ShowTerrainResult> getShowTerrainResult() { return showTerrainResult; }
+
+    LiveData<ShowTerrainResult> getShowTerrainResult() {
+        return showTerrainResult;
+    }
     //LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
 
-    void setCurrentTerrainData(TerrainData data) { currentTerrainData.setValue(data); }
-    LiveData<TerrainData> getCurrentTerrainData() { return currentTerrainData; }
+    void setCurrentTerrainData(TerrainData data) {
+        currentTerrainData.setValue(data);
+    }
+
+    LiveData<TerrainData> getCurrentTerrainData() {
+        return currentTerrainData;
+    }
+
     void addTerrainAux(TerrainData data) {
         setCurrentTerrainData(data);
         TerrainFragment.addTerrainMode = true;
 
     }
-    public String getUsername() { return restRepository.getUsername(); }
+
+    public String getUsername() {
+        return restRepository.getUsername();
+    }
 
     public void getProfile() {
         restRepository.getProfile(new RestRepositoryCallback<ProfileData>() {
@@ -111,15 +123,15 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void showTerrains() {
-        restRepository.getTerrains(new RestRepositoryCallback<List<TerrainInfo>>() {
+        restRepository.getTerrains(new RestRepositoryCallback<List<TerrainData>>() {
             @Override
-            public void onComplete(Result<List<TerrainInfo>> result) {
+            public void onComplete(Result<List<TerrainData>> result) {
                 if (result instanceof Result.Success) {
-                    List<TerrainInfo> data = ((Result.Success<List<TerrainInfo>>) result).getData();
+                    List<TerrainData> data = ((Result.Success<List<TerrainData>>) result).getData();
                     ShowTerrainResult auxResult = new ShowTerrainResult(data);
                     showTerrainResult.postValue(auxResult);
                 } else {
-                    showTerrainResult.postValue(new ShowTerrainResult( ((Result.Error)result).getError().getMessage() ));
+                    showTerrainResult.postValue(new ShowTerrainResult(((Result.Error) result).getError().getMessage()));
                 }
             }
         });
@@ -133,7 +145,7 @@ public class HomeViewModel extends ViewModel {
                     registerTerrainResult.postValue(new RegisterTerrainResult("Vertex registered", null));
                 } else {
                     registerTerrainResult.postValue(new RegisterTerrainResult(null,
-                            ((Result.Error)result).getError().getMessage()) );
+                            ((Result.Error) result).getError().getMessage()));
                 }
             }
         });
@@ -144,7 +156,7 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onChanged(RegisterTerrainResult observedResult) {
                 if (observedResult.getSuccess() != null) {
-                    for(VertexData vertex : vertices) {
+                    for (VertexData vertex : vertices) {
                         vertex.terrainId = observedResult.getSuccess();
                     }
                     registerVertices(vertices);
@@ -161,7 +173,22 @@ public class HomeViewModel extends ViewModel {
                             ((Result.Success<String>) result).getData(), null));
                 } else {
                     registerTerrainResult.postValue(new RegisterTerrainResult(null,
-                            ((Result.Error)result).getError().getMessage()) );
+                            ((Result.Error) result).getError().getMessage()));
+                }
+            }
+        });
+    }
+
+    public void showAllTerrains() {
+        restRepository.getAllTerrains(new RestRepositoryCallback<List<TerrainData>>() {
+            @Override
+            public void onComplete(Result<List<TerrainData>> result) {
+                if (result instanceof Result.Success) {
+                    List<TerrainData> data = ((Result.Success<List<TerrainData>>) result).getData();
+                    ShowTerrainResult auxResult = new ShowTerrainResult(data);
+                    showTerrainResult.postValue(auxResult);
+                } else {
+                    showTerrainResult.postValue(new ShowTerrainResult(((Result.Error) result).getError().getMessage()));
                 }
             }
         });

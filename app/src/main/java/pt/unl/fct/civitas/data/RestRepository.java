@@ -94,11 +94,11 @@ public class RestRepository {
         });
     }
 
-    public void getTerrains(RestRepositoryCallback<List<TerrainInfo>> callback) {
+    public void getTerrains(RestRepositoryCallback<List<TerrainData>> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Result<List<TerrainInfo>> result = dataSource.getTerrains(user);
+                Result<List<TerrainData>> result = dataSource.getTerrains(user);
                 callback.onComplete(result);
             }
         });
@@ -122,6 +122,16 @@ public class RestRepository {
             @Override
             public void run() {
                 Result<String> result = dataSource.registerTerrain(data);
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void getAllTerrains(RestRepositoryCallback<List<TerrainData>> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<List<TerrainData>> result = dataSource.getAllTerrains();
                 callback.onComplete(result);
             }
         });
