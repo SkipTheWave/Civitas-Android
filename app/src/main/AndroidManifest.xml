@@ -29,7 +29,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAPPvSEN2Rs7Tq1fyPkNNQ03GzN1wGsCSs" />
+            android:value="AIzaSyBcsoDPu6oqm_XyoiA_AIyQJdtsyDMKHQM" />
 
         <activity
             android:name="pt.unl.fct.civitas.ui.home.HomeActivity"

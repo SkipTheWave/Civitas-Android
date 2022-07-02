@@ -50,12 +50,12 @@
     <string name="terrain_data_insert_prompt">Por favor conte-nos sobre o seu terreno</string>
     <string name="terrain_name_prompt">Nome do terreno</string>
     <string name="parish">Freguesia</string>
-    <string name="article">Artigo</string>
+    <string name="article">Artigo (obrigatório)</string>
     <string name="description">Descrição</string>
     <string name="current_usage">Uso atual</string>
     <string name="previous_usage">Uso anterior</string>
     <string name="owners">Proprietários</string>
-    <string name="section">Secção</string>
+    <string name="section">Secção (obrigatória)</string>
     <string name="terrain_coverage_type">Tipo(s) de cobertura de terreno</string>
     <string name="terrain_documentation">Documentação do terreno</string>
     <string name="upload_file">Carregar ficheiro</string>
@@ -63,4 +63,5 @@
     <string name="terrain_info_fragment_label">Novo terreno</string>
     <string name="invalid_article">Artigo inválido</string>
     <string name="invalid_section">Secção inválida</string>
+    <string name="help_add_terrain">Pressione no mapa para criar um ponto. Pressione terminar após adicionar todos os pontos necessários para o seu terreno.</string>
 </resources>

@@ -2,6 +2,7 @@ package pt.unl.fct.civitas.data;
 
 import java.util.List;
 
+import pt.unl.fct.civitas.data.model.ActivateUserData;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
@@ -27,7 +28,7 @@ public interface RestAPI {
     Call<Void> doLogout(@Body UsernameData data);
 
     @POST("rest/login/profile")
-    Call<ProfileData> getProfile(@Body UsernameData data);
+    Call<ProfileData> getProfile(@Body ActivateUserData data);
 
     @POST("rest/login/update")
     Call<String> editProfile(@Body ProfileData data);

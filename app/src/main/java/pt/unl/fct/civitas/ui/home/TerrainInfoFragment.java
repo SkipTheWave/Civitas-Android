@@ -1,8 +1,10 @@
 package pt.unl.fct.civitas.ui.home;
 
+import static pt.unl.fct.civitas.ui.home.TerrainFragment.TERRAIN_SAVED_APPROVAL;
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.checkUndefined;
 
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -33,8 +35,6 @@ import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
 import pt.unl.fct.civitas.databinding.FragmentTerrainInfoBinding;
 
 public class TerrainInfoFragment extends Fragment {
-
-    public static final String TERRAIN_PENDING_APPROVAL = "waiting";
 
     private HomeViewModel homeViewModel;
     private FragmentTerrainInfoBinding binding;
@@ -90,6 +90,24 @@ public class TerrainInfoFragment extends Fragment {
                 homeViewModel.terrainDataChanged(articleEditText.getText().toString(), sectionEditText.getText().toString());
             }
         };
+        articleEditText.addTextChangedListener(afterTextChangedListener);
+        sectionEditText.addTextChangedListener(afterTextChangedListener);
+
+        homeViewModel.getTerrainInfoFormState().observe(getActivity(), new Observer<TerrainInfoFormState>() {
+            @Override
+            public void onChanged(@Nullable TerrainInfoFormState terrainInfoFormState) {
+                if (terrainInfoFormState == null) {
+                    return;
+                }
+                submitButton.setEnabled(terrainInfoFormState.isDataValid());
+                if (terrainInfoFormState.getArticleError() != null) {
+                    articleEditText.setError(getString(terrainInfoFormState.getArticleError()));
+                }
+                if (terrainInfoFormState.getSectionError() != null) {
+                    sectionEditText.setError(getString(terrainInfoFormState.getSectionError()));
+                }
+            }
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +122,7 @@ public class TerrainInfoFragment extends Fragment {
                         checkUndefined( currentUsageEditText.getText().toString() ),
                         checkUndefined( previousUsageEditText.getText().toString() ),
                         checkUndefined( ownersEditText.getText().toString() ),
-                        TERRAIN_PENDING_APPROVAL);
+                        TERRAIN_SAVED_APPROVAL);
                 homeViewModel.addTerrainAux(data);
 
                NavHostFragment.findNavController(TerrainInfoFragment.this)

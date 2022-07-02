@@ -25,6 +25,7 @@ public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<Void> loginResult = new MutableLiveData<>();
     private MutableLiveData<ShowTerrainResult> showTerrainResult = new MutableLiveData<>();
+    private MutableLiveData<ShowTerrainResult> showAllTerrainResult = new MutableLiveData<>();
     private MutableLiveData<RegisterTerrainResult> registerTerrainResult = new MutableLiveData<>();
     private MutableLiveData<RegisterTerrainResult> registerTerrainEndResult = new MutableLiveData<>();
     private MutableLiveData<ProfileFormState> profileFormState = new MutableLiveData<>();
@@ -44,6 +45,7 @@ public class HomeViewModel extends ViewModel {
     LiveData<ShowTerrainResult> getShowTerrainResult() {
         return showTerrainResult;
     }
+    LiveData<ShowTerrainResult> getShowAllTerrainResult() { return showAllTerrainResult; }
     //LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
 
     void setCurrentTerrainData(TerrainData data) {
@@ -53,6 +55,8 @@ public class HomeViewModel extends ViewModel {
     LiveData<TerrainData> getCurrentTerrainData() {
         return currentTerrainData;
     }
+
+    LiveData<TerrainInfoFormState> getTerrainInfoFormState() { return terrainFormState; }
 
     void addTerrainAux(TerrainData data) {
         setCurrentTerrainData(data);
@@ -106,7 +110,7 @@ public class HomeViewModel extends ViewModel {
     public void terrainDataChanged(String article, String section) {
         if (!isNameValid(article)) {
             terrainFormState.setValue(new TerrainInfoFormState(R.string.invalid_article, null));
-        } else if (!isEmailValid(section)) {
+        } else if (!isNameValid(section)) {
             terrainFormState.setValue(new TerrainInfoFormState(null, R.string.invalid_section));
         } else {
             terrainFormState.setValue(new TerrainInfoFormState(true));

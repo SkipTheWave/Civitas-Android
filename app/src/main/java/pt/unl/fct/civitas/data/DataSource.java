@@ -2,6 +2,7 @@ package pt.unl.fct.civitas.data;
 
 import okhttp3.OkHttpClient;
 import pt.unl.fct.civitas.R;
+import pt.unl.fct.civitas.data.model.ActivateUserData;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
@@ -27,12 +28,11 @@ import java.util.List;
  */
 public class DataSource {
 
-    private static final String LOGIN_DELIMITER = "$$$";
     private final RestAPI service;
 
     public DataSource() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://civitas-348815.appspot.com/")
+                .baseUrl("https://civitasadc.appspot.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .client(new OkHttpClient())
@@ -92,7 +92,7 @@ public class DataSource {
 
     public Result<ProfileData> getProfile(LoggedInUser user) {
         try {
-            Call<ProfileData> profileService = service.getProfile(new UsernameData(user.getUsername())) ;
+            Call<ProfileData> profileService = service.getProfile(new ActivateUserData(user.getUsername(), user.getUsername())) ;
             Response<ProfileData> profileResponse = profileService.execute();
             if( profileResponse.isSuccessful() ) {
                 ProfileData data = profileResponse.body();

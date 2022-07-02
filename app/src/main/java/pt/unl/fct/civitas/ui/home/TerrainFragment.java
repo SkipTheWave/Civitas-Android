@@ -6,6 +6,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -36,8 +38,10 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.maps.android.SphericalUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -49,14 +53,32 @@ import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
 
-public class TerrainFragment extends Fragment implements OnMapReadyCallback {
+public class TerrainFragment extends Fragment implements OnMapReadyCallback,
+        GoogleMap.OnMyLocationButtonClickListener {
 
     private GoogleMap mMap;
     private CameraPosition cameraPosition;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    private static final int OUTLINE_COLOR = 0xffff7700;
-    private static final int FILL_COLOR = 0x44ff7700;
+    // for storing activity state
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
+
+    public static final String TERRAIN_SAVED_APPROVAL = "saved";
+    public static final String TERRAIN_APPROVED_APPROVAL = "approved";
+    public static final String TERRAIN_WAITING_APPROVAL = "waiting";
+    public static final String TERRAIN_REJECTED_APPROVAL = "rejected";
+
+    // terrain colors
+    private static final int OWN_SAVED_OUTLINE_COLOR = 0xffdd11bb;
+    private static final int OWN_SAVED_FILL_COLOR = 0x44dd11bb;
+    private static final int OWN_APPROVED_OUTLINE_COLOR = 0xff33dd22;
+    private static final int OWN_APPROVED_FILL_COLOR = 0x4433dd22;
+    private static final int OWN_WAITING_OUTLINE_COLOR = 0xffeeaa00;
+    private static final int OWN_WAITING_FILL_COLOR = 0x44eeaa00;
+    private static final int OWN_REJECTED_OUTLINE_COLOR = 0xffee2200;
+    private static final int OWN_REJECTED_FILL_COLOR = 0x44ee2200;
+    private static final int ALL_FILL_COLOR = 0x88444444;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
     private static final int DEFAULT_ZOOM = 14;
@@ -71,6 +93,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
     private ProgressBar loading;
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
+    private LatLng lastCoords;
     static boolean addTerrainMode;
 
     // TODO REMOVE
@@ -85,7 +108,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
             "current",
             "last",
             "owners",
-            "waiting");
+            "saved");
 
         /**
          * Manipulates the map once available.
@@ -99,59 +122,46 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
+            updateLocationUI();
+            getDeviceLocation();
+            lastCoords = DEFAULT_LOCATION;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
             viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
                 @Override
                 public void onChanged(@Nullable ShowTerrainResult terrainResult) {
                     loading.setVisibility(View.GONE);
-                    if( terrainResult.getError() != null ) {
-                        showTerrainFailure(terrainResult);
-                    } else if( terrainResult.getSuccess() != null ) {
-                        LatLng coords = DEFAULT_LOCATION;
-                        List<TerrainData> terrains = terrainResult.getSuccess();
-                        for(TerrainInfo terrain : terrains) {
-                            List<LatLng> points = new LinkedList<>();
-                            Collections.sort(terrain.vertices);
-                            for (VertexData vertex : terrain.vertices) {
-                                Marker marker = mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(
-                                                Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude))));
-
-                                coords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
-                                points.add(coords);
-                            }
-                            if (!points.isEmpty()) {
-                                Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                                        .addAll(points)
-                                        .strokeColor(OUTLINE_COLOR)
-                                        .fillColor(FILL_COLOR)
-                                        .clickable(true));
-                                polygon.setTag(terrain);
+                    List<TerrainData> terrains = showTerrainsAux(terrainResult, false);
+                    mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                        @Override
+                        public void onPolygonClick(@NonNull Polygon polygon) {
+                            // TODO redirect to terrain info page, or something
+                            if(polygon.getTag() != null)
+                                Toast.makeText(getActivity(), "Voila! This is " +
+                                        ((TerrainInfo) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
                         }
-                            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                                @Override
-                                public void onPolygonClick(@NonNull Polygon polygon) {
-                                    // TODO redirect to terrain info page, or something
-                                    if(polygon.getTag() != null)
-                                        Toast.makeText(getActivity(), "Voila! This is " +
-                                                ((TerrainInfo) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-
+                    });
                         // moves camera to last terrain's last vertex (or default location if no terrains are found)
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(lastCoords));
 
-                        // if the search succeeds but returns no terrains
-                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_LONG).show();
+                        if(!addTerrainMode)
+                            Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_SHORT).show();
+//                       if( terrains.isEmpty() )
+//                           Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
+                }
+            });
+            viewModel.getShowAllTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
+                @Override
+                public void onChanged(@Nullable ShowTerrainResult terrainResult) {
+                    loading.setVisibility(View.GONE);
+
+                    // if the search succeeds but returns no terrains
+                    Toast.makeText(getActivity(), R.string.help_add_terrain, Toast.LENGTH_LONG).show();
 //                        if( terrains.isEmpty() )
 //                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
-                    }
                 }
             });
             viewModel.showTerrains();
-
             if(addTerrainMode) {
                 addTerrain(viewModel.getCurrentTerrainData().getValue());
             }
@@ -171,10 +181,15 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_terrain, container, false);
 
+        if (savedInstanceState != null) {
+            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
         mapView = v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         return v;
     }
 
@@ -198,48 +213,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                         .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        mapView.onResume();
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mapView.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mapView.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
     }
 
     /**
@@ -286,7 +259,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
         List<VertexData> vertices = new LinkedList<>();
 
         Polyline line = mMap.addPolyline(new PolylineOptions()
-                .color(OUTLINE_COLOR));
+                .color(OWN_SAVED_OUTLINE_COLOR));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -305,8 +278,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
         buttonFinish.setOnClickListener(viewFinish -> {
             Polygon polygon = mMap.addPolygon(new PolygonOptions()
                     .addAll(points)
-                    .strokeColor(OUTLINE_COLOR)
-                    .fillColor(FILL_COLOR)
+                    .strokeColor(OWN_SAVED_OUTLINE_COLOR)
+                    .fillColor(OWN_SAVED_FILL_COLOR)
                     .clickable(true));
             for(Marker m : markers)
                 m.remove();
@@ -321,5 +294,168 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback {
                 m.remove();
             line.remove();
         });
+    }
+
+    private List<TerrainData> showTerrainsAux(ShowTerrainResult terrainResult, boolean all) {
+        int fillColor = OWN_SAVED_FILL_COLOR;
+        int strokeColor = OWN_SAVED_OUTLINE_COLOR;
+        String username = viewModel.getUsername();
+        if(all) {
+            fillColor = ALL_FILL_COLOR;
+            strokeColor = ALL_FILL_COLOR;
+        }
+        if (terrainResult.getError() != null) {
+            showTerrainFailure(terrainResult);
+        } else if (terrainResult.getSuccess() != null) {
+            List<TerrainData> terrains = terrainResult.getSuccess();
+            for (TerrainData terrain : terrains) {
+                //determine user's terrain fill color
+                switch (terrain.approved) {
+                    case TERRAIN_SAVED_APPROVAL:
+                        fillColor = OWN_APPROVED_FILL_COLOR;
+                        strokeColor = OWN_APPROVED_OUTLINE_COLOR;
+                        break;
+                    case TERRAIN_WAITING_APPROVAL:
+                        fillColor = OWN_WAITING_FILL_COLOR;
+                        strokeColor = OWN_WAITING_OUTLINE_COLOR;
+                        break;
+                    case TERRAIN_REJECTED_APPROVAL:
+                        fillColor = OWN_REJECTED_FILL_COLOR;
+                        strokeColor = OWN_REJECTED_OUTLINE_COLOR;
+                }
+
+                List<LatLng> points = new LinkedList<>();
+                Collections.sort(terrain.vertices);
+                for (VertexData vertex : terrain.vertices) {
+                    lastCoords = new LatLng(Double.parseDouble(vertex.latitude), Double.parseDouble(vertex.longitude));
+                    points.add(lastCoords);
+                }
+                if (!points.isEmpty()) {
+                    if (!all || !terrain.owner.equals(username)) {
+                        Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                                .addAll(points)
+                                .strokeColor(strokeColor)
+                                .fillColor(fillColor)
+                                .clickable(!all));
+                        polygon.setTag(terrain);
+                    }
+                }
+            }
+            return terrains;
+        }
+        return new ArrayList<>();
+    }
+
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+                        // set map's camera to the current location of the device
+                        lastKnownLocation = task.getResult();
+                        if (lastKnownLocation != null) {
+                            LatLng knownPos = new LatLng(lastKnownLocation.getLatitude(),
+                                    lastKnownLocation.getLongitude());
+                        }
+                    } else {
+                        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            //if request is cancelled, the result arrays are empty
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+            } else {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
+    }
+
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+        try {
+            if (locationPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                mMap.setOnMyLocationButtonClickListener(this);
+
+            } else {
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(getActivity(), "MyLocationButtonClick", Toast.LENGTH_LONG);
+        // the return is so we don't consume the event, the default behavior still occurs
+        // (in this case, the camera moving towards device location)
+        return false;
+    }
+
+
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        mapView.onDestroy();
+//    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 }
