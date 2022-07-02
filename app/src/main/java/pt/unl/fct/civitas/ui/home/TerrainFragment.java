@@ -138,7 +138,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                             // TODO redirect to terrain info page, or something
                             if(polygon.getTag() != null)
                                 Toast.makeText(getActivity(), "Voila! This is " +
-                                        ((TerrainInfo) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
+                                        ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
                         }
                     });
                         // moves camera to last terrain's last vertex (or default location if no terrains are found)
