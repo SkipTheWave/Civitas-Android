@@ -137,6 +137,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
         getLocationPermission();
         getDeviceLocation();
+        createLocationRequest();
+        startLocationUpdates();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
         viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
