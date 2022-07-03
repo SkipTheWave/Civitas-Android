@@ -6,6 +6,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,12 +72,12 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     public static final String TERRAIN_REJECTED_APPROVAL = "rejected";
 
     // terrain colors
-    private static final int OWN_SAVED_OUTLINE_COLOR = 0xffdd11bb;
-    private static final int OWN_SAVED_FILL_COLOR = 0x44dd11bb;
+    private static final int OWN_SAVED_OUTLINE_COLOR = 0xffee1199;
+    private static final int OWN_SAVED_FILL_COLOR = 0x44ee1199;
     private static final int OWN_APPROVED_OUTLINE_COLOR = 0xff33dd22;
     private static final int OWN_APPROVED_FILL_COLOR = 0x4433dd22;
-    private static final int OWN_WAITING_OUTLINE_COLOR = 0xffeeaa00;
-    private static final int OWN_WAITING_FILL_COLOR = 0x44eeaa00;
+    private static final int OWN_WAITING_OUTLINE_COLOR = 0xffff8800;
+    private static final int OWN_WAITING_FILL_COLOR = 0x44ff8800;
     private static final int OWN_REJECTED_OUTLINE_COLOR = 0xffee2200;
     private static final int OWN_REJECTED_FILL_COLOR = 0x44ee2200;
     private static final int ALL_FILL_COLOR = 0x88444444;
@@ -86,6 +88,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     private MapView mapView;
     private boolean locationPermissionGranted;
+    private boolean requestingLocationUpdates;
     private Button buttonAddTerrain;
     private Button buttonEditTerrain;
     private Button buttonCancel;
@@ -122,7 +125,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
-            updateLocationUI();
+            getLocationPermission();
             getDeviceLocation();
             lastCoords = DEFAULT_LOCATION;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
@@ -162,6 +165,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 }
             });
             viewModel.showTerrains();
+            updateLocationUI();
             if(addTerrainMode) {
                 addTerrain(viewModel.getCurrentTerrainData().getValue());
             }
@@ -354,6 +358,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                mMap.setMyLocationEnabled(true);
                 locationResult.addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         // set map's camera to the current location of the device
@@ -371,6 +376,18 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             Log.e("Exception: %s", e.getMessage(), e);
         }
     }
+
+//    private void startLocationUpdates() {
+//        if (locationPermissionGranted) {
+//            fusedLocationProviderClient.requestLocationUpdates(locationRequest,
+//                    locationCallback,
+//                    Looper.getMainLooper());
+//        }
+//    }
+
+//    private void stopLocationUpdates() {
+//        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -420,6 +437,9 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onResume() {
         mapView.onResume();
+        if (requestingLocationUpdates) {
+            //startLocationUpdates();
+        }
         super.onResume();
     }
 
@@ -432,6 +452,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onPause() {
         super.onPause();
+        //stopLocationUpdates();
         mapView.onPause();
     }
 
