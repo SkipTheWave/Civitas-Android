@@ -27,7 +27,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -59,6 +63,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener {
 
     private GoogleMap mMap;
+    private LocationRequest mLocationRequest;
+    private LocationCallback locationCallback;
     private CameraPosition cameraPosition;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -113,62 +119,65 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             "owners",
             "saved");
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
-            getLocationPermission();
-            getDeviceLocation();
-            lastCoords = DEFAULT_LOCATION;
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera.
+     * In this case, we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to
+     * install it inside the SupportMapFragment. This method will only be triggered once the
+     * user has installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+//                .addLocationRequest(mLocationRequest);
+        lastCoords = DEFAULT_LOCATION;
 
-            viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
-                @Override
-                public void onChanged(@Nullable ShowTerrainResult terrainResult) {
-                    loading.setVisibility(View.GONE);
-                    List<TerrainData> terrains = showTerrainsAux(terrainResult, false);
-                    mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-                        @Override
-                        public void onPolygonClick(@NonNull Polygon polygon) {
-                            // TODO redirect to terrain info page, or something
-                            if(polygon.getTag() != null)
-                                Toast.makeText(getActivity(), "Voila! This is " +
-                                        ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                        // moves camera to last terrain's last vertex (or default location if no terrains are found)
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(lastCoords));
+        getLocationPermission();
+        getDeviceLocation();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
-                        if(!addTerrainMode)
-                            Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_SHORT).show();
+        viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
+            @Override
+            public void onChanged(@Nullable ShowTerrainResult terrainResult) {
+                loading.setVisibility(View.GONE);
+                List<TerrainData> terrains = showTerrainsAux(terrainResult, false);
+                mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                    @Override
+                    public void onPolygonClick(@NonNull Polygon polygon) {
+                        // TODO redirect to terrain info page, or something
+                        if(polygon.getTag() != null)
+                            Toast.makeText(getActivity(), "Voila! This is " +
+                                    ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                    // moves camera to last terrain's last vertex (or default location if no terrains are found)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(lastCoords));
+
+                    if(!addTerrainMode)
+                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_SHORT).show();
 //                       if( terrains.isEmpty() )
 //                           Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
-                }
-            });
-            viewModel.getShowAllTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
-                @Override
-                public void onChanged(@Nullable ShowTerrainResult terrainResult) {
-                    loading.setVisibility(View.GONE);
+            }
+        });
+        viewModel.getShowAllTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
+            @Override
+            public void onChanged(@Nullable ShowTerrainResult terrainResult) {
+                loading.setVisibility(View.GONE);
 
-                    // if the search succeeds but returns no terrains
-                    Toast.makeText(getActivity(), R.string.help_add_terrain, Toast.LENGTH_LONG).show();
+                // if the search succeeds but returns no terrains
+                Toast.makeText(getActivity(), R.string.help_add_terrain, Toast.LENGTH_LONG).show();
 //                        if( terrains.isEmpty() )
 //                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
-                }
-            });
-            viewModel.showTerrains();
-            updateLocationUI();
-            if(addTerrainMode) {
-                addTerrain(viewModel.getCurrentTerrainData().getValue());
             }
+        });
+        viewModel.showTerrains();
+        updateLocationUI();
+        if(addTerrainMode) {
+            addTerrain(viewModel.getCurrentTerrainData().getValue());
+        }
 
 //            viewModel.getCurrentTerrainData().observe(getActivity(), new Observer<TerrainData>() {
 //                @Override
@@ -176,7 +185,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 //                    debugTerrainData = viewModel.getCurrentTerrainData().getValue();
 //                }
 //            });
-        }
+    }
 
     @Nullable
     @Override
@@ -194,6 +203,20 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    // ...
+                }
+            }
+        };
+
         return v;
     }
 
@@ -315,7 +338,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             for (TerrainData terrain : terrains) {
                 //determine user's terrain fill color
                 switch (terrain.approved) {
-                    case TERRAIN_SAVED_APPROVAL:
+                    case TERRAIN_APPROVED_APPROVAL:
                         fillColor = OWN_APPROVED_FILL_COLOR;
                         strokeColor = OWN_APPROVED_OUTLINE_COLOR;
                         break;
@@ -350,6 +373,13 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         return new ArrayList<>();
     }
 
+    protected void createLocationRequest() {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(2000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     private void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
@@ -377,17 +407,21 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
-//    private void startLocationUpdates() {
-//        if (locationPermissionGranted) {
-//            fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-//                    locationCallback,
-//                    Looper.getMainLooper());
-//        }
-//    }
+    private void startLocationUpdates() {
+        if (locationPermissionGranted) {
+            try {
+                fusedLocationProviderClient.requestLocationUpdates(mLocationRequest,
+                        locationCallback,
+                        Looper.getMainLooper());
+            } catch (SecurityException e) {
+                Log.e("Exception: %s", e.getMessage());
+            }
+        }
+    }
 
-//    private void stopLocationUpdates() {
-//        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-//    }
+    private void stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -426,7 +460,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(getActivity(), "MyLocationButtonClick", Toast.LENGTH_LONG);
+        Toast.makeText(getActivity(), "Moving to your location...", Toast.LENGTH_SHORT);
         // the return is so we don't consume the event, the default behavior still occurs
         // (in this case, the camera moving towards device location)
         return false;
@@ -438,7 +472,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     public void onResume() {
         mapView.onResume();
         if (requestingLocationUpdates) {
-            //startLocationUpdates();
+            startLocationUpdates();
         }
         super.onResume();
     }
@@ -451,32 +485,35 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onPause() {
-        super.onPause();
-        //stopLocationUpdates();
         mapView.onPause();
+        super.onPause();
+        stopLocationUpdates();
     }
 
     @Override
     public void onStop() {
-        super.onStop();
         mapView.onStop();
+        super.onStop();
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mapView.onDestroy();
-//    }
+    @Override
+    public void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+        outState.putBoolean("requestingLocationUpdates",
+                requestingLocationUpdates);
         mapView.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
     public void onLowMemory() {
-        super.onLowMemory();
         mapView.onLowMemory();
+        super.onLowMemory();
     }
 }
