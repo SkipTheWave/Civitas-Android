@@ -101,10 +101,10 @@ public class TerrainInfoFragment extends Fragment {
                 }
                 submitButton.setEnabled(terrainInfoFormState.isDataValid());
                 if (terrainInfoFormState.getArticleError() != null) {
-                    articleEditText.setError(getString(terrainInfoFormState.getArticleError()));
+                    articleEditText.setError(getActivity().getString(terrainInfoFormState.getArticleError()));
                 }
                 if (terrainInfoFormState.getSectionError() != null) {
-                    sectionEditText.setError(getString(terrainInfoFormState.getSectionError()));
+                    sectionEditText.setError(getActivity().getString(terrainInfoFormState.getSectionError()));
                 }
             }
         });

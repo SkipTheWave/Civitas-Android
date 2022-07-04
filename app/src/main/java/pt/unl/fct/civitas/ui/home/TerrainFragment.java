@@ -73,13 +73,13 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private static final String KEY_LOCATION = "location";
 
     public static final String TERRAIN_SAVED_APPROVAL = "saved";
-    public static final String TERRAIN_APPROVED_APPROVAL = "approved";
+    public static final String TERRAIN_APPROVED_APPROVAL = "accepted";
     public static final String TERRAIN_WAITING_APPROVAL = "waiting";
     public static final String TERRAIN_REJECTED_APPROVAL = "rejected";
 
     // terrain colors
-    private static final int OWN_SAVED_OUTLINE_COLOR = 0xffee1199;
-    private static final int OWN_SAVED_FILL_COLOR = 0x44ee1199;
+    private static final int OWN_SAVED_OUTLINE_COLOR = 0xffcc2299;
+    private static final int OWN_SAVED_FILL_COLOR = 0x44cc2299;
     private static final int OWN_APPROVED_OUTLINE_COLOR = 0xff33dd22;
     private static final int OWN_APPROVED_FILL_COLOR = 0x4433dd22;
     private static final int OWN_WAITING_OUTLINE_COLOR = 0xffff8800;
@@ -87,6 +87,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private static final int OWN_REJECTED_OUTLINE_COLOR = 0xffee2200;
     private static final int OWN_REJECTED_FILL_COLOR = 0x44ee2200;
     private static final int ALL_FILL_COLOR = 0x88444444;
+    private static final int ERROR_FILL_COLOR = 0x77eeeeee;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
     private static final int DEFAULT_ZOOM = 14;
@@ -158,8 +159,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                     // moves camera to last terrain's last vertex (or default location if no terrains are found)
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(lastCoords));
 
-                    if(!addTerrainMode)
-                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_SHORT).show();
+//                    if(!addTerrainMode)
+//                        Toast.makeText(getActivity(), terrains.size() + " terrains found", Toast.LENGTH_SHORT).show();
 //                       if( terrains.isEmpty() )
 //                           Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
             }
@@ -169,10 +170,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             public void onChanged(@Nullable ShowTerrainResult terrainResult) {
                 loading.setVisibility(View.GONE);
 
-                // if the search succeeds but returns no terrains
                 Toast.makeText(getActivity(), R.string.help_add_terrain, Toast.LENGTH_LONG).show();
-//                        if( terrains.isEmpty() )
-//                            Toast.makeText(getActivity(), R.string.zero_terrains, Toast.LENGTH_LONG).show();
+                showTerrainsAux(terrainResult, true);
             }
         });
         viewModel.showTerrains();
@@ -328,6 +327,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private List<TerrainData> showTerrainsAux(ShowTerrainResult terrainResult, boolean all) {
         int fillColor = OWN_SAVED_FILL_COLOR;
         int strokeColor = OWN_SAVED_OUTLINE_COLOR;
+        mMap.clear();
         String username = viewModel.getUsername();
         if(all) {
             fillColor = ALL_FILL_COLOR;
@@ -339,18 +339,29 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             List<TerrainData> terrains = terrainResult.getSuccess();
             for (TerrainData terrain : terrains) {
                 //determine user's terrain fill color
-                switch (terrain.approved) {
-                    case TERRAIN_APPROVED_APPROVAL:
-                        fillColor = OWN_APPROVED_FILL_COLOR;
-                        strokeColor = OWN_APPROVED_OUTLINE_COLOR;
-                        break;
-                    case TERRAIN_WAITING_APPROVAL:
-                        fillColor = OWN_WAITING_FILL_COLOR;
-                        strokeColor = OWN_WAITING_OUTLINE_COLOR;
-                        break;
-                    case TERRAIN_REJECTED_APPROVAL:
-                        fillColor = OWN_REJECTED_FILL_COLOR;
-                        strokeColor = OWN_REJECTED_OUTLINE_COLOR;
+                if(!all) {
+                    switch (terrain.approved) {
+                        case TERRAIN_APPROVED_APPROVAL:
+                            fillColor = OWN_APPROVED_FILL_COLOR;
+                            strokeColor = OWN_APPROVED_OUTLINE_COLOR;
+                            break;
+                        case TERRAIN_WAITING_APPROVAL:
+                            fillColor = OWN_WAITING_FILL_COLOR;
+                            strokeColor = OWN_WAITING_OUTLINE_COLOR;
+                            break;
+                        case TERRAIN_REJECTED_APPROVAL:
+                            fillColor = OWN_REJECTED_FILL_COLOR;
+                            strokeColor = OWN_REJECTED_OUTLINE_COLOR;
+                            break;
+                        case TERRAIN_SAVED_APPROVAL:
+                            fillColor = OWN_SAVED_FILL_COLOR;
+                            strokeColor = OWN_SAVED_OUTLINE_COLOR;
+                            break;
+                        default:
+                            fillColor = ERROR_FILL_COLOR;
+                            strokeColor = ERROR_FILL_COLOR;
+                            break;
+                    }
                 }
 
                 List<LatLng> points = new LinkedList<>();
