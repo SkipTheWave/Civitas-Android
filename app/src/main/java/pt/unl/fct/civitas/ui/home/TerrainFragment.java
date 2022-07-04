@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
-import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -31,7 +30,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -45,19 +43,16 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
-import pt.unl.fct.civitas.databinding.FragmentTerrainBinding;
 
 public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener {
@@ -271,14 +266,15 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void cancelTerrainOp() {
-        buttonEditTerrain.setVisibility(View.GONE);
-        buttonAddTerrain.setVisibility(View.VISIBLE);
-        buttonCancel.setVisibility(View.GONE);
-        buttonFinish.setVisibility(View.GONE);
+//        buttonEditTerrain.setVisibility(View.GONE);
+//        buttonAddTerrain.setVisibility(View.VISIBLE);
+//        buttonCancel.setVisibility(View.GONE);
+//        buttonFinish.setVisibility(View.GONE);
         addTerrainMode = false;
-
-        mMap.setOnMapClickListener(null);
+        refreshFragment();
+//        mMap.setOnMapClickListener(null);
     }
+
 
     private void addTerrain(TerrainData terrainData) {
         startTerrainOp();
@@ -386,10 +382,17 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         return new ArrayList<>();
     }
 
+    private void refreshFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+        int id = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+        navController.popBackStack(id, true);
+        navController.navigate(id);
+    }
+
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(4000);
+        mLocationRequest.setFastestInterval(3000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -478,7 +481,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         // (in this case, the camera moving towards device location)
         return false;
     }
-
 
 
     @Override
