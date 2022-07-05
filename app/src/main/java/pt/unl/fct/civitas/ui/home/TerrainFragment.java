@@ -46,13 +46,16 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.VertexData;
+import pt.unl.fct.civitas.util.GeometryHelper;
 
 public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener {
@@ -99,6 +102,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
     private LatLng lastCoords;
+    private Map<String, TerrainData> shownTerrains = new HashMap<>();
     static boolean addTerrainMode;
 
     // TODO REMOVE
@@ -141,7 +145,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onChanged(@Nullable ShowTerrainResult terrainResult) {
                 loading.setVisibility(View.GONE);
-                List<TerrainData> terrains = showTerrainsAux(terrainResult, false);
+                showTerrainsAux(terrainResult, false);
                 mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
                     @Override
                     public void onPolygonClick(@NonNull Polygon polygon) {
@@ -172,6 +176,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         updateLocationUI();
         viewModel.showTerrains();
         if(addTerrainMode) {
+            viewModel.showAllTerrains();
+            loading.setVisibility(View.VISIBLE);
             addTerrain(viewModel.getCurrentTerrainData().getValue());
         }
 
@@ -288,6 +294,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
+                if( checkIntersections(latLng) )
+
                 points.add(latLng);
                 vertices.add( new VertexData("?", String.valueOf(vertices.size()),
                                 String.valueOf(latLng.latitude), String.valueOf(latLng.longitude)) );
@@ -374,6 +382,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                                 .fillColor(fillColor)
                                 .clickable(!all));
                         polygon.setTag(terrain);
+                        shownTerrains.put(terrain.terrainId, terrain);
                     }
                 }
             }

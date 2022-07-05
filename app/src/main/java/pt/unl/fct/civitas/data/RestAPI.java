@@ -42,7 +42,7 @@ public interface RestAPI {
     @POST("rest/terrain/register")
     Call<String> registerTerrain(@Body TerrainData data);
 
-    @POST("rest/terrain/register")
+    @POST("rest/terrain/getAllTerrain")
     Call<List<TerrainData>> getAllTerrains();
 
     @POST("rest/terrain/terrainCounter")

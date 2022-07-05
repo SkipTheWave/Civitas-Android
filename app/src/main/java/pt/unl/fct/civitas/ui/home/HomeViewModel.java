@@ -61,7 +61,6 @@ public class HomeViewModel extends ViewModel {
     void addTerrainAux(TerrainData data) {
         setCurrentTerrainData(data);
         TerrainFragment.addTerrainMode = true;
-
     }
 
     public String getUsername() {
@@ -190,9 +189,9 @@ public class HomeViewModel extends ViewModel {
                 if (result instanceof Result.Success) {
                     List<TerrainData> data = ((Result.Success<List<TerrainData>>) result).getData();
                     ShowTerrainResult auxResult = new ShowTerrainResult(data);
-                    showTerrainResult.postValue(auxResult);
+                    showAllTerrainResult.postValue(auxResult);
                 } else {
-                    showTerrainResult.postValue(new ShowTerrainResult(((Result.Error) result).getError().getMessage()));
+                    showAllTerrainResult.postValue(new ShowTerrainResult(((Result.Error) result).getError().getMessage()));
                 }
             }
         });

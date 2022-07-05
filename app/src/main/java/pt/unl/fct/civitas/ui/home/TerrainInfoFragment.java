@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.TerrainData;
@@ -93,7 +95,7 @@ public class TerrainInfoFragment extends Fragment {
         articleEditText.addTextChangedListener(afterTextChangedListener);
         sectionEditText.addTextChangedListener(afterTextChangedListener);
 
-        homeViewModel.getTerrainInfoFormState().observe(getActivity(), new Observer<TerrainInfoFormState>() {
+        homeViewModel.getTerrainInfoFormState().observe(requireActivity(), new Observer<TerrainInfoFormState>() {
             @Override
             public void onChanged(@Nullable TerrainInfoFormState terrainInfoFormState) {
                 if (terrainInfoFormState == null) {
@@ -101,10 +103,10 @@ public class TerrainInfoFragment extends Fragment {
                 }
                 submitButton.setEnabled(terrainInfoFormState.isDataValid());
                 if (terrainInfoFormState.getArticleError() != null) {
-                    articleEditText.setError(getActivity().getString(terrainInfoFormState.getArticleError()));
+                    articleEditText.setError(requireActivity().getString(terrainInfoFormState.getArticleError()));
                 }
                 if (terrainInfoFormState.getSectionError() != null) {
-                    sectionEditText.setError(getActivity().getString(terrainInfoFormState.getSectionError()));
+                    sectionEditText.setError(requireActivity().getString(terrainInfoFormState.getSectionError()));
                 }
             }
         });
