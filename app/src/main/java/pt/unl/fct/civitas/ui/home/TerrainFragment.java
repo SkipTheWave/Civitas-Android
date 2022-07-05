@@ -169,8 +169,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 showTerrainsAux(terrainResult, true);
             }
         });
-        viewModel.showTerrains();
         updateLocationUI();
+        viewModel.showTerrains();
         if(addTerrainMode) {
             addTerrain(viewModel.getCurrentTerrainData().getValue());
         }
@@ -323,7 +323,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private List<TerrainData> showTerrainsAux(ShowTerrainResult terrainResult, boolean all) {
         int fillColor = OWN_SAVED_FILL_COLOR;
         int strokeColor = OWN_SAVED_OUTLINE_COLOR;
-        mMap.clear();
+        //mMap.clear();
         String username = viewModel.getUsername();
         if(all) {
             fillColor = ALL_FILL_COLOR;
