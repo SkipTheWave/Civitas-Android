@@ -2,8 +2,11 @@ package pt.unl.fct.civitas.ui.home;
 
 import static com.google.maps.android.SphericalUtil.computeArea;
 
+import static pt.unl.fct.civitas.util.GeometryHelper.checkIntersections;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -43,6 +46,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,16 +80,16 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     public static final String TERRAIN_REJECTED_APPROVAL = "rejected";
 
     // terrain colors
-    private static final int OWN_SAVED_OUTLINE_COLOR = 0xffcc2299;
+    private static final int OWN_SAVED_OUTLINE_COLOR = 0xddcc2299;
     private static final int OWN_SAVED_FILL_COLOR = 0x44cc2299;
-    private static final int OWN_APPROVED_OUTLINE_COLOR = 0xff33dd22;
+    private static final int OWN_APPROVED_OUTLINE_COLOR = 0xdd33dd22;
     private static final int OWN_APPROVED_FILL_COLOR = 0x4433dd22;
-    private static final int OWN_WAITING_OUTLINE_COLOR = 0xffff8800;
+    private static final int OWN_WAITING_OUTLINE_COLOR = 0xddff8800;
     private static final int OWN_WAITING_FILL_COLOR = 0x44ff8800;
-    private static final int OWN_REJECTED_OUTLINE_COLOR = 0xffee2200;
+    private static final int OWN_REJECTED_OUTLINE_COLOR = 0xddee2200;
     private static final int OWN_REJECTED_FILL_COLOR = 0x44ee2200;
-    private static final int ALL_FILL_COLOR = 0x88444444;
-    private static final int ERROR_FILL_COLOR = 0x77eeeeee;
+    private static final int ALL_FILL_COLOR = 0x77444444;
+    private static final int ERROR_FILL_COLOR = 0x66eeeeee;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
     private static final int DEFAULT_ZOOM = 14;
@@ -102,8 +106,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
     private LatLng lastCoords;
-    private Map<String, TerrainData> shownTerrains = new HashMap<>();
-    static boolean addTerrainMode;
+    private List<List<LatLng>> shownTerrains = new ArrayList<>();
+    private List<Polygon> othersTerrains = new ArrayList<>();
 
     // TODO REMOVE
     private TerrainData debugTerrainData = new TerrainData("owner",
@@ -129,7 +133,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
      * user has installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 //        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
 //                .addLocationRequest(mLocationRequest);
@@ -175,7 +179,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         });
         updateLocationUI();
         viewModel.showTerrains();
-        if(addTerrainMode) {
+        if(HomeViewModel.addTerrainMode) {
             viewModel.showAllTerrains();
             loading.setVisibility(View.VISIBLE);
             addTerrain(viewModel.getCurrentTerrainData().getValue());
@@ -226,18 +230,18 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        buttonAddTerrain = (Button) view.findViewById(R.id.button_add_terrain);
-        buttonEditTerrain = (Button) view.findViewById(R.id.button_edit_terrain);
-        buttonCancel = (Button) view.findViewById(R.id.button_cancel);
-        buttonFinish = (Button) view.findViewById(R.id.button_finish);
-        loading = (ProgressBar) view.findViewById(R.id.terrain_progress);
+        buttonAddTerrain = view.findViewById(R.id.button_add_terrain);
+        buttonEditTerrain = view.findViewById(R.id.button_edit_terrain);
+        buttonCancel = view.findViewById(R.id.button_cancel);
+        buttonFinish = view.findViewById(R.id.button_finish);
+        loading = view.findViewById(R.id.terrain_progress);
 
         loading.setVisibility(View.VISIBLE);
 
        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTerrainMode = true;
+                //addTerrainMode = true;
                 NavHostFragment.findNavController(TerrainFragment.this)
                         .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
             }
@@ -249,12 +253,12 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
      * by a callback, onRequestPermissionsResult
      */
     private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.getActivity(),
+        if (ContextCompat.checkSelfPermission(requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
         } else {
-            ActivityCompat.requestPermissions(this.getActivity(),
+            ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
@@ -272,13 +276,16 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void cancelTerrainOp() {
-//        buttonEditTerrain.setVisibility(View.GONE);
-//        buttonAddTerrain.setVisibility(View.VISIBLE);
-//        buttonCancel.setVisibility(View.GONE);
-//        buttonFinish.setVisibility(View.GONE);
-        addTerrainMode = false;
-        refreshFragment();
-//        mMap.setOnMapClickListener(null);
+        buttonEditTerrain.setVisibility(View.GONE);
+        buttonAddTerrain.setVisibility(View.VISIBLE);
+        buttonCancel.setVisibility(View.GONE);
+        buttonFinish.setVisibility(View.GONE);
+        HomeViewModel.addTerrainMode = false;
+        for (Polygon terrain : othersTerrains) {
+            terrain.remove();
+        }
+        othersTerrains.clear();
+        mMap.setOnMapClickListener(null);
     }
 
 
@@ -294,9 +301,12 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
-                if( checkIntersections(latLng) )
-
                 points.add(latLng);
+                if( checkIntersections(true, points, shownTerrains) ) {
+                    points.remove(points.size()-1);
+                    Toast.makeText(requireActivity(), R.string.error_terrain_intersection, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 vertices.add( new VertexData("?", String.valueOf(vertices.size()),
                                 String.valueOf(latLng.latitude), String.valueOf(latLng.longitude)) );
                 markers.add( mMap.addMarker(new MarkerOptions()
@@ -308,6 +318,14 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         });
 
         buttonFinish.setOnClickListener(viewFinish -> {
+            if( checkIntersections(false, points, shownTerrains) ) {
+                Toast.makeText(requireActivity(), R.string.error_terrain_intersection, Toast.LENGTH_LONG).show();
+                line.remove();
+                for(Marker m : markers)
+                    m.remove();
+                addTerrain(terrainData);
+                return;
+            }
             Polygon polygon = mMap.addPolygon(new PolygonOptions()
                     .addAll(points)
                     .strokeColor(OWN_SAVED_OUTLINE_COLOR)
@@ -315,6 +333,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                     .clickable(true));
             for(Marker m : markers)
                 m.remove();
+            shownTerrains.add(polygon.getPoints());
             terrainData.area = computeArea(points) / 10000;
             viewModel.registerTerrain(terrainData, vertices);
             cancelTerrainOp();
@@ -382,7 +401,9 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                                 .fillColor(fillColor)
                                 .clickable(!all));
                         polygon.setTag(terrain);
-                        shownTerrains.put(terrain.terrainId, terrain);
+                        shownTerrains.add(polygon.getPoints());
+                        if(all)
+                            othersTerrains.add(polygon);
                     }
                 }
             }
@@ -414,7 +435,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
                 mMap.setMyLocationEnabled(true);
-                locationResult.addOnCompleteListener(getActivity(), task -> {
+                locationResult.addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
                         // set map's camera to the current location of the device
                         lastKnownLocation = task.getResult();
@@ -485,7 +506,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(getActivity(), "Moving to your location...", Toast.LENGTH_SHORT);
+        Toast.makeText(getActivity(), "Moving to your location...", Toast.LENGTH_SHORT).show();
         // the return is so we don't consume the event, the default behavior still occurs
         // (in this case, the camera moving towards device location)
         return false;

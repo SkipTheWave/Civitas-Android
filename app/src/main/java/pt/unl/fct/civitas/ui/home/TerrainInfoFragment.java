@@ -98,7 +98,7 @@ public class TerrainInfoFragment extends Fragment {
         homeViewModel.getTerrainInfoFormState().observe(requireActivity(), new Observer<TerrainInfoFormState>() {
             @Override
             public void onChanged(@Nullable TerrainInfoFormState terrainInfoFormState) {
-                if (terrainInfoFormState == null) {
+                if (terrainInfoFormState == null || !isAdded()) {
                     return;
                 }
                 submitButton.setEnabled(terrainInfoFormState.isDataValid());
@@ -126,6 +126,7 @@ public class TerrainInfoFragment extends Fragment {
                         checkUndefined( ownersEditText.getText().toString() ),
                         TERRAIN_SAVED_APPROVAL);
                 homeViewModel.addTerrainAux(data);
+                HomeViewModel.addTerrainMode = true;
 
                NavHostFragment.findNavController(TerrainInfoFragment.this)
                        .navigate(R.id.action_terrainInfoFragment_to_TerrainFragment);

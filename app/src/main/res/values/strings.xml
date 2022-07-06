@@ -79,4 +79,5 @@
     <string name="invalid_article">Invalid article</string>
     <string name="invalid_section">Invalid section</string>
     <string name="help_add_terrain">Tap the map to create a point. Tap finish once you\'ve added all necessary points to form your terrain.</string>
+    <string name="error_terrain_intersection">Conflict with already approved terrains detected.</string>
 </resources>

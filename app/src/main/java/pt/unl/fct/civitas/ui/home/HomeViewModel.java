@@ -23,6 +23,8 @@ import pt.unl.fct.civitas.data.model.VertexData;
 
 public class HomeViewModel extends ViewModel {
 
+    public static boolean addTerrainMode = false;
+
     private MutableLiveData<Void> loginResult = new MutableLiveData<>();
     private MutableLiveData<ShowTerrainResult> showTerrainResult = new MutableLiveData<>();
     private MutableLiveData<ShowTerrainResult> showAllTerrainResult = new MutableLiveData<>();
@@ -60,7 +62,7 @@ public class HomeViewModel extends ViewModel {
 
     void addTerrainAux(TerrainData data) {
         setCurrentTerrainData(data);
-        TerrainFragment.addTerrainMode = true;
+        addTerrainMode = true;
     }
 
     public String getUsername() {

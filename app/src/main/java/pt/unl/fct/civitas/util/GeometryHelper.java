@@ -1,66 +1,56 @@
 package pt.unl.fct.civitas.util;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
 import com.google.maps.android.geometry.Point;
 
-/**
- * Author is the kind AmitCharkha on StackOverflow
- */
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+
+import java.util.List;
+
 public class GeometryHelper {
-
-    /**
-     * See if two line segments intersect. This uses the
-     * vector cross product approach described below:
-     * http://stackoverflow.com/a/565282/786339
-     *
-     * @param {Object} p point object with x and y coordinates
-     *  representing the start of the 1st line.
-     * @param {Object} p2 point object with x and y coordinates
-     *  representing the end of the 1st line.
-     * @param {Object} q point object with x and y coordinates
-     *  representing the start of the 2nd line.
-     * @param {Object} q2 point object with x and y coordinates
-     *  representing the end of the 2nd line.
-     */
-    public static boolean doLineSegmentsIntersect(Point p, Point p2, Point q, Point q2) {
-        Point r = subtractPoints(p2, p);
-        Point s = subtractPoints(q2, q);
-
-        double uNumerator = crossProduct(subtractPoints(q, p), r);
-        double denominator = crossProduct(r, s);
-
-        if (denominator == 0) {
-            // lines are paralell
-            return false;
+    public static boolean checkIntersections(boolean inProgress, List<LatLng> newShape, List<List<LatLng>> oldShapes) {
+        if(newShape.size() == 1)
+            for (List<LatLng> terrain : oldShapes) {
+                return PolyUtil.containsLocation(newShape.get(0), terrain, false);
+            }
+        else {
+            org.locationtech.jts.geom.Polygon oldPoly;
+            org.locationtech.jts.geom.Geometry newGeom;
+            if(inProgress)
+                newGeom = createJstsLineString(newShape);
+            else {
+                newShape.add(newShape.get(0));
+                newGeom = createJstsPolygon(newShape);
+            }
+            for (List<LatLng> terrain : oldShapes) {
+                oldPoly = createJstsPolygon(terrain);
+                if (oldPoly.intersects(newGeom))
+                    return true;
+            }
         }
 
-        double u = uNumerator / denominator;
-        double t = crossProduct(subtractPoints(q, p), s) / denominator;
-
-        return ( (t >= 0) && (t <= 1) && (u > 0) && (u <= 1) );
-
+        return false;
     }
 
-    /**
-     * Calculate the cross product of the two points.
-     *
-     * @param {Object} point1 point object with x and y coordinates
-     * @param {Object} point2 point object with x and y coordinates
-     *
-     * @return the cross product result as a float
-     */
-    public static double crossProduct(Point point1, Point point2) {
-        return point1.x * point2.y - point1.y * point2.x;
+    public static org.locationtech.jts.geom.Polygon createJstsPolygon(List<LatLng> points) {
+        GeometryFactory geomFactory = new GeometryFactory();
+        Coordinate[] coords = new Coordinate[points.size()];
+        for (int i = 0; i < coords.length; i++) {
+            LatLng point = points.get(i);
+            coords[i] = new Coordinate(point.latitude, point.longitude);
+        }
+        return geomFactory.createPolygon(coords);
     }
 
-    /**
-     * Subtract the second point from the first.
-     *
-     * @param {Object} point1 point object with x and y coordinates
-     * @param {Object} point2 point object with x and y coordinates
-     *
-     * @return the subtraction result as a point object
-     */
-    public static Point subtractPoints(Point point1,Point point2) {
-        return new Point(point1.x - point2.x, point1.y - point2.y);
+    public static org.locationtech.jts.geom.LineString createJstsLineString(List<LatLng> points) {
+        GeometryFactory geomFactory = new GeometryFactory();
+        Coordinate[] coords = new Coordinate[points.size()];
+        for (int i = 0; i < coords.length; i++) {
+            LatLng point = points.get(i);
+            coords[i] = new Coordinate(point.latitude, point.longitude);
+        }
+        return geomFactory.createLineString(coords);
     }
 }
