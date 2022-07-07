@@ -14,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -102,26 +104,13 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private Button buttonEditTerrain;
     private Button buttonCancel;
     private Button buttonFinish;
+    private Spinner spinnerTerrain;
     private ProgressBar loading;
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
     private LatLng lastCoords;
     private List<List<LatLng>> shownTerrains = new ArrayList<>();
     private List<Polygon> othersTerrains = new ArrayList<>();
-
-    // TODO REMOVE
-    private TerrainData debugTerrainData = new TerrainData("owner",
-            0.0,
-            "parish",
-            "section",
-            "article",
-            "name",
-            "description",
-            "coverage",
-            "current",
-            "last",
-            "owners",
-            "saved");
 
     /**
      * Manipulates the map once available.
@@ -149,7 +138,17 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onChanged(@Nullable ShowTerrainResult terrainResult) {
                 loading.setVisibility(View.GONE);
-                showTerrainsAux(terrainResult, false);
+                List<TerrainData> terrains = showTerrainsAux(terrainResult, false);
+
+                // creating the terrain list
+                String[] terrainIds = new String[terrains.size()];
+                for (int i = 0; i < terrains.size(); i++) {
+                    terrainIds[i] = terrains.get(i).name;
+                }
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
+                        requireContext(), android.R.layout.simple_spinner_dropdown_item, terrainIds);
+                spinnerTerrain.setAdapter(spinnerAdapter);
+
                 mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
                     @Override
                     public void onPolygonClick(@NonNull Polygon polygon) {
@@ -234,11 +233,12 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         buttonEditTerrain = view.findViewById(R.id.button_edit_terrain);
         buttonCancel = view.findViewById(R.id.button_cancel);
         buttonFinish = view.findViewById(R.id.button_finish);
+        spinnerTerrain = view.findViewById(R.id.spinner_terrain);
         loading = view.findViewById(R.id.terrain_progress);
 
         loading.setVisibility(View.VISIBLE);
 
-       buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
+        buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //addTerrainMode = true;

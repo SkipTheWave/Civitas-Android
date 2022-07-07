@@ -66,4 +66,5 @@
     <string name="help_add_terrain">Pressione no mapa para criar um ponto. Pressione terminar após adicionar todos os pontos necessários para o seu terreno.</string>
     <string name="error_terrain_intersection">Conflito com terrenos já aprovados detetado.</string>
     <string name="prompt_name_terrain">Nome (não pode ter dois terrenos com o mesmo nome)</string>
+    <string name="terrain_list">Terrenos</string>
 </resources>
