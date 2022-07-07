@@ -54,7 +54,7 @@
             android:id="@+id/terrain_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/prompt_name"
+            android:text="@string/prompt_name_terrain"
             app:layout_constraintBottom_toTopOf="@id/terrain_name_field"
             app:layout_constraintStart_toStartOf="@id/terrain_name_field" />
 

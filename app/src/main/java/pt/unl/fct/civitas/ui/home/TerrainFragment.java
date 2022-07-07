@@ -303,7 +303,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             public void onMapClick(@NonNull LatLng latLng) {
                 points.add(latLng);
                 if( checkIntersections(true, points, shownTerrains) ) {
-                    points.remove(points.size()-1);
+                    points.remove(latLng);
                     Toast.makeText(requireActivity(), R.string.error_terrain_intersection, Toast.LENGTH_LONG).show();
                     return;
                 }
