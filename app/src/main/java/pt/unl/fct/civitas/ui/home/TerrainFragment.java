@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -109,6 +110,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private HomeViewModel viewModel;
     private Location lastKnownLocation;
     private LatLng lastCoords;
+    private List<TerrainData> userTerrains = new ArrayList<>();
     private List<List<LatLng>> shownTerrains = new ArrayList<>();
     private List<Polygon> othersTerrains = new ArrayList<>();
 
@@ -148,6 +150,29 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                         requireContext(), android.R.layout.simple_spinner_dropdown_item, terrainIds);
                 spinnerTerrain.setAdapter(spinnerAdapter);
+
+                // makes camera to move selected terrain on the list
+                spinnerTerrain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                        for (TerrainData terrain : userTerrains) {
+                            String terrainName = spinnerTerrain.getSelectedItem().toString();
+                            if(terrain.name.equals(terrainName)) {
+                                LatLng pos = new LatLng( Double.parseDouble( terrain.vertices.get(0).latitude),
+                                        Double.parseDouble( terrain.vertices.get(0).longitude));
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+                                return;
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parentView) {
+                        // your code here
+                    }
+
+                });
 
                 mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
                     @Override
@@ -334,6 +359,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             for(Marker m : markers)
                 m.remove();
             shownTerrains.add(polygon.getPoints());
+            userTerrains.add(terrainData);
             terrainData.area = computeArea(points) / 10000;
             viewModel.registerTerrain(terrainData, vertices);
             cancelTerrainOp();
@@ -404,6 +430,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                         shownTerrains.add(polygon.getPoints());
                         if(all)
                             othersTerrains.add(polygon);
+                        else
+                            userTerrains.add(terrain);
                     }
                 }
             }
@@ -412,6 +440,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         return new ArrayList<>();
     }
 
+    // didn't work well, might come in handy at some point
     private void refreshFragment() {
         NavController navController = NavHostFragment.findNavController(this);
         int id = Objects.requireNonNull(navController.getCurrentDestination()).getId();

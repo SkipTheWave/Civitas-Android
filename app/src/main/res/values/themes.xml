@@ -10,8 +10,9 @@
         <item name="colorSecondaryVariant">@color/orange_300</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/Theme.Civitas.NoActionBar</item>
     </style>
 
     <style name="Theme.Civitas.NoActionBar">
@@ -19,7 +20,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Civitas.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="MeriendaOne">
+        <item name="android:fontFamily">@font/merienda_one_regular</item>
+    </style>
 
-    <style name="Theme.Civitas.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Civitas.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="Theme.Civitas.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>
