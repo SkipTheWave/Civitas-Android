@@ -75,12 +75,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 loadingProgressBar.setVisibility(View.GONE);
                 if (loginResult.getErrorMessage() != null) {
-                    Toast.makeText(getApplicationContext(), loginResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
                     TokenStore.setToken(getApplicationContext(), gson.toJson(loginResult.getSuccess().getUser()) );
-
                     finish();
                 }
             }

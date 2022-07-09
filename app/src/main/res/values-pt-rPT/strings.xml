@@ -54,7 +54,7 @@
     <string name="description">Descrição</string>
     <string name="current_usage">Uso atual</string>
     <string name="previous_usage">Uso anterior</string>
-    <string name="owners">Proprietários</string>
+    <string name="owners_long">Outros proprietários (formato: \"user1\" ou \"user1,user2,user3\")</string>
     <string name="section">Secção (obrigatória)</string>
     <string name="terrain_coverage_type">Tipo(s) de cobertura de terreno</string>
     <string name="terrain_documentation">Documentação do terreno</string>
@@ -67,4 +67,10 @@
     <string name="error_terrain_intersection">Conflito com terrenos já aprovados detetado.</string>
     <string name="prompt_name_terrain">Nome (não pode ter dois terrenos com o mesmo nome)</string>
     <string name="terrain_list">Terrenos</string>
+    <string name="article_uneditable">Artigo (não pode ser mudado)</string>
+    <string name="section_uneditable">Secção (não pode ser mudada)</string>
+    <string name="terrain_id_uneditable">ID do terreno (não pode ser mudado)</string>
+    <string name="terrain_area">Área total deste terreno</string>
+    <string name="owners">Outros proprietários</string>
+    <string name="owners_add">Adicionar outros proprietários (ex. \"user2,user3\")</string>
 </resources>

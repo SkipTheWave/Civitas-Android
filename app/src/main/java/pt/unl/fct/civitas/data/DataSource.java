@@ -45,13 +45,9 @@ public class DataSource {
             Call<LoggedInUser> loginService = service.doLogin(new LoginData(username, password));
             Response<LoggedInUser> loginResponse = loginService.execute();
             if( loginResponse.isSuccessful() ) {
-//                String[] responseBody = loginResponse.body().split(LOGIN_DELIMITER);
-//                LoggedInUser user = new LoggedInUser(responseBody[0], responseBody[1]);
-//                System.out.println(responseBody[0] + "   " + responseBody[1]);
-
                 return new Result.Success<>(loginResponse.body());
             } else {
-                return new Result.Error(new Exception("Server result code: " + loginResponse.code() + ".\n" + loginResponse.errorBody() ));
+                return new Result.Error(new Exception("Server result code: " + loginResponse.code()));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error moment", e));

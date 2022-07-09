@@ -69,7 +69,7 @@
     <string name="description">Description</string>
     <string name="current_usage">Current usage</string>
     <string name="previous_usage">Previous usage</string>
-    <string name="owners">Owners</string>
+    <string name="owners_long">Other owners (format: \"user1\" or \"user1,user2,user3\")</string>
     <string name="section">Section (mandatory)</string>
     <string name="terrain_coverage_type">Type of terrain coverage</string>
     <string name="terrain_documentation">Terrain documentation</string>
@@ -82,4 +82,11 @@
     <string name="error_terrain_intersection">Conflict with already approved terrains detected.</string>
     <string name="prompt_name_terrain">Name (you can\'t have two terrains with the same name)</string>
     <string name="terrain_list">Terrains</string>
+    <string name="article_uneditable">Article (cannot be changed)</string>
+    <string name="section_uneditable">Section (cannot be changed)</string>
+    <string name="terrain_id_uneditable">Terrain ID (cannot be changed)</string>
+    <string name="terrain_area">Total area of this terrain</string>
+    <string name="hectares" translatable="false">hectares</string>
+    <string name="owners">Other owners</string>
+    <string name="owners_add">Add other owners (ex. \"user2,user3\")</string>
 </resources>

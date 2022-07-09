@@ -12,24 +12,14 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_horizontal_margin">
 
-        <TextView
-            android:id="@+id/terrain_data_title_prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/terrain_data_insert_prompt"
-            android:textSize="@dimen/medium_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
-            android:id="@+id/terrain_submit_button"
+            android:id="@+id/edit_terrain_submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
             android:enabled="false"
-            android:text="@string/set_terrain_area"
+            android:text="@string/apply_changes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,21 +30,24 @@
             android:id="@+id/terrain_name_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="40dp"
             android:autofillHints="name"
+            android:editable="false"
             android:hint="@string/terrain_name_prompt"
+            android:inputType="none"
             android:minHeight="48dp"
             android:selectAllOnFocus="true"
+            android:textIsSelectable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terrain_data_title_prompt" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/terrain_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/prompt_name_terrain"
+            android:text="@string/terrain_name_prompt"
             app:layout_constraintBottom_toTopOf="@id/terrain_name_field"
             app:layout_constraintStart_toStartOf="@id/terrain_name_field" />
 
@@ -62,28 +55,47 @@
             android:id="@+id/terrain_parish_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@string/parish"
-            app:layout_constraintBottom_toBottomOf="@id/parish_dropdown"
             app:layout_constraintStart_toStartOf="@id/terrain_owners_field"
-            app:layout_constraintTop_toTopOf="@id/parish_dropdown" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_name_field" />
 
-        <Spinner
-            android:id="@+id/parish_dropdown"
+        <TextView
+            android:id="@+id/edit_terrain_parish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:entries="@array/parishes"
-            android:minHeight="48dp"
-            android:spinnerMode="dropdown"
+            android:layout_marginStart="16dp"
+            android:text="@string/parish"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintBottom_toBottomOf="@id/terrain_parish_title"
             app:layout_constraintStart_toEndOf="@id/terrain_parish_title"
-            app:layout_constraintTop_toBottomOf="@id/terrain_name_field" />
+            app:layout_constraintTop_toTopOf="@id/terrain_parish_title" />
+
+        <TextView
+            android:id="@+id/edit_terrain_area_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/set_terrain_area"
+            app:layout_constraintStart_toStartOf="@id/terrain_parish_title"
+            app:layout_constraintTop_toBottomOf="@id/terrain_parish_title" />
+
+        <TextView
+            android:id="@+id/edit_terrain_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/set_terrain_area"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintBottom_toBottomOf="@id/edit_terrain_area_title"
+            app:layout_constraintStart_toEndOf="@id/edit_terrain_area_title"
+            app:layout_constraintTop_toTopOf="@id/edit_terrain_area_title" />
 
         <TextView
             android:id="@+id/terrain_article"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/article"
+            android:text="@string/article_uneditable"
             app:layout_constraintBottom_toTopOf="@id/terrain_article_field"
             app:layout_constraintStart_toStartOf="@id/terrain_article_field" />
 
@@ -91,22 +103,25 @@
             android:id="@+id/terrain_article_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:autofillHints="name"
+            android:layout_marginTop="36dp"
+            android:editable="false"
+            android:focusable="auto"
+            android:inputType="none"
             android:hint="@string/article"
             android:minHeight="48dp"
             android:selectAllOnFocus="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parish_dropdown" />
+            app:layout_constraintTop_toBottomOf="@id/edit_terrain_area_title" />
 
         <EditText
             android:id="@+id/terrain_description_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:autofillHints="name"
+            android:editable="false"
+            android:focusable="auto"
+            android:inputType="none"
             android:hint="@string/description"
             android:minHeight="48dp"
             android:selectAllOnFocus="true"
@@ -141,7 +156,7 @@
             android:id="@+id/terrain_section_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/section"
+            android:text="@string/section_uneditable"
             app:layout_constraintBottom_toTopOf="@id/terrain_section_field"
             app:layout_constraintStart_toStartOf="@id/terrain_section_field" />
 
@@ -159,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:autofillHints="name"
-            android:hint="@string/owners_long"
+            android:hint="@string/owners"
             android:inputType="none"
             android:minHeight="48dp"
             android:selectAllOnFocus="true"

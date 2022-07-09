@@ -91,6 +91,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private static final int OWN_WAITING_FILL_COLOR = 0x44ff8800;
     private static final int OWN_REJECTED_OUTLINE_COLOR = 0xddee2200;
     private static final int OWN_REJECTED_FILL_COLOR = 0x44ee2200;
+    private static final int SHARED_OUTLINE_COLOR = 0xdd2233dd;
+    private static final int SHARED_FILL_COLOR = 0x442233dd;
     private static final int ALL_FILL_COLOR = 0x77444444;
     private static final int ERROR_FILL_COLOR = 0x66eeeeee;
 
@@ -411,6 +413,10 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                             strokeColor = ERROR_FILL_COLOR;
                             break;
                     }
+                }
+                if(terrain.shared) {
+                    fillColor = SHARED_FILL_COLOR;
+                    strokeColor = SHARED_OUTLINE_COLOR;
                 }
 
                 List<LatLng> points = new LinkedList<>();
