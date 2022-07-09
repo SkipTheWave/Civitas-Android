@@ -180,9 +180,12 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                     @Override
                     public void onPolygonClick(@NonNull Polygon polygon) {
                         // TODO redirect to terrain info page, or something
-                        if(polygon.getTag() != null)
-                            Toast.makeText(getActivity(), "Voila! This is " +
-                                    ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
+//                        if(polygon.getTag() != null)
+//                            Toast.makeText(getActivity(), "Voila! This is " +
+//                                    ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
+                        viewModel.setSelectedTerrain((TerrainData) polygon.getTag());
+                        NavHostFragment.findNavController(TerrainFragment.this)
+                                .navigate(R.id.action_TerrainFragment_to_selectedTerrainFragment);
                     }
                 });
                     // moves camera to last terrain's last vertex (or default location if no terrains are found)
@@ -350,6 +353,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 line.remove();
                 for(Marker m : markers)
                     m.remove();
+                buttonFinish.setEnabled(false);
                 addTerrain(terrainData);
                 return;
             }

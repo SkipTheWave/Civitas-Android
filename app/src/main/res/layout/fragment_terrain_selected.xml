@@ -16,15 +16,23 @@
             android:id="@+id/edit_terrain_submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="24dp"
-            android:enabled="false"
+            android:layout_marginTop="36dp"
+            android:enabled="true"
             android:text="@string/apply_changes"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terrain_upload_file_button"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_upload_file_button" />
+
+        <Button
+            android:id="@+id/edit_terrain_directions_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:enabled="true"
+            android:text="@string/terrain_get_directions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_terrain_submit_button" />
 
         <EditText
             android:id="@+id/terrain_name_field"

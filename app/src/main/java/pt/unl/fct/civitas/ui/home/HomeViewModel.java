@@ -24,6 +24,7 @@ import pt.unl.fct.civitas.data.model.VertexData;
 public class HomeViewModel extends ViewModel {
 
     public static boolean addTerrainMode = false;
+    private TerrainData selectedTerrain;
 
     private MutableLiveData<Void> loginResult = new MutableLiveData<>();
     private MutableLiveData<ShowTerrainResult> showTerrainResult = new MutableLiveData<>();
@@ -37,6 +38,7 @@ public class HomeViewModel extends ViewModel {
     private RestRepository restRepository;
 
     HomeViewModel(RestRepository restRepository) {
+        selectedTerrain = new TerrainData("", "", "");
         this.restRepository = restRepository;
     }
 
@@ -68,6 +70,8 @@ public class HomeViewModel extends ViewModel {
     public String getUsername() {
         return restRepository.getUsername();
     }
+    public TerrainData getSelectedTerrain() { return selectedTerrain; }
+    public void setSelectedTerrain(TerrainData terrain) { selectedTerrain = terrain; }
 
     public void getProfile() {
         restRepository.getProfile(new RestRepositoryCallback<ProfileData>() {

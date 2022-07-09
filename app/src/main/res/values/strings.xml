@@ -89,4 +89,6 @@
     <string name="hectares" translatable="false">hectares</string>
     <string name="owners">Other owners</string>
     <string name="owners_add">Add other owners (ex. \"user2,user3\")</string>
+    <string name="your_terrain">Your terrain</string>
+    <string name="terrain_get_directions">Get directions</string>
 </resources>

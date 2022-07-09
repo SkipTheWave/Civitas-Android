@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_TerrainFragment_to_terrainInfoFragment"
             app:destination="@id/terrainInfoFragment" />
+        <action
+            android:id="@+id/action_TerrainFragment_to_selectedTerrainFragment"
+            app:destination="@id/selectedTerrainFragment" />
     </fragment>
     <fragment
         android:id="@+id/terrainInfoFragment"
@@ -50,4 +53,8 @@
             android:id="@+id/action_terrainInfoFragment_to_TerrainFragment"
             app:destination="@id/TerrainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/selectedTerrainFragment"
+        android:name="pt.unl.fct.civitas.ui.home.SelectedTerrainFragment"
+        android:label="@string/your_terrain" />
 </navigation>

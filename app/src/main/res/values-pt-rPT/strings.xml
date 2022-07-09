@@ -73,4 +73,6 @@
     <string name="terrain_area">Área total deste terreno</string>
     <string name="owners">Outros proprietários</string>
     <string name="owners_add">Adicionar outros proprietários (ex. \"user2,user3\")</string>
+    <string name="your_terrain">O seu terreno</string>
+    <string name="terrain_get_directions">Obter direções</string>
 </resources>
