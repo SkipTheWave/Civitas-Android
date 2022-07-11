@@ -3,7 +3,7 @@
     <string name="prompt_username">Nome de utilizador</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Iniciar sessão</string>
-    <string name="welcome_user">Bem-vindo, %1$s!</string>
+    <string name="welcome_user">Bem-vindo(a), %1$s!</string>
     <string name="invalid_username">Nome de utilizador inválido</string>
     <string name="invalid_password">Senha tem de ter pelo menos 8 caracteres</string>
     <string name="login_failed">Falhou a tentativa de acesso</string>

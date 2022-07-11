@@ -92,12 +92,14 @@
 
         <TextView
             android:id="@+id/edit_terrain_parish"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/parish"
             android:textSize="@dimen/medium_text"
             app:layout_constraintBottom_toBottomOf="@id/terrain_parish_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/terrain_parish_title"
             app:layout_constraintTop_toTopOf="@id/terrain_parish_title" />
 
@@ -194,21 +196,23 @@
             android:id="@+id/terrain_other_owners_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="@string/owners"
+            app:layout_constraintBottom_toBottomOf="@id/terrain_other_owners_text"
             app:layout_constraintStart_toStartOf="@id/terrain_name_title"
-            app:layout_constraintTop_toBottomOf="@id/terrain_description_field" />
+            app:layout_constraintTop_toTopOf="@id/terrain_other_owners_text" />
 
         <TextView
             android:id="@+id/terrain_other_owners_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/other_owners"
             android:textSize="@dimen/medium_text"
-            app:layout_constraintBottom_toBottomOf="@id/terrain_other_owners_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/terrain_other_owners_title"
-            app:layout_constraintTop_toTopOf="@id/terrain_other_owners_title" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_description_field" />
 
         <TextView
             android:id="@+id/terrain_owners_title"
@@ -222,7 +226,7 @@
             android:id="@+id/terrain_owners_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="32dp"
             android:autofillHints="name"
             android:hint="@string/other_owners"
             android:inputType="none"
@@ -231,7 +235,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terrain_other_owners_title" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_other_owners_text" />
 
         <EditText
             android:id="@+id/terrain_type_field"

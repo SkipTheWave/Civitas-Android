@@ -107,7 +107,7 @@ public class SelectedTerrainFragment extends Fragment {
         terrainCoverageEditText.setText(terrain.coverage);
         currentUsageEditText.setText(terrain.current);
         previousUsageEditText.setText(terrain.last);
-        ownersText.setText(terrain.owners);
+        ownersText.setText(terrain.owners.replaceAll(",", ", "));
         parishText.setText(terrain.county);
         areaText.setText(dformat.format(terrain.area));
 
