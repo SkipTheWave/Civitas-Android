@@ -12,6 +12,7 @@ import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
+import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -45,6 +46,11 @@ public interface RestAPI {
     @POST("rest/terrain/getAllTerrain")
     Call<List<TerrainData>> getAllTerrains();
 
-    @POST("rest/terrain/terrainCounter")
-    Call<TerrainData> getTerrainInfo(@Body UsernameData data);
+    // returns terrainID
+    @POST("rest/terrain/updateTerrain")
+    Call<String> updateTerrain(@Body TerrainData data);
+
+    // returns owners ("user1,user2")
+    @POST("rest/terrain/share")
+    Call<String> shareTerrain(@Body shareTerrainInfo data);
 }

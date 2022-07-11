@@ -27,27 +27,23 @@
             android:id="@+id/profile_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/back"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_profile_visibility"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@id/profile_submit_button" />
 
         <Button
             android:id="@+id/profile_submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
             android:text="@string/apply_changes"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_profile_dropdown"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@id/profile_nif_field" />
 
         <TextView
             android:id="@+id/profile_username"
@@ -188,27 +184,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_telephone_field" />
-
-        <TextView
-            android:id="@+id/profile_profile_visibility"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/prompt_profile_visibility"
-            app:layout_constraintBottom_toBottomOf="@id/profile_profile_dropdown"
-            app:layout_constraintStart_toStartOf="@id/profile_nif_field"
-            app:layout_constraintTop_toTopOf="@id/profile_profile_dropdown" />
-
-        <Spinner
-            android:id="@+id/profile_profile_dropdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:entries="@array/profile_visibility"
-            android:minHeight="48dp"
-            android:spinnerMode="dropdown"
-            app:layout_constraintStart_toEndOf="@id/profile_profile_visibility"
-            app:layout_constraintTop_toBottomOf="@id/profile_nif_field" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

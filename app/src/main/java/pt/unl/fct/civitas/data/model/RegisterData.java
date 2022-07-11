@@ -6,7 +6,6 @@ public class RegisterData {
     public String confirmation;
     public String email;
     public String name;
-    public String profile;
     public String telephone;
     public String mobilePhone;
     public String nif;
@@ -16,13 +15,12 @@ public class RegisterData {
     }
 
     public RegisterData(String username, String password, String confirmation, String email, String name,
-                        String profile, String telephone, String mobilePhone, String nif) {
+                        String telephone, String mobilePhone, String nif) {
         this.username = username;
         this.password = password;
         this.confirmation = confirmation;
         this.email = email;
         this.name = name;
-        this.profile = profile;
         this.telephone = telephone;
         this.mobilePhone = mobilePhone;
         this.nif = nif;

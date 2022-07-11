@@ -71,8 +71,15 @@
     <string name="section_uneditable">Secção (não pode ser mudada)</string>
     <string name="terrain_id_uneditable">ID do terreno (não pode ser mudado)</string>
     <string name="terrain_area">Área total deste terreno</string>
-    <string name="owners">Outros proprietários</string>
+    <string name="other_owners">Outros proprietários</string>
     <string name="owners_add">Adicionar outros proprietários (ex. \"user2,user3\")</string>
     <string name="your_terrain">O seu terreno</string>
     <string name="terrain_get_directions">Obter direções</string>
+    <string name="terrain_share_self">Não pode partilhar um terreno consigo mesmo</string>
+    <string name="owners">Proprietários</string>
+    <string name="error_terrain_update">Atualização do terreno falhou...</string>
+    <string name="error_terrain_share">Partilha de terreno falhou... por favor verifique o campo de novos proprietários</string>
+    <string name="terrain_added">Terreno guardado</string>
+    <string name="success_terrain_share">Partilha de terreno com sucesso</string>
+    <string name="terrain_add_owners">Adicionar proprietários</string>
 </resources>

@@ -3,6 +3,8 @@ package pt.unl.fct.civitas.ui.home;
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.isEmailValid;
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.isNameValid;
 
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -20,6 +22,7 @@ import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
+import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 
 public class HomeViewModel extends ViewModel {
 
@@ -30,6 +33,8 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<ShowTerrainResult> showTerrainResult = new MutableLiveData<>();
     private MutableLiveData<ShowTerrainResult> showAllTerrainResult = new MutableLiveData<>();
     private MutableLiveData<RegisterTerrainResult> registerTerrainResult = new MutableLiveData<>();
+    private MutableLiveData<RegisterTerrainResult> updateTerrainResult = new MutableLiveData<>();
+    private MutableLiveData<RegisterTerrainResult> shareTerrainResult = new MutableLiveData<>();
     private MutableLiveData<RegisterTerrainResult> registerTerrainEndResult = new MutableLiveData<>();
     private MutableLiveData<ProfileFormState> profileFormState = new MutableLiveData<>();
     private MutableLiveData<TerrainInfoFormState> terrainFormState = new MutableLiveData<>();
@@ -50,12 +55,13 @@ public class HomeViewModel extends ViewModel {
         return showTerrainResult;
     }
     LiveData<ShowTerrainResult> getShowAllTerrainResult() { return showAllTerrainResult; }
-    //LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
+    LiveData<RegisterTerrainResult> getRegisterTerrainResult() { return registerTerrainResult; }
+    LiveData<RegisterTerrainResult> getShareTerrainResult() { return shareTerrainResult; }
+    LiveData<RegisterTerrainResult> getUpdateTerrainResult() { return updateTerrainResult; }
 
     void setCurrentTerrainData(TerrainData data) {
         currentTerrainData.setValue(data);
     }
-
     LiveData<TerrainData> getCurrentTerrainData() {
         return currentTerrainData;
     }
@@ -201,5 +207,46 @@ public class HomeViewModel extends ViewModel {
                 }
             }
         });
+    }
+
+    public void updateTerrain(TerrainData data) {
+        restRepository.updateTerrain(data, new RestRepositoryCallback<String>() {
+            @Override
+            public void onComplete(Result<String> result) {
+                // TODO might need to be changed to a new result type
+                if (result instanceof Result.Success) {
+                    updateTerrainResult.postValue(new RegisterTerrainResult(
+                            ((Result.Success<String>) result).getData(), null));
+                } else {
+                    updateTerrainResult.postValue(new RegisterTerrainResult(null,
+                            ((Result.Error) result).getError().getMessage()));
+                }
+            }
+        });
+    }
+
+    public void shareTerrain(shareTerrainInfo data) {
+        restRepository.shareTerrain(data, new RestRepositoryCallback<String>() {
+            @Override
+            public void onComplete(Result<String> result) {
+                if (result instanceof Result.Success) {
+                    shareTerrainResult.postValue(new RegisterTerrainResult(
+                            ((Result.Success<String>) result).getData(), null));
+                } else {
+                    shareTerrainResult.postValue(new RegisterTerrainResult(null,
+                            ((Result.Error) result).getError().getMessage()));
+                }
+            }
+        });
+    }
+
+    public String[] checkShares(String newShares, String owner) {
+        String[] newSharesAux = newShares.split(",");
+        for (int i = 0; i < newSharesAux.length; i++) {
+            if(newSharesAux[i].equals(owner)) {
+                return null;
+            }
+        }
+        return newSharesAux;
     }
 }

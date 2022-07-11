@@ -12,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +43,6 @@ public class ProfileFragment extends Fragment {
     private EditText telephoneEditText;
     private EditText mobilePhoneEditText;
     private EditText nifEditText;
-    private Spinner profileOption;
     private Button submitButton;
     private ProgressBar loadingProgressBar;
     private ProfileData profileData;
@@ -62,7 +59,6 @@ public class ProfileFragment extends Fragment {
             telephoneEditText = binding.profileTelephoneField;
             mobilePhoneEditText = binding.profileMobilePhoneField;
             nifEditText = binding.profileNifField;
-            profileOption = binding.profileProfileDropdown;
             submitButton = binding.profileSubmitButton;
             loadingProgressBar = binding.profileLoading;
 
@@ -111,7 +107,7 @@ public class ProfileFragment extends Fragment {
                 //loadingProgressBar.setVisibility(View.VISIBLE);
                 viewModel.editProfile(new ProfileData(profileData.username,
                         profileData.username, emailEditText.getText().toString(),
-                        nameEditText.getText().toString(), profileOption.getSelectedItem().toString(),
+                        nameEditText.getText().toString(),
                         checkUndefined( telephoneEditText.getText().toString() ),
                         checkUndefined( mobilePhoneEditText.getText().toString() ),
                         profileData.nif, profileData.role, profileData.state, profileData.profilePic));
@@ -132,7 +128,6 @@ public class ProfileFragment extends Fragment {
                     setTelephoneEditText(profileData.telephone);
                     setMobilePhoneEditText(profileData.mobilePhone);
                     setNifEditText(profileData.nif);
-                    setProfileOption(profileData.profile);
                 }
             }
         });
@@ -155,13 +150,6 @@ public class ProfileFragment extends Fragment {
     public void setMobilePhoneEditText(String text) { mobilePhoneEditText.setText(text); }
 
     public void setNifEditText(String text) { nifEditText.setText(text); }
-
-    public void setProfileOption(String option) {
-        SpinnerAdapter adapter = profileOption.getAdapter();
-        for(int i=0; i < profileOption.getCount(); i++)
-            if( profileOption.getItemAtPosition(i).equals(option) )
-                profileOption.setSelection(i);
-    }
 
     public void showProfileFailure() {
         Toast.makeText(getActivity(), R.string.error_show_profile, Toast.LENGTH_LONG);

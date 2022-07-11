@@ -138,6 +138,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         startLocationUpdates();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
+        //selectTerrainListener = new AdapterView.OnItemSelectedListener()
+
         viewModel.getShowTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
             @Override
             public void onChanged(@Nullable ShowTerrainResult terrainResult) {
@@ -150,7 +152,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                     terrainIds[i] = terrains.get(i).name;
                 }
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
-                        requireContext(), android.R.layout.simple_spinner_dropdown_item, terrainIds);
+                        requireContext(), R.layout.spinner_item_dropdown_map, terrainIds);
                 spinnerTerrain.setAdapter(spinnerAdapter);
 
                 // makes camera to move selected terrain on the list
@@ -554,7 +556,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onResume() {
-        mapView.onResume();
+        if(mapView != null)
+            mapView.onResume();
         if (requestingLocationUpdates) {
             startLocationUpdates();
         }
@@ -564,25 +567,29 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
+        if(mapView != null)
+            mapView.onStart();
     }
 
     @Override
     public void onPause() {
-        mapView.onPause();
+        if(mapView != null)
+            mapView.onPause();
         super.onPause();
         stopLocationUpdates();
     }
 
     @Override
     public void onStop() {
-        mapView.onStop();
+        if(mapView != null)
+            mapView.onStop();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        mapView.onDestroy();
+        if(mapView != null)
+            mapView.onDestroy();
         super.onDestroy();
     }
 

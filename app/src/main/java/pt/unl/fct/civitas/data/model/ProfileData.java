@@ -19,8 +19,8 @@ public class ProfileData {
 
     }
 
-    public ProfileData(String username, String changedUser, String email, String name, String profile,
-                       String telephone, String mobilePhone, String nif, String role, String state, String profilePic) {
+    public ProfileData(String username, String changedUser, String email, String name, String telephone,
+                       String mobilePhone, String nif, String role, String state, String profilePic) {
         this.username = username;
         this.changedUser = changedUser;
         this.email = email;

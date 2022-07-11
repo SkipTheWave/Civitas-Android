@@ -10,6 +10,7 @@ import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
+import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -132,6 +133,26 @@ public class RestRepository {
             @Override
             public void run() {
                 Result<List<TerrainData>> result = dataSource.getAllTerrains();
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void updateTerrain(TerrainData data, RestRepositoryCallback<String> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<String> result = dataSource.updateTerrain(data);
+                callback.onComplete(result);
+            }
+        });
+    }
+
+    public void shareTerrain(shareTerrainInfo data, RestRepositoryCallback<String> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<String> result = dataSource.shareTerrain(data);
                 callback.onComplete(result);
             }
         });

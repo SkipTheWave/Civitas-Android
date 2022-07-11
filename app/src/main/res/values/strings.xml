@@ -87,8 +87,15 @@
     <string name="terrain_id_uneditable">Terrain ID (cannot be changed)</string>
     <string name="terrain_area">Total area of this terrain</string>
     <string name="hectares" translatable="false">hectares</string>
-    <string name="owners">Other owners</string>
+    <string name="other_owners">Other owners</string>
     <string name="owners_add">Add other owners (ex. \"user2,user3\")</string>
     <string name="your_terrain">Your terrain</string>
     <string name="terrain_get_directions">Get directions</string>
+    <string name="terrain_share_self">You can\'t share a terrain with yourself</string>
+    <string name="error_terrain_update">Updating terrain info has failed...</string>
+    <string name="error_terrain_share">Sharing of the terrain has failed... please re-check the additional owner field</string>
+    <string name="owners">Owners</string>
+    <string name="terrain_added">Terrain saved</string>
+    <string name="success_terrain_share">Terrain sharing successful</string>
+    <string name="terrain_add_owners">Add owners</string>
 </resources>

@@ -23,6 +23,43 @@ public class TerrainData {
     public TerrainData() {
 
     }
+    public TerrainData(String terrainId, String owner, double area, String county, String section, String article, String name,
+                       String description, String coverage, String current, String last, String owners,String approved,List<VertexData> vertices) {
+        this.terrainId = terrainId;
+        this.owner = owner;
+        this.area = area;
+        this.county = county;
+        this.section = section;
+        this.article = article;
+        this.name = name;
+        this.description = description;
+        this.coverage = coverage;
+        this.current = current;
+        this.last = last;
+        this.owners = owners;
+        this.vertices = vertices;
+        this.approved = approved;
+    }
+
+
+    public TerrainData(String terrainId, String owner, double area, String county, String section, String article, String name,
+                       String description, String coverage, String current, String last, String owners,String approved, boolean shared, List<VertexData> vertices) {
+        this.terrainId = terrainId;
+        this.owner = owner;
+        this.area = area;
+        this.county = county;
+        this.section = section;
+        this.article = article;
+        this.name = name;
+        this.description = description;
+        this.coverage = coverage;
+        this.current = current;
+        this.last = last;
+        this.owners = owners;
+        this.vertices = vertices;
+        this.approved = approved;
+        this.shared = shared;
+    }
 
     public TerrainData(String owner, double area, String county, String section, String article, String name,
                        String description, String coverage, String current, String last, String owners, String approved) {
@@ -40,70 +77,23 @@ public class TerrainData {
         this.approved = approved;
     }
 
-    public TerrainData(String terrainId, String owner, String name, String description, String coverage,
-                       String current, String last, String owners, String approved) {
-        this.terrainId = terrainId;
-        this.owner = owner;
-        this.name = name;
-        this.description = description;
-        this.coverage = coverage;
-        this.current = current;
-        this.last = last;
-        this.owners = owners;
-        this.approved = approved;
-    }
-
-    public TerrainData(String terrainId, String owner, double area, String county, String section, String article,
-                       String name, String description, String coverage, String current, String last, String owners,
-                       String approved, List vertices) {
-        this.terrainId = terrainId;
-        this.owner = owner;
-        this.area = area;
-        this.county = county;
-        this.section = section;
-        this.article = article;
-        this.name = name;
-        this.description = description;
-        this.coverage = coverage;
-        this.current = current;
-        this.last = last;
-        this.owners = owners;
-        this.vertices = vertices;
-        this.approved = approved;
-    }
-
-    public TerrainData(String terrainId, String owner, String approved, boolean shared, List vertices) {
-        this.terrainId = terrainId;
-        this.owner = owner;
-        this.approved = approved;
-        this.shared = shared;
-        this.vertices = vertices;
-
-    }
-
     public TerrainData(String username, String owner, String terrainId){
         this.username = username;
         this.owner = owner;
         this.terrainId = terrainId;
     }
 
-    public TerrainData(String terrainId, String owner, double area, String county, String section, String article,
-                       String name, String description, String coverage, String current, String last, String owners,
-                       String approved, boolean shared, List vertices) {
+    public TerrainData(String username, String terrainId, String owner, String name, String description, String coverage,
+                       String current, String last, String owners, String approved) {
+        this.username = username;
         this.terrainId = terrainId;
         this.owner = owner;
-        this.area = area;
-        this.county = county;
-        this.section = section;
-        this.article = article;
         this.name = name;
         this.description = description;
         this.coverage = coverage;
         this.current = current;
         this.last = last;
         this.owners = owners;
-        this.vertices = vertices;
         this.approved = approved;
-        this.shared = shared;
     }
 }

@@ -11,6 +11,7 @@ import pt.unl.fct.civitas.data.model.TerrainIdData;
 import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
+import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -70,10 +71,10 @@ public class DataSource {
     }
 
     public Result<Void> register(String username, String password, String confirmPassword, String email,
-                                 String name, String profile, String telephone, String mobilePhone, String nif) {
+                                 String name, String telephone, String mobilePhone, String nif) {
         try {
             Call<Void> registerService = service.registerUser(new RegisterData(username, password,
-                    confirmPassword, email, name, profile, telephone, mobilePhone, nif)) ;
+                    confirmPassword, email, name, telephone, mobilePhone, nif)) ;
             Response<Void> registerResponse = registerService.execute();
             if( registerResponse.isSuccessful() ) {
                 //String responseText = registerResponse.body();
@@ -167,6 +168,36 @@ public class DataSource {
             if( terrainResponse.isSuccessful() ) {
                 List<TerrainData> terrains = terrainResponse.body();
                 return new Result.Success<>(terrains);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("IOException moment", e));
+        }
+    }
+
+    public Result<String> updateTerrain(TerrainData data) {
+        try {
+            Call<String> terrainService = service.updateTerrain(data) ;
+            Response<String> terrainResponse = terrainService.execute();
+            if( terrainResponse.isSuccessful() ) {
+                String terrainId = terrainResponse.body();
+                return new Result.Success<>(terrainId);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("IOException moment", e));
+        }
+    }
+
+    public Result<String> shareTerrain(shareTerrainInfo data) {
+        try {
+            Call<String> terrainService = service.shareTerrain(data) ;
+            Response<String> terrainResponse = terrainService.execute();
+            if( terrainResponse.isSuccessful() ) {
+                String owners = terrainResponse.body();
+                return new Result.Success<>(owners);
             } else {
                 return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
             }

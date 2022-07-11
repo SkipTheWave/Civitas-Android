@@ -35,7 +35,7 @@ public class RegisterRepository {
             @Override
             public void run() {
                 Result<Void> result = dataSource.register(username, password, confirmPassword, email,
-                        name, profile, telephone, mobilePhone, nif);
+                        name, telephone, mobilePhone, nif);
                 callback.onComplete(result);
             }
         });
