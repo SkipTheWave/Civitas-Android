@@ -1,8 +1,14 @@
 package pt.unl.fct.civitas.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -11,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -20,6 +27,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.io.InputStream;
+import java.net.URL;
 
 import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.databinding.ActivityHomeBinding;
@@ -77,7 +87,35 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        viewModel.getProfilePicResult().observe(this, new Observer<ProfilePicResult>() {
+            @Override
+            public void onChanged(@Nullable ProfilePicResult pfpResult) {
+                if(pfpResult == null)
+                    return;
+                if (pfpResult.getSuccess() != null) {
+                    Context c = getApplicationContext();
+                    String url = pfpResult.getSuccess();
+                    SharedPreferences prefs = c.getSharedPreferences(
+                            c.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(c.getString(R.string.shared_preferences_pfp), url);
+                    editor.apply();
+
+                    //if(!url.isEmpty())
+                    Glide.with(HomeActivity.this)
+                            .load(url)
+                            .placeholder(R.drawable.ic_person)
+                            .circleCrop()
+                            .into((ImageView) findViewById(R.id.toolbar_image));
+                }
+            }
+        });
+
+        viewModel.getProfilePic();
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -87,6 +125,19 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void signOut() {
+        Context c = getApplicationContext();
+        SharedPreferences prefs = c.getSharedPreferences(
+                c.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        prefs.edit().clear().apply();
         viewModel.logout();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Context c = getApplicationContext();
+        SharedPreferences prefs = c.getSharedPreferences(
+                c.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        prefs.edit().clear().apply();
+        super.onDestroy();
     }
 }

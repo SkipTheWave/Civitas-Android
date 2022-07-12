@@ -39,6 +39,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<ProfileFormState> profileFormState = new MutableLiveData<>();
     private MutableLiveData<TerrainInfoFormState> terrainFormState = new MutableLiveData<>();
     private MutableLiveData<ProfileResult> profileResult = new MutableLiveData<>();
+    private MutableLiveData<ProfilePicResult> profilePicResult = new MutableLiveData<>();
     private MutableLiveData<TerrainData> currentTerrainData = new MutableLiveData<>();
     private RestRepository restRepository;
 
@@ -50,6 +51,7 @@ public class HomeViewModel extends ViewModel {
     LiveData<ProfileResult> getProfileResult() {
         return profileResult;
     }
+    LiveData<ProfilePicResult> getProfilePicResult() { return profilePicResult; }
 
     LiveData<ShowTerrainResult> getShowTerrainResult() {
         return showTerrainResult;
@@ -90,6 +92,21 @@ public class HomeViewModel extends ViewModel {
                     profileResult.postValue(auxResult);
                 } else {
                     profileResult.postValue(new ProfileResult(R.string.error_show_profile));
+                }
+            }
+        });
+    }
+
+    public void getProfilePic() {
+        restRepository.getProfilePic(new RestRepositoryCallback<String>() {
+            @Override
+            public void onComplete(Result<String> result) {
+                if (result instanceof Result.Success) {
+                    String url = ((Result.Success<String>) result).getData();
+                    ProfilePicResult auxResult = new ProfilePicResult(url);
+                    profilePicResult.postValue(auxResult);
+                } else {
+                    profilePicResult.postValue(new ProfilePicResult(R.string.error_show_profile));
                 }
             }
         });
@@ -251,5 +268,9 @@ public class HomeViewModel extends ViewModel {
             }
         }
         return newSharesAux;
+    }
+
+    public boolean isTokenExpired(String errorMessage) {
+        return errorMessage.contains("417");
     }
 }

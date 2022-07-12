@@ -2,6 +2,8 @@ package pt.unl.fct.civitas.ui.home;
 
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.checkUndefined;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import pt.unl.fct.civitas.R;
@@ -91,14 +95,6 @@ public class ProfileFragment extends Fragment {
         emailEditText.addTextChangedListener(afterTextChangedListener);
         nameEditText.addTextChangedListener(afterTextChangedListener);
 
-        binding.profileBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ProfileFragment.this)
-                        .navigate(R.id.action_ProfileFragment_to_FirstFragment);
-            }
-        });
-
         binding.profileSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +115,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onChanged(@Nullable ProfileResult profileResult) {
                 if( profileResult.getError() != null ) {
+                    if(viewModel.isTokenExpired( profileResult.getError().toString()) )
                     showProfileFailure();
                 } else if( profileResult.getSuccess() != null ) {
                     loadingProgressBar.setVisibility(View.GONE);
@@ -131,6 +128,17 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+        Context c = getActivity().getApplicationContext();
+        SharedPreferences prefs = c.getSharedPreferences(c.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        String pfpUrl = prefs.getString(c.getString(R.string.shared_preferences_pfp), "");
+
+        //if(!pfpUrl.isEmpty())
+            Glide.with(getActivity())
+                    .load(pfpUrl)
+                    .placeholder(R.drawable.ic_person)
+                    .circleCrop()
+                    .into((ImageView) view.findViewById(R.id.profile_avatar));
 
         viewModel.getProfile();
     }

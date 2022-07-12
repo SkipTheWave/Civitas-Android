@@ -61,7 +61,7 @@
     <string name="parish_carvoeiro" translatable="false">Carvoeiro</string>
     <string name="parish_envendos" translatable="false">Envendos</string>
     <string name="parish_ortiga" translatable="false">Ortiga</string>
-    <string name="parish_macao_penhascoso_aboboreira" translatable="false">Mação, Penhascoso e Aboboreira</string>
+    <string name="parish_macao_penhascoso_aboboreira" translatable="false">Mação, Penhasco e Aboboreira</string>
     <string name="terrain_data_insert_prompt">Please tell us about your terrain</string>
     <string name="terrain_name_prompt">Name of this terrain</string>
     <string name="parish">Parish</string>
@@ -101,4 +101,7 @@
     <string name="error_add_terrain">Error adding terrain... the inserted data is likely the cause</string>
     <string name="success_add_terrain">Terrain registered successfully!</string>
     <string name="terrain_id">Terrain ID</string>
+    <string name="shared_preferences_pfp" translatable="false">pt.unl.fct.civitas.profilePic</string>
+    <string name="error_server_code">"Server error: code "</string>
+    <string name="error_token_expired">Your session has expired. Please login again.</string>
 </resources>

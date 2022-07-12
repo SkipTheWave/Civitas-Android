@@ -85,4 +85,6 @@
     <string name="error_add_terrain">Erro a adicionar terreno... os dados inseridos podem ser a causa</string>
     <string name="success_add_terrain">Terreno registado com sucesso</string>
     <string name="terrain_id">ID do terreno</string>
+    <string name="error_server_code">Erro de servidor: código</string>
+    <string name="error_token_expired">A sua sessão expirou. Por favor entre novamente.</string>
 </resources>

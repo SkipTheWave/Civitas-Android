@@ -40,6 +40,7 @@ import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 import pt.unl.fct.civitas.databinding.FragmentTerrainInfoBinding;
 import pt.unl.fct.civitas.databinding.FragmentTerrainSelectedBinding;
+import pt.unl.fct.civitas.util.ParishAdapter;
 
 public class SelectedTerrainFragment extends Fragment {
 
@@ -59,7 +60,6 @@ public class SelectedTerrainFragment extends Fragment {
     private TextView parishText;
     private TextView areaText;
     private TextView terrainIdText;
-    private Button uploadButton;
     private Button submitButton;
     private Button shareButton;
     private Button directionsButton;
@@ -110,7 +110,7 @@ public class SelectedTerrainFragment extends Fragment {
         currentUsageEditText.setText(terrain.current);
         previousUsageEditText.setText(terrain.last);
         ownersText.setText(terrain.owners.replaceAll(",", ", "));
-        parishText.setText(terrain.county);
+        parishText.setText( ParishAdapter.deAdaptParish( terrain.county ) );
         areaText.setText(dformat.format(terrain.area));
         terrainIdText.setText(terrain.terrainId);
 

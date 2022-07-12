@@ -388,6 +388,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             viewModel.registerTerrain(terrainData, vertices);
             addingTerrain = true;
             terrainData.owners = terrainData.owner;
+            terrainData.terrainId = "calculating...";
+            terrainData.vertices = vertices;
             polygon.setTag(terrainData);
             cancelTerrainOp();
         });
@@ -509,7 +511,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 });
             }
         } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage(), e);
         }
     }
 
@@ -520,7 +521,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                         locationCallback,
                         Looper.getMainLooper());
             } catch (SecurityException e) {
-                Log.e("Exception: %s", e.getMessage());
             }
         }
     }
@@ -560,7 +560,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 getLocationPermission();
             }
         } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
         }
     }
 
@@ -592,6 +591,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onPause() {
+        refreshFragment();
         if(mapView != null)
             mapView.onPause();
         super.onPause();

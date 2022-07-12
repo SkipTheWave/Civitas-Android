@@ -35,6 +35,8 @@ import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
 import pt.unl.fct.civitas.databinding.FragmentTerrainInfoBinding;
+import pt.unl.fct.civitas.util.GeometryHelper;
+import pt.unl.fct.civitas.util.ParishAdapter;
 
 public class TerrainInfoFragment extends Fragment {
 
@@ -112,7 +114,7 @@ public class TerrainInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TerrainData data = new TerrainData(homeViewModel.getUsername(), 0.0,
-                        parishDropdown.getSelectedItem().toString(),
+                        ParishAdapter.adaptParish( parishDropdown.getSelectedItem().toString() ),
                         checkUndefined( sectionEditText.getText().toString() ),
                         checkUndefined( articleEditText.getText().toString() ),
                         checkUndefined( nameEditText.getText().toString() ),

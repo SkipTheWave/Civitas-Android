@@ -48,7 +48,7 @@ public class DataSource {
             if( loginResponse.isSuccessful() ) {
                 return new Result.Success<>(loginResponse.body());
             } else {
-                return new Result.Error(new Exception("Server result code: " + loginResponse.code()));
+                return new Result.Error(new Exception("Server error: code " + loginResponse.code()));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error", e));
@@ -62,7 +62,7 @@ public class DataSource {
             if( response.isSuccessful() && response.body() != null) {
                 return new Result.Success<>(response.body()[1]);
             } else {
-                return new Result.Error(new Exception("Server result code: " + response.code()));
+                return new Result.Error(new Exception("Server error: code " + response.code()));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error", e));
@@ -76,7 +76,7 @@ public class DataSource {
             if( logoutResponse.isSuccessful() ) {
                 return new Result.Success<>(R.string.sign_out_success);
             } else {
-                return new Result.Error(new Exception("Server result code: " + logoutResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + logoutResponse.code() ));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error", e));
@@ -94,7 +94,7 @@ public class DataSource {
                 //String responseText = registerResponse.body();
                 return new Result.Success<>(R.string.register_success);
             } else {
-                return new Result.Error(new Exception("Server result code: " + registerResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + registerResponse.code() ));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("Error registering", e));
@@ -109,7 +109,7 @@ public class DataSource {
                 ProfileData data = profileResponse.body();
                 return new Result.Success<>(data);
             } else {
-                return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + profileResponse.code() ));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error", e));
@@ -124,7 +124,7 @@ public class DataSource {
                 String responseText = profileResponse.body();
                 return new Result.Success<>(responseText);
             } else {
-                return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + profileResponse.code() ));
             }
         } catch (Exception e) {
             return new Result.Error(new IOException("IO error", e));
@@ -139,10 +139,10 @@ public class DataSource {
                 List<TerrainData> terrains = terrainResponse.body();
                 return new Result.Success<>(terrains);
             } else {
-                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IOException moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -153,10 +153,10 @@ public class DataSource {
             if( vertexResponse.isSuccessful() ) {
                 return new Result.Success<>(null);
             } else {
-                return new Result.Error(new Exception("Server result code: " + vertexResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + vertexResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IOException moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -168,10 +168,10 @@ public class DataSource {
                 String terrainId = terrainResponse.body();
                 return new Result.Success<>(terrainId);
             } else {
-                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IOException moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -183,10 +183,10 @@ public class DataSource {
                 List<TerrainData> terrains = terrainResponse.body();
                 return new Result.Success<>(terrains);
             } else {
-                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IOException moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -198,10 +198,10 @@ public class DataSource {
                 String terrainId = terrainResponse.body();
                 return new Result.Success<>(terrainId);
             } else {
-                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IOException moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -213,10 +213,10 @@ public class DataSource {
                 String owners = terrainResponse.body();
                 return new Result.Success<>(owners);
             } else {
-                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+                return new Result.Error(new Exception("Server error: code " + terrainResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IOException moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -234,7 +234,7 @@ public class DataSource {
 //                }
 //                return new Result.Success<>(terrains);
 //            } else {
-//                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
+//                return new Result.Error(new Exception("Server error: code " + terrainResponse.code() ));
 //            }
 //        } catch (Exception e) {
 //            return new Result.Error(new IOException("IO error", e));
