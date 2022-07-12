@@ -24,6 +24,6 @@ public class VertexData implements Comparable<VertexData> {
     // if s1 == s2, it returns 0
     @Override
     public int compareTo(VertexData otherVertex) {
-        return this.id.compareTo(otherVertex.id);
+        return Integer.parseInt(this.id) - Integer.parseInt(otherVertex.id);
     }
 }

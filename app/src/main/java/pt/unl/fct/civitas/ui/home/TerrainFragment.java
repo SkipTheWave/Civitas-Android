@@ -93,7 +93,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private static final int OWN_REJECTED_FILL_COLOR = 0x44ee2200;
     private static final int SHARED_OUTLINE_COLOR = 0xdd2233dd;
     private static final int SHARED_FILL_COLOR = 0x442233dd;
-    private static final int ALL_FILL_COLOR = 0x77444444;
+    private static final int ALL_FILL_COLOR = 0x7733aa44;
     private static final int ERROR_FILL_COLOR = 0x66eeeeee;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
@@ -181,10 +181,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
                     @Override
                     public void onPolygonClick(@NonNull Polygon polygon) {
-                        // TODO redirect to terrain info page, or something
-//                        if(polygon.getTag() != null)
-//                            Toast.makeText(getActivity(), "Voila! This is " +
-//                                    ((TerrainData) polygon.getTag()).terrainId, Toast.LENGTH_SHORT).show();
                         viewModel.setSelectedTerrain((TerrainData) polygon.getTag());
                         NavHostFragment.findNavController(TerrainFragment.this)
                                 .navigate(R.id.action_TerrainFragment_to_selectedTerrainFragment);
@@ -206,6 +202,21 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
                 Toast.makeText(getActivity(), R.string.help_add_terrain, Toast.LENGTH_LONG).show();
                 showTerrainsAux(terrainResult, true);
+            }
+        });
+        viewModel.getRegisterTerrainEndResult().observe(getViewLifecycleOwner(), new Observer<RegisterTerrainResult>() {
+            @Override
+            public void onChanged(@Nullable RegisterTerrainResult result) {
+                loading.setVisibility(View.GONE);
+                if(result == null || getActivity() == null || !HomeViewModel.addTerrainMode)
+                    return;
+                if (result.getError() != null) {
+                    Toast.makeText(getActivity(), R.string.error_add_terrain, Toast.LENGTH_LONG).show();
+                    refreshFragment();
+                }
+                if (result.getSuccess() != null) {
+                    Toast.makeText(getActivity(), R.string.success_add_terrain, Toast.LENGTH_SHORT).show();
+                }
             }
         });
         updateLocationUI();
@@ -320,7 +331,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         mMap.setOnMapClickListener(null);
     }
 
-
     private void addTerrain(TerrainData terrainData) {
         startTerrainOp();
         List<LatLng> points = new LinkedList<>();
@@ -370,6 +380,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             userTerrains.add(terrainData);
             terrainData.area = computeArea(points) / 10000;
             viewModel.registerTerrain(terrainData, vertices);
+            terrainData.owners = terrainData.owner;
+            polygon.setTag(terrainData);
             cancelTerrainOp();
         });
 
@@ -463,7 +475,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(4000);
-        mLocationRequest.setFastestInterval(3000);
+        mLocationRequest.setFastestInterval(2000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 

@@ -26,15 +26,12 @@
             android:id="@+id/terrain_submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="48dp"
             android:enabled="false"
             android:text="@string/set_terrain_area"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terrain_upload_file_button"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_previous_usage_field" />
 
         <EditText
             android:id="@+id/terrain_name_field"
@@ -64,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="@string/parish"
             app:layout_constraintBottom_toBottomOf="@id/parish_dropdown"
-            app:layout_constraintStart_toStartOf="@id/terrain_owners_field"
+            app:layout_constraintStart_toStartOf="@id/terrain_name_title"
             app:layout_constraintTop_toTopOf="@id/parish_dropdown" />
 
         <Spinner
@@ -145,29 +142,6 @@
             app:layout_constraintBottom_toTopOf="@id/terrain_section_field"
             app:layout_constraintStart_toStartOf="@id/terrain_section_field" />
 
-        <TextView
-            android:id="@+id/terrain_owners_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/owners_long"
-            app:layout_constraintBottom_toTopOf="@id/terrain_owners_field"
-            app:layout_constraintStart_toStartOf="@id/terrain_owners_field" />
-
-        <EditText
-            android:id="@+id/terrain_owners_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:autofillHints="name"
-            android:hint="@string/other_owners"
-            android:inputType="none"
-            android:minHeight="48dp"
-            android:selectAllOnFocus="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terrain_description_field" />
-
         <EditText
             android:id="@+id/terrain_type_field"
             android:layout_width="0dp"
@@ -181,7 +155,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terrain_owners_field" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_description_field" />
 
         <TextView
             android:id="@+id/terrain_type_title"
@@ -234,25 +208,6 @@
             android:text="@string/previous_usage"
             app:layout_constraintBottom_toTopOf="@id/terrain_previous_usage_field"
             app:layout_constraintStart_toStartOf="@id/terrain_previous_usage_field" />
-
-        <TextView
-            android:id="@+id/terrain_documentation_prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/terrain_documentation"
-            app:layout_constraintBottom_toBottomOf="@id/terrain_upload_file_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/terrain_upload_file_button" />
-
-        <Button
-            android:id="@+id/terrain_upload_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/upload_file"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/terrain_documentation_prompt"
-            app:layout_constraintTop_toBottomOf="@id/terrain_previous_usage_field" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

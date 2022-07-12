@@ -56,6 +56,7 @@ public class HomeViewModel extends ViewModel {
     }
     LiveData<ShowTerrainResult> getShowAllTerrainResult() { return showAllTerrainResult; }
     LiveData<RegisterTerrainResult> getRegisterTerrainResult() { return registerTerrainResult; }
+    LiveData<RegisterTerrainResult> getRegisterTerrainEndResult() { return registerTerrainEndResult; }
     LiveData<RegisterTerrainResult> getShareTerrainResult() { return shareTerrainResult; }
     LiveData<RegisterTerrainResult> getUpdateTerrainResult() { return updateTerrainResult; }
 
@@ -178,6 +179,8 @@ public class HomeViewModel extends ViewModel {
                     // TODO maybe find some way of counting all the successes to know if not a single vertex failed
                     registerTerrainEndResult.setValue(new RegisterTerrainResult(observedResult.getSuccess(), null));
                 }
+                else
+                    registerTerrainEndResult.setValue(new RegisterTerrainResult(null, observedResult.getError()));
             }
         });
         restRepository.registerTerrain(data, new RestRepositoryCallback<String>() {

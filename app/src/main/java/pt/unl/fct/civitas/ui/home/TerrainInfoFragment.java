@@ -49,9 +49,7 @@ public class TerrainInfoFragment extends Fragment {
     private EditText terrainCoverageEditText;
     private EditText currentUsageEditText;
     private EditText previousUsageEditText;
-    private EditText ownersEditText;
     private Spinner parishDropdown;
-    private Button uploadButton;
     private Button submitButton;
 
     @Override
@@ -72,7 +70,6 @@ public class TerrainInfoFragment extends Fragment {
         terrainCoverageEditText = binding.terrainTypeField;
         currentUsageEditText = binding.terrainCurrentUsageField;
         previousUsageEditText = binding.terrainPreviousUsageField;
-        ownersEditText = binding.terrainOwnersField;
         parishDropdown = binding.parishDropdown;
         submitButton = (Button) view.findViewById(R.id.terrain_submit_button);
 
@@ -123,7 +120,7 @@ public class TerrainInfoFragment extends Fragment {
                         checkUndefined( terrainCoverageEditText.getText().toString() ),
                         checkUndefined( currentUsageEditText.getText().toString() ),
                         checkUndefined( previousUsageEditText.getText().toString() ),
-                        checkUndefined( ownersEditText.getText().toString() ),
+                        "",
                         TERRAIN_SAVED_APPROVAL);
                 homeViewModel.addTerrainAux(data);
                 HomeViewModel.addTerrainMode = true;
