@@ -100,4 +100,5 @@
     <string name="terrain_add_owners">Add owners</string>
     <string name="error_add_terrain">Error adding terrain... the inserted data is likely the cause</string>
     <string name="success_add_terrain">Terrain registered successfully!</string>
+    <string name="terrain_id">Terrain ID</string>
 </resources>

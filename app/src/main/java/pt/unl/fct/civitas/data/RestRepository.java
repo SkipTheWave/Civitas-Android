@@ -75,6 +75,16 @@ public class RestRepository {
         });
     }
 
+    public void getProfilePic(RestRepositoryCallback<String> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Result<String> result = dataSource.getProfilePic(user.getUsername());
+                callback.onComplete(result);
+            }
+        });
+    }
+
     public void getProfile(RestRepositoryCallback<ProfileData> callback) {
         executor.execute(new Runnable() {
             @Override

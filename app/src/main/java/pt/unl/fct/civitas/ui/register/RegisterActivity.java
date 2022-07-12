@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText telephoneEditText = binding.telephone;
         final EditText mobilePhoneEditText = binding.mobilePhone;
         final EditText nifEditText = binding.nif;
-        final Spinner profileOption = binding.profileDropdown;
         final Button registerButton = binding.register;
         final ProgressBar loadingProgressBar = binding.loading;
 
@@ -127,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
                 registerViewModel.register(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(),
                         emailEditText.getText().toString(), nameEditText.getText().toString(),
-                        profileOption.getSelectedItem().toString(), telephoneEditText.getText().toString(),
+                        telephoneEditText.getText().toString(),
                         mobilePhoneEditText.getText().toString(), nifEditText.getText().toString());
             }
         });

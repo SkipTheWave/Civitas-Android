@@ -22,7 +22,10 @@ public interface RestAPI {
     @POST("rest/login/v2")
     Call<LoggedInUser> doLogin(@Body LoginData credentials) ;
 
-    @POST("rest/register/v1")
+    @POST("rest/login/getNamePic")
+    Call<String[]> getProfilePic(@Body UsernameData data) ;
+
+    @POST("rest/register/registerAndroid")
     Call<Void> registerUser(@Body RegisterData data);
 
     @POST("rest/login/logout")

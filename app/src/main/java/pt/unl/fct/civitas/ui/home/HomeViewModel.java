@@ -158,10 +158,10 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onComplete(Result<Void> result) {
                 if (result instanceof Result.Success) {
-                    registerTerrainResult.postValue(new RegisterTerrainResult("Vertex registered", null));
+//                    registerTerrainResult.postValue(new RegisterTerrainResult("Vertex registered", null));
                 } else {
-                    registerTerrainResult.postValue(new RegisterTerrainResult(null,
-                            ((Result.Error) result).getError().getMessage()));
+//                    registerTerrainResult.postValue(new RegisterTerrainResult(null,
+//                            ((Result.Error) result).getError().getMessage()));
                 }
             }
         });

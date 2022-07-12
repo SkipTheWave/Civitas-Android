@@ -24,7 +24,7 @@
     <string name="error_different_passwords">As senhas não são iguais</string>
     <string name="prompt_telephone">Telefone (opcional)</string>
     <string name="prompt_mobilePhone">Telemóvel (opcional)</string>
-    <string name="prompt_nif">NIF (opcional)</string>
+    <string name="prompt_nif">NIF</string>
     <string name="invalid_email">Endereço email inválido</string>
     <string name="invalid_name">Nome inválido</string>
     <string name="sign_out">Terminar sessão</string>
@@ -84,4 +84,5 @@
     <string name="terrain_add_owners">Adicionar proprietários</string>
     <string name="error_add_terrain">Erro a adicionar terreno... os dados inseridos podem ser a causa</string>
     <string name="success_add_terrain">Terreno registado com sucesso</string>
+    <string name="terrain_id">ID do terreno</string>
 </resources>

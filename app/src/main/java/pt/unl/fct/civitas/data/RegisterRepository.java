@@ -29,7 +29,7 @@ public class RegisterRepository {
     }
 
     public void register(String username, String password, String confirmPassword, String email, String name,
-                         String profile, String telephone, String mobilePhone, String nif, RepositoryCallback<Void> callback) {
+                         String telephone, String mobilePhone, String nif, RepositoryCallback<Void> callback) {
         // handle login in a separate thread
         executor.execute(new Runnable() {
             @Override

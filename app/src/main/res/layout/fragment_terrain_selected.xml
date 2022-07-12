@@ -12,6 +12,28 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_horizontal_margin">
 
+        <TextView
+            android:id="@+id/terrain_id_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/terrain_id"
+            app:layout_constraintStart_toStartOf="@id/terrain_owners_field"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/terrain_id_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/terrain_id"
+            android:textSize="@dimen/bigger_text"
+            app:layout_constraintBottom_toBottomOf="@id/terrain_id_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/terrain_id_title"
+            app:layout_constraintTop_toTopOf="@id/terrain_id_title" />
+
         <ProgressBar
             android:id="@+id/edit_terrain_loading"
             style="?android:attr/progressBarStyle"
@@ -71,7 +93,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/terrain_id_text" />
 
         <TextView
             android:id="@+id/terrain_name_title"

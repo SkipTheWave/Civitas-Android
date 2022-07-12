@@ -34,8 +34,8 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void register(String username, String password, String confirmPassword, String email, String name,
-                         String profile, String telephone, String mobilePhone, String nif) {
-        registerRepository.register(username, password, confirmPassword, email, name, profile,
+                         String telephone, String mobilePhone, String nif) {
+        registerRepository.register(username, password, confirmPassword, email, name,
                 checkUndefined(telephone), checkUndefined(mobilePhone), nif, new RepositoryCallback<Void>() {
             @Override
             public void onComplete(Result<Void> result) {

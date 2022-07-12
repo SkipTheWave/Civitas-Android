@@ -94,7 +94,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private static final int SHARED_OUTLINE_COLOR = 0xdd2233dd;
     private static final int SHARED_FILL_COLOR = 0x442233dd;
     private static final int ALL_FILL_COLOR = 0x7733aa44;
-    private static final int ERROR_FILL_COLOR = 0x66eeeeee;
+    private static final int ERROR_FILL_COLOR = 0xeeeeeeee;
 
     private final LatLng DEFAULT_LOCATION = new LatLng(39.5554, -7.9960);
     private static final int DEFAULT_ZOOM = 14;
@@ -103,6 +103,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private MapView mapView;
     private boolean locationPermissionGranted;
     private boolean requestingLocationUpdates;
+    private boolean addingTerrain;
     private Button buttonAddTerrain;
     private Button buttonEditTerrain;
     private Button buttonCancel;
@@ -198,6 +199,9 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         viewModel.getShowAllTerrainResult().observe(getViewLifecycleOwner(), new Observer<ShowTerrainResult>() {
             @Override
             public void onChanged(@Nullable ShowTerrainResult terrainResult) {
+                if(terrainResult == null || getActivity() == null || !HomeViewModel.addTerrainMode)
+                    return;
+
                 loading.setVisibility(View.GONE);
 
                 Toast.makeText(getActivity(), R.string.help_add_terrain, Toast.LENGTH_LONG).show();
@@ -208,8 +212,10 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onChanged(@Nullable RegisterTerrainResult result) {
                 loading.setVisibility(View.GONE);
-                if(result == null || getActivity() == null || !HomeViewModel.addTerrainMode)
+                if(result == null || getActivity() == null || !addingTerrain)
                     return;
+                addingTerrain = false;
+                HomeViewModel.addTerrainMode = false;
                 if (result.getError() != null) {
                     Toast.makeText(getActivity(), R.string.error_add_terrain, Toast.LENGTH_LONG).show();
                     refreshFragment();
@@ -284,7 +290,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         buttonAddTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //addTerrainMode = true;
                 NavHostFragment.findNavController(TerrainFragment.this)
                         .navigate(R.id.action_TerrainFragment_to_terrainInfoFragment);
             }
@@ -363,6 +368,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             if( checkIntersections(false, points, shownTerrains) ) {
                 Toast.makeText(requireActivity(), R.string.error_terrain_intersection, Toast.LENGTH_LONG).show();
                 line.remove();
+                points.clear();
                 for(Marker m : markers)
                     m.remove();
                 buttonFinish.setEnabled(false);
@@ -380,6 +386,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             userTerrains.add(terrainData);
             terrainData.area = computeArea(points) / 10000;
             viewModel.registerTerrain(terrainData, vertices);
+            addingTerrain = true;
             terrainData.owners = terrainData.owner;
             polygon.setTag(terrainData);
             cancelTerrainOp();

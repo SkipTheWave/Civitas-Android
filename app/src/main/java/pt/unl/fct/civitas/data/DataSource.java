@@ -51,7 +51,21 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + loginResponse.code()));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IO error moment", e));
+            return new Result.Error(new IOException("IO error", e));
+        }
+    }
+
+    public Result<String> getProfilePic(String username) {
+        try {
+            Call<String[]> picService = service.getProfilePic(new UsernameData(username));
+            Response<String[]> response = picService.execute();
+            if( response.isSuccessful() && response.body() != null) {
+                return new Result.Success<>(response.body()[1]);
+            } else {
+                return new Result.Error(new Exception("Server result code: " + response.code()));
+            }
+        } catch (Exception e) {
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -65,7 +79,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + logoutResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IO error moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
 
     }
@@ -98,7 +112,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IO error moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -113,7 +127,7 @@ public class DataSource {
                 return new Result.Error(new Exception("Server result code: " + profileResponse.code() ));
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("IO error moment", e));
+            return new Result.Error(new IOException("IO error", e));
         }
     }
 
@@ -223,7 +237,7 @@ public class DataSource {
 //                return new Result.Error(new Exception("Server result code: " + terrainResponse.code() ));
 //            }
 //        } catch (Exception e) {
-//            return new Result.Error(new IOException("IO error moment", e));
+//            return new Result.Error(new IOException("IO error", e));
 //        }
 //    }
 }
