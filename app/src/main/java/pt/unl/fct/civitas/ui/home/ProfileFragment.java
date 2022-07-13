@@ -22,9 +22,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+
+import java.util.Objects;
 
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.TokenStore;
@@ -95,8 +99,8 @@ public class ProfileFragment extends Fragment {
         binding.profileSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO fix the Result Observer bug instead of using this workaround
-                Toast.makeText(getActivity(), "Changes applied successfully(?)", Toast.LENGTH_LONG);
+                // might be important to make the observer work
+                //Toast.makeText(getActivity(), "Changes applied successfully(?)", Toast.LENGTH_LONG);
                 //loadingProgressBar.setVisibility(View.VISIBLE);
                 viewModel.editProfile(new ProfileData(profileData.username,
                         profileData.username, emailEditText.getText().toString(),
@@ -104,6 +108,7 @@ public class ProfileFragment extends Fragment {
                         checkUndefined( telephoneEditText.getText().toString() ),
                         checkUndefined( mobilePhoneEditText.getText().toString() ),
                         profileData.nif, profileData.role, profileData.state, profileData.profilePic));
+                refreshFragment();
             }
         });
         loadingProgressBar.setVisibility(View.VISIBLE);
@@ -166,6 +171,13 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void refreshFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+        int id = Objects.requireNonNull(navController.getCurrentDestination()).getId();
+        navController.popBackStack(id, true);
+        navController.navigate(id);
     }
 
 }

@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/login_title"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintVertical_bias="0"
         app:srcCompat="@drawable/ic_civitas_foreground" />
 
     <TextView
@@ -39,15 +39,17 @@
         android:id="@+id/username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="4dp"
         android:autofillHints="username"
         android:hint="@string/prompt_username"
         android:inputType="textAutoComplete"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_logo" />
+        app:layout_constraintTop_toBottomOf="@id/login_logo"
+        app:layout_constraintVertical_bias="0.05" />
 
     <EditText
         android:id="@+id/password"
@@ -84,7 +86,7 @@
         android:id="@+id/create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="@string/action_register_long"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
