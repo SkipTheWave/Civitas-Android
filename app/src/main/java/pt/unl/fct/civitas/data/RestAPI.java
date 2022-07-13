@@ -3,19 +3,16 @@ package pt.unl.fct.civitas.data;
 import java.util.List;
 
 import pt.unl.fct.civitas.data.model.ActivateUserData;
-import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
+import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.data.model.TerrainIdData;
-import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface RestAPI {

@@ -1,16 +1,13 @@
 package pt.unl.fct.civitas.ui.home;
 
 import static com.google.maps.android.SphericalUtil.computeArea;
-
 import static pt.unl.fct.civitas.util.GeometryHelper.checkIntersections;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,20 +46,16 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.TerrainData;
 import pt.unl.fct.civitas.data.model.VertexData;
-import pt.unl.fct.civitas.util.GeometryHelper;
 
 public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener {

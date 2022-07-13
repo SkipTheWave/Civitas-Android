@@ -11,7 +11,6 @@ import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.RegisterRepository;
 import pt.unl.fct.civitas.data.RepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
-import pt.unl.fct.civitas.data.model.LoggedInUser;
 
 public class RegisterViewModel extends ViewModel {
 

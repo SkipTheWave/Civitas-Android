@@ -3,17 +3,7 @@ package pt.unl.fct.civitas.ui.home;
 import static pt.unl.fct.civitas.ui.home.TerrainFragment.TERRAIN_SAVED_APPROVAL;
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.checkUndefined;
 
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,21 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.gson.Gson;
 
-import java.util.Objects;
-
 import pt.unl.fct.civitas.R;
-import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
 import pt.unl.fct.civitas.databinding.FragmentTerrainInfoBinding;
-import pt.unl.fct.civitas.util.GeometryHelper;
 import pt.unl.fct.civitas.util.ParishAdapter;
 
 public class TerrainInfoFragment extends Fragment {

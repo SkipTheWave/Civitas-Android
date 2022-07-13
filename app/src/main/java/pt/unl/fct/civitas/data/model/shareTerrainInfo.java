@@ -1,7 +1,5 @@
 package pt.unl.fct.civitas.data.model;
 
-import java.util.List;
-
 public class shareTerrainInfo {
 
     public String owner;

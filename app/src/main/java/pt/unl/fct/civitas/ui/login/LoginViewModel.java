@@ -1,16 +1,16 @@
 package pt.unl.fct.civitas.ui.login;
 
+import android.util.Patterns;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
+import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.RestRepository;
 import pt.unl.fct.civitas.data.RestRepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
-import pt.unl.fct.civitas.R;
 
 public class LoginViewModel extends ViewModel {
 

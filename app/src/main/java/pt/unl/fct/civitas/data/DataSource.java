@@ -1,14 +1,16 @@
 package pt.unl.fct.civitas.data;
 
+import java.io.IOException;
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.data.model.ActivateUserData;
+import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.LoginData;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.RegisterData;
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.data.model.TerrainIdData;
-import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.UsernameData;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.data.model.shareTerrainInfo;
@@ -16,13 +18,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import pt.unl.fct.civitas.data.model.LoggedInUser;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

@@ -2,10 +2,6 @@ package pt.unl.fct.civitas.ui.home;
 
 import androidx.annotation.Nullable;
 
-import java.util.List;
-
-import pt.unl.fct.civitas.data.model.TerrainInfo;
-
 class RegisterTerrainResult {
     @Nullable
     private String success;

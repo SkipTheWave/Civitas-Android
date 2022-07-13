@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -33,7 +31,6 @@ import pt.unl.fct.civitas.data.TokenStore;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.databinding.FragmentProfileBinding;
-import pt.unl.fct.civitas.ui.register.RegisterViewModel;
 
 public class ProfileFragment extends Fragment {
 

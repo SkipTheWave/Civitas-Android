@@ -1,6 +1,6 @@
 package pt.unl.fct.civitas.util;
 
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.StringUtils;
 
 public class ParishAdapter {
 

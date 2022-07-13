@@ -7,8 +7,6 @@ import java.util.concurrent.Executor;
 import pt.unl.fct.civitas.data.model.LoggedInUser;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.data.model.TerrainIdData;
-import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 

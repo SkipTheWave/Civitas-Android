@@ -2,7 +2,6 @@ package pt.unl.fct.civitas.util;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
-import com.google.maps.android.geometry.Point;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;

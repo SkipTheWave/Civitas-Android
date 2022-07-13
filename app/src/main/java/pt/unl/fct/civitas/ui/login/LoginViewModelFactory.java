@@ -1,8 +1,8 @@
 package pt.unl.fct.civitas.ui.login;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
 
 import pt.unl.fct.civitas.MainApplication;
 import pt.unl.fct.civitas.data.DataSource;

@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.data.model.TerrainInfo;
 
 /**
  * Authentication result : success (user details) or error message.

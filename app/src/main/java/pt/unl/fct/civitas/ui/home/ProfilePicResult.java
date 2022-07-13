@@ -2,8 +2,6 @@ package pt.unl.fct.civitas.ui.home;
 
 import androidx.annotation.Nullable;
 
-import pt.unl.fct.civitas.data.model.ProfileData;
-
 /**
  * Authentication result : success (user details) or error message.
  */

@@ -3,14 +3,11 @@ package pt.unl.fct.civitas.ui.home;
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.isEmailValid;
 import static pt.unl.fct.civitas.ui.register.RegisterViewModel.isNameValid;
 
-import android.widget.Toast;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import pt.unl.fct.civitas.R;
@@ -19,8 +16,6 @@ import pt.unl.fct.civitas.data.RestRepositoryCallback;
 import pt.unl.fct.civitas.data.Result;
 import pt.unl.fct.civitas.data.model.ProfileData;
 import pt.unl.fct.civitas.data.model.TerrainData;
-import pt.unl.fct.civitas.data.model.TerrainIdData;
-import pt.unl.fct.civitas.data.model.TerrainInfo;
 import pt.unl.fct.civitas.data.model.VertexData;
 import pt.unl.fct.civitas.data.model.shareTerrainInfo;
 
