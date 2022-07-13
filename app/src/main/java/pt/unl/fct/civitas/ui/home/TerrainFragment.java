@@ -388,7 +388,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             viewModel.registerTerrain(terrainData, vertices);
             addingTerrain = true;
             terrainData.owners = terrainData.owner;
-            terrainData.terrainId = "calculating...";
+            //terrainData.terrainId = "calculating...";
             terrainData.vertices = vertices;
             polygon.setTag(terrainData);
             cancelTerrainOp();

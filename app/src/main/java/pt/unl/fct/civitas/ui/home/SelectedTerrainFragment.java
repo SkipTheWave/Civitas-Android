@@ -84,7 +84,7 @@ public class SelectedTerrainFragment extends Fragment {
         ownersText = binding.terrainOtherOwnersText;
         parishText = binding.editTerrainParish;
         areaText = binding.editTerrainArea;
-        terrainIdText = binding.terrainIdText;
+        //terrainIdText = binding.terrainIdText;
         submitButton = view.findViewById(R.id.edit_terrain_submit_button);
         shareButton = view.findViewById(R.id.edit_terrain_owners_button);
         directionsButton = view.findViewById(R.id.edit_terrain_directions_button);
@@ -102,7 +102,7 @@ public class SelectedTerrainFragment extends Fragment {
         ownersText.setText(terrain.owners.replaceAll(",", ", "));
         parishText.setText( ParishAdapter.deAdaptParish( terrain.county ) );
         areaText.setText(dformat.format(terrain.area));
-        terrainIdText.setText(terrain.terrainId);
+        //terrainIdText.setText(terrain.terrainId);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
