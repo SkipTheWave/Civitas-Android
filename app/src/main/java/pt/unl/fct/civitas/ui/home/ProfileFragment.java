@@ -114,9 +114,11 @@ public class ProfileFragment extends Fragment {
         viewModel.getProfileResult().observe(getViewLifecycleOwner(), new Observer<ProfileResult>() {
             @Override
             public void onChanged(@Nullable ProfileResult profileResult) {
-                if( profileResult.getError() != null ) {
-                    if(viewModel.isTokenExpired( profileResult.getError().toString()) )
-                    showProfileFailure();
+                if( profileResult.getError() != null && getActivity() != null ) {
+                    if( viewModel.isTokenExpired( profileResult.getError().toString()) )
+                        ((HomeActivity)getActivity()).signOut();
+                    else
+                        showProfileFailure();
                 } else if( profileResult.getSuccess() != null ) {
                     loadingProgressBar.setVisibility(View.GONE);
                     profileData = profileResult.getSuccess();

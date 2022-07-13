@@ -138,6 +138,10 @@ public class LoginActivity extends AppCompatActivity {
                 //finish();
             }
         });
+
+        if(savedInstanceState != null)
+            if(savedInstanceState.getBoolean("logout"))
+                Toast.makeText(this, R.string.error_token_expired, Toast.LENGTH_SHORT).show();
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

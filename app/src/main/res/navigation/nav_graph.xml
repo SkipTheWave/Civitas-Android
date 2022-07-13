@@ -61,4 +61,12 @@
             android:id="@+id/action_selectedTerrainFragment_to_TerrainFragment"
             app:destination="@id/TerrainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="pt.unl.fct.civitas.ui.home.HelpFragment"
+        android:label="@string/help_fragment_label"
+        tools:layout="@layout/fragment_help" />
+    <action
+        android:id="@+id/action_global_helpFragment"
+        app:destination="@id/helpFragment" />
 </navigation>

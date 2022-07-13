@@ -160,8 +160,10 @@ public class SelectedTerrainFragment extends Fragment {
                     return;
                 waitingForUpdate = false;
                 if (result.getError() != null) {
-                    //Toast.makeText(getActivity(), R.string.error_terrain_update, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_SHORT).show();
+                    if( viewModel.isTokenExpired( result.getError()) )
+                        ((HomeActivity)getActivity()).signOut();
+                    else
+                        Toast.makeText(getActivity(), R.string.error_terrain_update, Toast.LENGTH_SHORT).show();
                 }
                 if (result.getSuccess() != null) {
                     Toast.makeText(getActivity(), R.string.changes_success, Toast.LENGTH_SHORT).show();
@@ -177,8 +179,10 @@ public class SelectedTerrainFragment extends Fragment {
                     return;
                 waitingForShare = false;
                 if (result.getError() != null) {
-                    Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(getActivity(), R.string.error_terrain_share, Toast.LENGTH_LONG).show();
+                    if( viewModel.isTokenExpired( result.getError()) )
+                        ((HomeActivity)getActivity()).signOut();
+                    else
+                        Toast.makeText(getActivity(), R.string.error_terrain_share, Toast.LENGTH_LONG).show();
                 }
                 if (result.getSuccess() != null) {
                     Toast.makeText(getActivity(), R.string.success_terrain_share, Toast.LENGTH_SHORT).show();

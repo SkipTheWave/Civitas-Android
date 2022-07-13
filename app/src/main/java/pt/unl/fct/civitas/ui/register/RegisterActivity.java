@@ -134,8 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void showRegisterSuccess(RegisterSuccessView success) {
         Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-        // TODO we're not using the response message from the backend, but neither is the browser client
-        Toast.makeText(getApplicationContext(), success.getSuccessMessage(), Toast.LENGTH_LONG).show();
+
         startActivity(loginIntent);
     }
 

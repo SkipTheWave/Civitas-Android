@@ -87,4 +87,37 @@
     <string name="terrain_id">ID do terreno</string>
     <string name="error_server_code">Erro de servidor: código</string>
     <string name="error_token_expired">A sua sessão expirou. Por favor entre novamente.</string>
+    <string name="help_fragment_label">Ajuda</string>
+    <string name="help_page_text">
+        "Civitas é uma aplicação de gestão de terrenos, desenhada para ser usada em conjunto com o nosso site web.\n\n"
+        "Quando regista um terreno na aplicação, este irá ficar guardado, para quando tiver a documentação necessária "
+        "para o seu registo oficial, possa submeter no nosso site web. Ao fazer isto, apenas terá de esperar "
+        "até o seu terreno ser aprovado, e é tudo!\n\n"
+
+        "Após entrar na sua conta, pode ver os seus terrenos já registados no separador \"Terrenos\".\n"
+        "Poderão aparecer em várias cores diferentes, com os seguintes significados:\n\n"
+
+        "Roxo - terreno guardado mas ainda não submetido o registo oficialmente\n"
+        "Amarelo - à espera de aprovação; apenas após registo da documentação necessária\n"
+        "Verde - terreno aprovado!\n"
+        "Vermelho - terreno rejeitado… tente corrigir informação ou adicionar com nova área\n\n"
+
+        "Na página dos terrenos, poderá começar a registar o seu terreno pressionando simplesmente um botão. "
+        "Insira a informação necessária e relevante, e quando terminar, pode avançar para indicar "
+        "a área do terreno o melhor que conseguir.\n"
+        "Para desenhar esta área, pressione no mapa para criar pontos um a um, e tem um terreno pronto a registar! "
+        "Enquanto estiver a desenhar a área do seu terreno, vai poder ver no mapa os terrenos já aprovados "
+        "de outros utilizadores. Não convém passar por cima...\n\n"
+
+        "Além de ver os seus terrenos e adicionar novos, pode consultar a lista dos seus terrenos "
+        "no canto superior esquerdo, e pressionar os seus nomes para os localizar no mapa.\n"
+        "No canto superior direito, pode pressionar para se localizar a si mesmo no mapa, caso nos permita. "
+        "E finalmente, pode pressionar um dos seus terrenos para: consultar as suas informações, "
+        "alterar algumas delas, obter direções para o terreno, ou até indicar outros proprietários!\n"
+        "Para indicar outros proprietários, apenas introduza os seus nomes de utilizador no campo "
+        "dos novos proprietários, no formato indicado, e pressione \"Partilhar terreno\".\n\n"
+
+        "Esperamos que contribua para o menor abandono destas terras!\n\n"
+    </string>
+    <string name="hyperlink"><a href="https://civitasadc.appspot.com">https://civitasadc.appspot.com</a></string>
 </resources>

@@ -1,5 +1,6 @@
 package pt.unl.fct.civitas.ui.home;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,11 +21,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -37,6 +41,7 @@ import pt.unl.fct.civitas.databinding.ActivityHomeBinding;
 import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.databinding.ContentHomeBinding;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
+import pt.unl.fct.civitas.ui.register.RegisterActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -111,8 +116,20 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-
         viewModel.getProfilePic();
+
+        findViewById(R.id.help_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                FragmentManager fm = getSupportFragmentManager();
+//                fm.beginTransaction()
+//                        .replace(R.id.nav_host_fragment_container, new HelpFragment(), null)
+//                        .addToBackStack("")
+//                        .commit();
+                Navigation.findNavController(HomeActivity.this, R.id.nav_host_fragment_content_home)
+                        .navigate(R.id.action_global_helpFragment);
+            }
+        });
     }
 
 
@@ -130,6 +147,14 @@ public class HomeActivity extends AppCompatActivity {
                 c.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         prefs.edit().clear().apply();
         viewModel.logout();
+
+        //Toast.makeText(getApplicationContext(), R.string.error_token_expired, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("logout", true);
+
+        Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class).putExtras(bundle);
+        startActivity(loginIntent);
+        finish();
     }
 
     @Override

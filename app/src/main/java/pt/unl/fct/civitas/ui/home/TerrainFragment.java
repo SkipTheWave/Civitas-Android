@@ -216,9 +216,13 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                     return;
                 addingTerrain = false;
                 HomeViewModel.addTerrainMode = false;
-                if (result.getError() != null) {
-                    Toast.makeText(getActivity(), R.string.error_add_terrain, Toast.LENGTH_LONG).show();
-                    refreshFragment();
+                    if (result.getError() != null) {
+                        if( viewModel.isTokenExpired( result.getError()) )
+                            ((HomeActivity)getActivity()).signOut();
+                        else {
+                            Toast.makeText(getActivity(), R.string.error_add_terrain, Toast.LENGTH_LONG).show();
+                            refreshFragment();
+                        }
                 }
                 if (result.getSuccess() != null) {
                     Toast.makeText(getActivity(), R.string.success_add_terrain, Toast.LENGTH_SHORT).show();
@@ -314,7 +318,10 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     private void showTerrainFailure(ShowTerrainResult result) {
         if(result.getError() != null)
-            Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
+            if( viewModel.isTokenExpired( result.getError()) )
+                ((HomeActivity)getActivity()).signOut();
+            else
+                Toast.makeText(getActivity(), result.getError(), Toast.LENGTH_LONG).show();
     }
 
     private void startTerrainOp() {
@@ -412,7 +419,10 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             strokeColor = ALL_FILL_COLOR;
         }
         if (terrainResult.getError() != null) {
-            showTerrainFailure(terrainResult);
+            if( viewModel.isTokenExpired( terrainResult.getError()) )
+                ((HomeActivity)getActivity()).signOut();
+            else
+                showTerrainFailure(terrainResult);
         } else if (terrainResult.getSuccess() != null) {
             List<TerrainData> terrains = terrainResult.getSuccess();
             for (TerrainData terrain : terrains) {

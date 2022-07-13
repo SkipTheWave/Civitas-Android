@@ -6,4 +6,5 @@
     <dimen name="medium_text">22sp</dimen>
     <dimen name="bigger_text">30sp</dimen>
     <dimen name="bottom_nav_size">56dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>
