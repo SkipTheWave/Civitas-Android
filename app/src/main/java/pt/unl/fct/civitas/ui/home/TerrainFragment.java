@@ -1,6 +1,7 @@
 package pt.unl.fct.civitas.ui.home;
 
 import static com.google.maps.android.SphericalUtil.computeArea;
+import static pt.unl.fct.civitas.util.FragmentUtils.refreshFragment;
 import static pt.unl.fct.civitas.util.GeometryHelper.checkIntersections;
 
 import android.Manifest;
@@ -214,7 +215,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                             ((HomeActivity)getActivity()).signOut();
                         else {
                             Toast.makeText(getActivity(), R.string.error_add_terrain, Toast.LENGTH_LONG).show();
-                            refreshFragment();
+                            refreshFragment(TerrainFragment.this);
                         }
                 }
                 if (result.getSuccess() != null) {
@@ -476,14 +477,6 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         return new ArrayList<>();
     }
 
-    // didn't work well, might come in handy at some point
-    private void refreshFragment() {
-        NavController navController = NavHostFragment.findNavController(this);
-        int id = Objects.requireNonNull(navController.getCurrentDestination()).getId();
-        navController.popBackStack(id, true);
-        navController.navigate(id);
-    }
-
     protected void createLocationRequest() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(4000);
@@ -594,7 +587,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onPause() {
-        refreshFragment();
+        refreshFragment(TerrainFragment.this);
         if(mapView != null)
             mapView.onPause();
         super.onPause();

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import pt.unl.fct.civitas.R;
 import pt.unl.fct.civitas.databinding.ActivityRegisterBinding;
 import pt.unl.fct.civitas.ui.login.LoginActivity;
 
@@ -132,9 +133,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void showRegisterSuccess(RegisterSuccessView success) {
-        Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        //Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show();
 
-        startActivity(loginIntent);
+        finish();
     }
 
     private void showRegisterFailed(@StringRes Integer errorString) {

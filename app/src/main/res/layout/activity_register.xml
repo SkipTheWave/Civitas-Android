@@ -99,14 +99,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:autofillHints="emailAddress"
             android:ems="10"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            android:autofillHints="emailAddress" />
+            app:layout_constraintTop_toBottomOf="@id/name" />
 
         <Button
             android:id="@+id/register"

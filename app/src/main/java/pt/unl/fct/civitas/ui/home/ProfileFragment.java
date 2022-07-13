@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // might be important to make the observer work
-                //Toast.makeText(getActivity(), "Changes applied successfully(?)", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), R.string.changes_success, Toast.LENGTH_LONG);
                 //loadingProgressBar.setVisibility(View.VISIBLE);
                 viewModel.editProfile(new ProfileData(profileData.username,
                         profileData.username, emailEditText.getText().toString(),
@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment {
                         checkUndefined( telephoneEditText.getText().toString() ),
                         checkUndefined( mobilePhoneEditText.getText().toString() ),
                         profileData.nif, profileData.role, profileData.state, profileData.profilePic));
-                refreshFragment();
+                refreshFragment(ProfileFragment.this);
             }
         });
         loadingProgressBar.setVisibility(View.VISIBLE);
@@ -173,8 +173,8 @@ public class ProfileFragment extends Fragment {
         binding = null;
     }
 
-    private void refreshFragment() {
-        NavController navController = NavHostFragment.findNavController(this);
+    public static void refreshFragment(Fragment frag) {
+        NavController navController = NavHostFragment.findNavController(frag);
         int id = Objects.requireNonNull(navController.getCurrentDestination()).getId();
         navController.popBackStack(id, true);
         navController.navigate(id);

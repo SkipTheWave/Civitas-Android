@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\Skip\\AndroidStudioProjects\\LoginPrototype\\app\\build\\intermediates\\apk\\my-android-keystore.jks')
+            storePassword 'ayayayaya.9.AYA'
+            keyPassword 'ayayayaya.9.AYA'
+            keyAlias 'civitas-app-key'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
