@@ -1,5 +1,6 @@
 package pt.unl.fct.civitas.ui.home;
 
+import static com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY;
 import static com.google.maps.android.SphericalUtil.computeArea;
 import static pt.unl.fct.civitas.util.FragmentUtils.refreshFragment;
 import static pt.unl.fct.civitas.util.GeometryHelper.checkIntersections;
@@ -29,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.bumptech.glide.Priority;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -99,6 +101,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private boolean requestingLocationUpdates;
     private boolean addingTerrain;
     private Button buttonAddTerrain;
+    private Button buttonAddVertexLoc;
     private Button buttonEditTerrain;
     private Button buttonCancel;
     private Button buttonFinish;
@@ -129,8 +132,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
 
         getLocationPermission();
         getDeviceLocation();
-        createLocationRequest();
-        startLocationUpdates();
+        //createLocationRequest();
+        //startLocationUpdates();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
         //selectTerrainListener = new AdapterView.OnItemSelectedListener()
@@ -277,6 +280,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         buttonAddTerrain = view.findViewById(R.id.button_add_terrain);
+        buttonAddVertexLoc = view.findViewById(R.id.button_add_location_vertex);
         buttonEditTerrain = view.findViewById(R.id.button_edit_terrain);
         buttonCancel = view.findViewById(R.id.button_cancel);
         buttonFinish = view.findViewById(R.id.button_finish);
@@ -321,6 +325,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
     private void startTerrainOp() {
         buttonEditTerrain.setVisibility(View.GONE);
         buttonAddTerrain.setVisibility(View.GONE);
+        buttonAddVertexLoc.setVisibility(View.VISIBLE);
         buttonCancel.setVisibility(View.VISIBLE);
     }
 
@@ -329,6 +334,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         buttonAddTerrain.setVisibility(View.VISIBLE);
         buttonCancel.setVisibility(View.GONE);
         buttonFinish.setVisibility(View.GONE);
+        buttonAddVertexLoc.setVisibility(View.GONE);
         HomeViewModel.addTerrainMode = false;
         for (Polygon terrain : othersTerrains) {
             terrain.remove();
@@ -365,6 +371,28 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
+        buttonAddVertexLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(@NonNull View view) {
+                //getDeviceLocation();
+                LatLng currentPos = new LatLng(
+                        lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude() );
+                points.add(currentPos);
+                if( checkIntersections(true, points, shownTerrains) ) {
+                    points.remove(currentPos);
+                    Toast.makeText(requireActivity(), R.string.error_terrain_intersection, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                vertices.add( new VertexData("?", String.valueOf(vertices.size()),
+                        String.valueOf(currentPos.latitude), String.valueOf(currentPos.longitude)) );
+                markers.add( mMap.addMarker(new MarkerOptions()
+                        .position(currentPos)) );
+                line.setPoints(points);
+                if(points.size() == 3)
+                    buttonFinish.setVisibility(View.VISIBLE);
+            }
+        });
+
         buttonFinish.setOnClickListener(viewFinish -> {
             if( checkIntersections(false, points, shownTerrains) ) {
                 Toast.makeText(requireActivity(), R.string.error_terrain_intersection, Toast.LENGTH_LONG).show();
@@ -372,7 +400,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                 points.clear();
                 for(Marker m : markers)
                     m.remove();
-                buttonFinish.setEnabled(false);
+                buttonFinish.setVisibility(View.GONE);
                 addTerrain(terrainData);
                 return;
             }
@@ -383,7 +411,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                     .clickable(true));
             for(Marker m : markers)
                 m.remove();
-            shownTerrains.add(polygon.getPoints());
+            //shownTerrains.add(polygon.getPoints());
             userTerrains.add(terrainData);
             terrainData.area = computeArea(points) / 10000;
             viewModel.registerTerrain(terrainData, vertices);
@@ -464,9 +492,11 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
                                 .fillColor(fillColor)
                                 .clickable(!all));
                         polygon.setTag(terrain);
-                        shownTerrains.add(polygon.getPoints());
-                        if(all)
+                        //shownTerrains.add(polygon.getPoints());
+                        if(all) {
                             othersTerrains.add(polygon);
+                            shownTerrains.add(polygon.getPoints());
+                        }
                         else
                             userTerrains.add(terrain);
                     }
@@ -481,7 +511,7 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(4000);
         mLocationRequest.setFastestInterval(2000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setPriority(PRIORITY_HIGH_ACCURACY);
     }
 
     private void getDeviceLocation() {
@@ -491,7 +521,8 @@ public class TerrainFragment extends Fragment implements OnMapReadyCallback,
          */
         try {
             if (locationPermissionGranted) {
-                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                Task<Location> locationResult = fusedLocationProviderClient.getCurrentLocation(
+                        PRIORITY_HIGH_ACCURACY, null);
                 mMap.setMyLocationEnabled(true);
                 locationResult.addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {

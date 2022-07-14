@@ -120,4 +120,5 @@
         "Esperamos que contribua para o menor abandono destas terras!\n\n"
     </string>
     <string name="hyperlink"><a href="https://civitasadc.appspot.com">https://civitasadc.appspot.com</a></string>
+    <string name="add_vertex_location">Adicionar ponto na sua localização</string>
 </resources>
